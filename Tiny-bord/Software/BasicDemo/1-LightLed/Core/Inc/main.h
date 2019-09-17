@@ -28,6 +28,14 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#ifndef USE_HAL_DRIVER
+#define USE_HAL_DRIVER
+#endif
+
+#ifndef STM32F411xE
+#define STM32F411xE
+#endif
+  
 #include "stm32f4xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
