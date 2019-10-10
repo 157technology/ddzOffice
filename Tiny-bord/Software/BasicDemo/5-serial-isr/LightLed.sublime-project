@@ -1,0 +1,17 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				".mxproject",
+				"5-serial-isr.ioc"
+			],
+			"folder_exclude_patterns":
+			[
+				"MDK-ARM"
+			],
+			"path": "."
+		}
+	],
+}
