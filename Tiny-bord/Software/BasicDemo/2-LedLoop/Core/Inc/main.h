@@ -28,14 +28,6 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#ifndef USE_HAL_DRIVER
-#define USE_HAL_DRIVER
-#endif
-
-#ifndef STM32F411xE
-#define STM32F411xE
-#endif
-  
 #include "stm32f4xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -66,6 +58,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define LED1_Pin GPIO_PIN_13
+#define LED1_GPIO_Port GPIOC
+#define LED4_Pin GPIO_PIN_10
+#define LED4_GPIO_Port GPIOB
+#define LED3_Pin GPIO_PIN_12
+#define LED3_GPIO_Port GPIOA
+#define LED2_Pin GPIO_PIN_15
+#define LED2_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
