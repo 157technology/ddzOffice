@@ -1,0 +1,18 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				".mxproject",
+				"6-os-serial.ioc",
+				"kill.bat"
+			],
+			"folder_exclude_patterns":
+			[
+				"MDK-ARM"
+			],
+			"path": "."
+		}
+	],
+}
