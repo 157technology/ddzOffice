@@ -42,13 +42,34 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+typedef struct
+{
+  __IO uint32_t ISR;   /*!< DMA interrupt status register */
+  __IO uint32_t Reserved0;
+  __IO uint32_t IFCR;  /*!< DMA interrupt flag clear register */
+} DMA_Base_Registers;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+void emHAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size)
+{
+	
+	DMA_HandleTypeDef *hdma = huart->hdmatx;
+	DMA_Base_Registers *regs = (DMA_Base_Registers *)hdma->StreamBaseAddress;
 
+	hdma->Instance->CR &= (uint32_t)(~DMA_SxCR_DBM);
+
+	hdma->Instance->NDTR = Size;
+	hdma->Instance->PAR = (uint32_t)&huart->Instance->DR;
+	hdma->Instance->M0AR = *(uint32_t *)((uint32_t *)&pData);
+	regs->IFCR = 0x3FU << hdma->StreamIndex;
+	
+	__HAL_DMA_ENABLE(hdma);
+	__HAL_UART_CLEAR_FLAG(huart, UART_FLAG_TC);
+	SET_BIT(huart->Instance->CR3, USART_CR3_DMAT);
+}
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -66,15 +87,18 @@ void em_printf(const char *format, ...)
     va_list args;
     va_start(args, format);
 
-    //while ( READ_BIT(huart1.Instance->SR, USART_SR_TC) == 1)
-    {
-		HAL_Delay(20);
-        //osDelay(1);
-    }
+	static uint8_t busy = 0;
+	
+	while ( busy==1 && READ_BIT(huart1.Instance->SR, USART_SR_TC) == 0  )
+	{
+		//HAL_Delay(1);
+	}
+	busy = 1;
 
     length = vsnprintf((char*)printf_buf, sizeof(printf_buf), (char*)format, args);
     va_end(args);
-    HAL_UART_Transmit_DMA(&huart1, (uint8_t*)printf_buf, length);
+    //HAL_UART_Transmit_DMA(&huart1, (uint8_t*)printf_buf, length);
+	emHAL_UART_Transmit_DMA(&huart1, (uint8_t*)printf_buf, length);
 }
 /* USER CODE END 0 */
 
@@ -122,7 +146,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  em_printf("Have a try\n");
 	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-	  HAL_Delay(500);
+	  HAL_Delay(2000);
   }
   /* USER CODE END 3 */
 }

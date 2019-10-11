@@ -15,21 +15,40 @@ typedef struct
 */
 char printf_buf[512];
 uint16_t length;
+void emHAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size)
+{
+	
+	DMA_HandleTypeDef *hdma = huart->hdmatx;
+	DMA_Base_Registers *regs = (DMA_Base_Registers *)hdma->StreamBaseAddress;
+
+	hdma->Instance->CR &= (uint32_t)(~DMA_SxCR_DBM);
+
+	hdma->Instance->NDTR = Size;
+	hdma->Instance->PAR = (uint32_t)&huart->Instance->DR;
+	hdma->Instance->M0AR = *(uint32_t *)((uint32_t *)&pData);
+	regs->IFCR = 0x3FU << hdma->StreamIndex;
+	
+	__HAL_DMA_ENABLE(hdma);
+	__HAL_UART_CLEAR_FLAG(huart, UART_FLAG_TC);
+	SET_BIT(huart->Instance->CR3, USART_CR3_DMAT);
+}
+
 void em_printf(const char *format, ...)
 {
     va_list args;
     va_start(args, format);
 
-    //while ( READ_BIT(huart1.Instance->SR, USART_SR_TC) == 1)
-    {
-		HAL_Delay(20);
-        //osDelay(1);
-    }
+	static uint8_t busy = 0;
+	while ( busy==1 && READ_BIT(huart1.Instance->SR, USART_SR_TC) == 0  )
+	{
+		//HAL_Delay(1);
+	}
+	busy = 1;
 
     length = vsnprintf((char*)printf_buf, sizeof(printf_buf), (char*)format, args);
     va_end(args);
     //HAL_UART_Transmit(&huart1, (uint8_t*)printf_buf, length, 0xFFFFFFFF);
-	HAL_UART_Transmit_DMA(&huart1, (uint8_t*)printf_buf, length);
+	emHAL_UART_Transmit_DMA(&huart1, (uint8_t*)printf_buf, length);
 }
 
 
@@ -78,7 +97,8 @@ void USART1_IRQHandler(void)
     READ_REG(huart1.Instance->SR);
     recCnt = 512 - READ_REG(huart1.hdmarx->Instance->NDTR);
 	recvbuf[recCnt] = '\0';
-	//em_printf("ISR>>> %s\n", recvbuf);
+	em_printf("****---****\n");
+	em_printf("ISR>>> %s\n", recvbuf);
 	rex_recv = 1;
     initSerial(&huart1, 512);
 
