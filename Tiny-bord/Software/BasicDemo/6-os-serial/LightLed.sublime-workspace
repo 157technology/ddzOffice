@@ -80,6 +80,7 @@
 			"settings":
 			{
 				"buffer_size": 5813,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -104,6 +105,7 @@
 			"settings":
 			{
 				"buffer_size": 1141,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -295,27 +297,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										149,
-										154
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/hash.png",
-										"region.yellowish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										1,
-										7
-									]
 								},
 								"unmatched":
 								{
@@ -383,27 +370,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										168,
-										173
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/hash.png",
-										"region.yellowish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										1,
-										7
-									]
 								},
 								"unmatched":
 								{
@@ -489,8 +461,8 @@
 						"selection":
 						[
 							[
-								2587,
-								2587
+								0,
+								0
 							]
 						],
 						"settings":
@@ -574,27 +546,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										2588,
-										2589
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/round_bracket.png",
-										"region.yellowish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										2587,
-										2588
-									]
 								},
 								"unmatched":
 								{
@@ -682,8 +639,8 @@
 						"selection":
 						[
 							[
-								659,
-								659
+								267,
+								267
 							]
 						],
 						"settings":
@@ -694,27 +651,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										650,
-										655
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/hash.png",
-										"region.yellowish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										1,
-										7
-									]
 								},
 								"unmatched":
 								{
@@ -784,24 +726,24 @@
 								{
 									"1":
 									[
-										660,
-										661
+										495,
+										496
 									]
 								},
 								"icon":
 								{
 									"1":
 									[
-										"Packages/BracketHighlighter/icons/round_bracket.png",
-										"region.yellowish"
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"region.purplish"
 									]
 								},
 								"open":
 								{
 									"1":
 									[
-										565,
-										566
+										237,
+										238
 									]
 								},
 								"unmatched":
@@ -810,41 +752,11 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
 								"bh_default",
 								"bh_default_center",
 								"bh_default_open",
 								"bh_default_close",
 								"bh_default_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
 								"bh_double_quote",
 								"bh_double_quote_center",
 								"bh_double_quote_open",
@@ -860,11 +772,41 @@
 								"bh_unmatched_open",
 								"bh_unmatched_close",
 								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
 								"bh_c_define",
 								"bh_c_define_center",
 								"bh_c_define_open",
 								"bh_c_define_close",
-								"bh_c_define_content"
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
 							],
 							"syntax": "Packages/C++/C++.sublime-syntax"
 						},
@@ -894,8 +836,8 @@
 						"selection":
 						[
 							[
-								2782,
-								2757
+								0,
+								0
 							]
 						],
 						"settings":
@@ -906,27 +848,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										2783,
-										2784
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"region.purplish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										2607,
-										2608
-									]
 								},
 								"unmatched":
 								{
@@ -1085,8 +1012,8 @@
 						"selection":
 						[
 							[
-								860,
-								860
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1097,27 +1024,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										847,
-										848
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"region.purplish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										559,
-										560
-									]
 								},
 								"unmatched":
 								{
@@ -1185,27 +1097,12 @@
 							{
 								"close":
 								{
-									"1":
-									[
-										861,
-										862
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"region.purplish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										559,
-										560
-									]
 								},
 								"unmatched":
 								{
@@ -1368,7 +1265,7 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 257.0,
 	"status_bar_visible": true,
 	"template_settings":
