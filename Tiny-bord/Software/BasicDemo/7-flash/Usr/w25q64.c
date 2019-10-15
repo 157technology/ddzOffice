@@ -34,16 +34,17 @@ static ARM_FLASH_SECTOR FLASH_SECTOR_INFO[FLASH_SECTOR_COUNT] = {
 
 /* Flash Information */
 static ARM_FLASH_INFO FlashInfo = {
-    0, /* FLASH_SECTOR_INFO  */
-    100, /* FLASH_SECTOR_COUNT */
+    FLASH_SECTOR_INFO, 		/* FLASH_SECTOR_INFO  */
+    256,	/* FLASH_SECTOR_COUNT */
     0x1000, /* FLASH_SECTOR_SIZE  */
-    0x100, /* FLASH_PAGE_SIZE    */
-    0x1, /* FLASH_PROGRAM_UNIT */
-    0xFF  /* FLASH_ERASED_VALUE */
+    0x100, 	/* FLASH_PAGE_SIZE 256bytes    */
+    0x1, 	/* FLASH_PROGRAM_UNIT */
+    0xFF 	/* FLASH_ERASED_VALUE */
 };
 
 /* Flash Status */
 static ARM_FLASH_STATUS FlashStatus;
+static uint8_t Flags;
 
 /* Driver Version */
 static const ARM_DRIVER_VERSION DriverVersion = {
@@ -55,7 +56,7 @@ static const ARM_DRIVER_VERSION DriverVersion = {
 static const ARM_FLASH_CAPABILITIES DriverCapabilities = {
     0, /* event_ready */
     0, /* data_width = 0:8-bit, 1:16-bit, 2:32-bit */
-    0  /* erase_chip */
+    1  /* erase_chip */
 };
 
 //
@@ -125,18 +126,24 @@ int32_t ARM_Flash_PowerControl(ARM_POWER_STATE state)
     {
     case ARM_POWER_OFF:
 		//printf("Power off");
+		FlashStatus.busy  = 0U;
+		FlashStatus.error = 0U;
         break;
 
     case ARM_POWER_LOW:
+		FlashStatus.busy  = 0U;
+		FlashStatus.error = 0U;
         break;
 
     case ARM_POWER_FULL:
+		FlashStatus.busy  = 0U;
+		FlashStatus.error = 0U;
         break;
 
     default:
         return ARM_DRIVER_ERROR_UNSUPPORTED;
     }
-	return RT_OK;
+	return ARM_DRIVER_OK;
 }
 
 int32_t ARM_Flash_ReadData(uint32_t addr, void *data, uint32_t cnt)
@@ -145,7 +152,7 @@ int32_t ARM_Flash_ReadData(uint32_t addr, void *data, uint32_t cnt)
     cmd[1] = (uint8_t)(addr >> 16);
     cmd[2] = (uint8_t)(addr >> 8);
     cmd[3] = (uint8_t)(addr);
-
+	em_printf("FLASH>>>READ: 0x%X, %d.\n", addr, cnt);
     if ( data == NULL )
         return ARM_DRIVER_ERROR_PARAMETER;
 
@@ -188,14 +195,14 @@ uint8_t W25Q64_WriteEnable(void)
     {
         if ((HAL_GetTick() - tickstart) > SPI_TIMEOUT)
         {
-            return RT_TIMEOUT;
+            return ARM_DRIVER_ERROR_TIMEOUT;
         }
 
         HAL_SPI_Transmit(flash_spi, cmd, 1, SPI_TIMEOUT);
         HAL_SPI_Receive(flash_spi, &s, 1, SPI_TIMEOUT);
         W25Q64_Disable();
     }
-    return RT_OK;
+    return ARM_DRIVER_OK;
 }
 int32_t ARM_Flash_ProgramData(uint32_t addr, const void *data, uint32_t cnt)
 {
@@ -210,7 +217,7 @@ int32_t ARM_Flash_ProgramData(uint32_t addr, const void *data, uint32_t cnt)
     }
 
     if (cnt == 0U) { return 0; }
-
+	em_printf("FLASH>>>WRITE: 0x%X, %d.\n", addr, cnt);
     FlashStatus.busy  = 1U;
     FlashStatus.error = 0U;
 
@@ -254,13 +261,13 @@ int32_t ARM_Flash_ProgramData(uint32_t addr, const void *data, uint32_t cnt)
         /* Send the command */
         if (HAL_SPI_Transmit(&hspi2, cmd, 4, SPI_TIMEOUT) != HAL_OK)
         {
-            return RT_TIMEOUT;
+            return ARM_DRIVER_ERROR_TIMEOUT;
         }
 
         /* Transmission of the data */
         if (HAL_SPI_Transmit(&hspi2, (uint8_t *)data, cur_size, SPI_TIMEOUT) != HAL_OK)
         {
-            return RT_TIMEOUT;
+            return ARM_DRIVER_ERROR_TIMEOUT;
         }
         W25Q64_Disable();
         /* Wait the end of Flash writing */
@@ -275,7 +282,7 @@ int32_t ARM_Flash_ProgramData(uint32_t addr, const void *data, uint32_t cnt)
             /* Check for the Timeout */
             if ((HAL_GetTick() - tickstart) > SPI_TIMEOUT)
             {
-                return RT_TIMEOUT;
+                return ARM_DRIVER_ERROR_TIMEOUT;
             }
             W25Q64_Enable();
             HAL_SPI_Transmit(flash_spi, cmd, 1, SPI_TIMEOUT);
@@ -290,7 +297,7 @@ int32_t ARM_Flash_ProgramData(uint32_t addr, const void *data, uint32_t cnt)
     } while (cur_addr < end_addr);
 
 
-    return RT_OK;
+    return ARM_DRIVER_OK;
 }
 
 int32_t ARM_Flash_EraseSector(uint32_t addr)
@@ -327,7 +334,7 @@ int32_t ARM_Flash_EraseSector(uint32_t addr)
         /* Check for the Timeout */
         if ((HAL_GetTick() - tickstart) > ERASE_TIME_OUT)
         {
-            return RT_TIMEOUT;
+            return ARM_DRIVER_ERROR_TIMEOUT;
         }
         W25Q64_Enable();
         HAL_SPI_Transmit(flash_spi, cmd, 1, SPI_TIMEOUT);
@@ -336,7 +343,7 @@ int32_t ARM_Flash_EraseSector(uint32_t addr)
     }
 	FlashStatus.busy  = 0U;
     FlashStatus.error = 0U;
-    return RT_OK;
+    return ARM_DRIVER_OK;
 }
 
 int32_t ARM_Flash_EraseChip(void)
@@ -366,14 +373,16 @@ int32_t ARM_Flash_EraseChip(void)
     {
         if ((HAL_GetTick() - tickstart) > ERASE_ALL_TIME_OUT)
         {
-            return RT_TIMEOUT;
+            return ARM_DRIVER_ERROR_TIMEOUT;
         }
         W25Q64_Enable();
         HAL_SPI_Transmit(flash_spi, cmd, 1, SPI_TIMEOUT);
         HAL_SPI_Receive(flash_spi, &s, 1, SPI_TIMEOUT);
         W25Q64_Disable();
     }
-    return RT_OK;
+	FlashStatus.busy  = 0U;
+	FlashStatus.error = 0U;
+    return ARM_DRIVER_OK;
 }
 
 ARM_FLASH_STATUS ARM_Flash_GetStatus(void)

@@ -13,7 +13,7 @@
 #define W25Q64_Enable()   HAL_GPIO_WritePin(Flash_CS_GPIO_Port, Flash_CS_Pin, GPIO_PIN_RESET)
 #define W25Q64_Disable()  HAL_GPIO_WritePin(Flash_CS_GPIO_Port, Flash_CS_Pin, GPIO_PIN_SET)
 
-#define SPI_TIMEOUT	 1000
+#define SPI_TIMEOUT	 10000 //1000
 
 
 
@@ -29,11 +29,10 @@
 #define CHIP_ERASE_CMD          0xC7
 
 
-#define ERASE_TIME_OUT          3000
-#define ERASE_ALL_TIME_OUT      250000
+#define ERASE_TIME_OUT          5000
+#define ERASE_ALL_TIME_OUT      500000
 
-#define RT_TIMEOUT				10
-#define RT_OK					1
+
 
 
 
