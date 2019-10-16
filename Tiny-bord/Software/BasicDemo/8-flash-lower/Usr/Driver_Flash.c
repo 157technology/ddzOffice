@@ -32,8 +32,8 @@ static ARM_FLASH_SECTOR FLASH_SECTOR_INFO[FLASH_SECTOR_COUNT] = {
 /* Flash Information */
 static ARM_FLASH_INFO FlashInfo = {
     0, /* FLASH_SECTOR_INFO  */
-    2048, /* FLASH_SECTOR_COUNT */
-    0x1000, /* FLASH_SECTOR_SIZE  */
+    128, /* FLASH_SECTOR_COUNT */
+    0x10000, /* FLASH_SECTOR_SIZE  */
     0x100, /* FLASH_PAGE_SIZE    */
     1, /* FLASH_PROGRAM_UNIT */
     0xFF  /* FLASH_ERASED_VALUE */

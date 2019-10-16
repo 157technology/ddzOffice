@@ -19,22 +19,48 @@ void app_main(void* argument)
 	FILE *f;
 	char * buf = emSerial->rbuf;
 	char b[20];
+	em_printf("root>>> Init flash.\n");
+	s = finit("F0:");
+	s = fmount("F0:");
+	
+	//fformat("F0:", NULL);
+	
+//	f = fopen ("test.txt","w");
+//	fprintf (f, "111111111111111111111111111111111t");
+//	fclose(f);
+//	
+//	f = fopen ("hello.txt","w");
+//	fprintf (f, "helloworld\n");
+//	fclose(f);
+//	
+//	f = fopen ("log.txt","w");
+//	fprintf (f, "222222222222222222222222222222222t");
+//	fclose(f);	
+	
+	//fdelete("F0:\\", "/S");
+	fsFileInfo info;
+	
+	while ( ffind("F0:*.txt", &info) == fsOK )
+	{
+		em_printf("**********\n%-32s %5d bytes, ID: %04d\n",
+		info.name,
+		info.size,
+		info.fileID);
+	}
+	
+	f = fopen ("test.txt", "r");
+	if ( f != NULL )
+	{
+		em_printf("Open test.txt...\n");
+		em_printf("------------------------------\n");
+		while ( fscanf (f, "%s", b) != EOF )
+			em_printf("%s.\n", b);
+		
+		em_printf("------------------------------\n");
+	}
+	funmount("F0:");
+	funinit("F0:");
 	for (;;) {
-		em_printf("root>>> Init flash.\n");
-		
-		s = finit("F0:");
-		
-		s = fmount("F0:");
-		f = fopen ("test.txt","w");
-		int i = 10;
-		fprintf (f, "printf test: val = %i fval =%f\n", i, i * 3.45);
-		
-		f = fopen ("test.txt", "r");
-		if ( f != NULL )
-		{
-			fscanf (f, "%s", b);
-			em_printf("get flash>>>%s.\n", b);
-		}
 //		W25qxx_Init();
 		osSemaphoreAcquire(semSerial, osWaitForever);
 		em_printf("Thread>>> %s\n", buf);

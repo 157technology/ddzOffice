@@ -77,7 +77,7 @@
         <tvExpOptDlg>0</tvExpOptDlg>
         <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
-      <CpuCode>0</CpuCode>
+      <CpuCode>18</CpuCode>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -120,7 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>EVENTREC_CNF</Key>
-          <Name>-l0 -a1 -s0 -f0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</Name>
+          <Name>-l0 -a1 -s0 -fFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -157,7 +157,7 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>38</LineNumber>
+          <LineNumber>44</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -173,9 +173,25 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
+          <LineNumber>40</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134240692</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\Usr\osMain.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\8_flash_lower\../Usr/osMain.c\40</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
           <LineNumber>23</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134241308</Address>
+          <Address>134240590</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
