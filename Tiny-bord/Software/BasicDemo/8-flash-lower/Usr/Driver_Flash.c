@@ -18,6 +18,7 @@
  
 #include "Driver_Flash.h"
 #include "w25qxx.h"
+#include "serial.h"
 #define ARM_FLASH_DRV_VERSION    ARM_DRIVER_VERSION_MAJOR_MINOR(1, 0) /* driver version */
 
 /* Sector Information */
@@ -32,8 +33,8 @@ static ARM_FLASH_SECTOR FLASH_SECTOR_INFO[FLASH_SECTOR_COUNT] = {
 /* Flash Information */
 static ARM_FLASH_INFO FlashInfo = {
     0, /* FLASH_SECTOR_INFO  */
-    128, /* FLASH_SECTOR_COUNT */
-    0x10000, /* FLASH_SECTOR_SIZE  */
+    2048,//2048, /* FLASH_SECTOR_COUNT */
+    0x1000,//0x1000, /* FLASH_SECTOR_SIZE  */
     0x100, /* FLASH_PAGE_SIZE    */
     1, /* FLASH_PROGRAM_UNIT */
     0xFF  /* FLASH_ERASED_VALUE */
@@ -121,8 +122,12 @@ int32_t ARM_Flash_ProgramData(uint32_t addr, const void *data, uint32_t cnt)
 	return ARM_DRIVER_OK;
 }
 
+uint32_t cnt = 0;
 int32_t ARM_Flash_EraseSector(uint32_t addr)
 {
+	//em_printf("CNT::%5u\n", cnt ++);
+	//HAL_Delay(1);
+	cnt ++;
 	W25qxx_EraseSector(addr);
 	return ARM_DRIVER_OK;
 }

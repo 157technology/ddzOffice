@@ -14,33 +14,43 @@ SerialDev* emSerial;
 
 uint16_t light = 0;
 fsStatus s;
+
+
+
 void app_main(void* argument)
 {
 	FILE *f;
 	char * buf = emSerial->rbuf;
 	char b[20];
 	em_printf("root>>> Init flash.\n");
+	uint8_t t1 = 0xFF, t2;
+	
+	uint32_t addr = 0;
+	
 	s = finit("F0:");
 	s = fmount("F0:");
+
+//	fformat("F0:", "/W"); // take a long time 
+//	extern uint32_t cnt;
+//	em_printf("Erase:: %u times.\n", cnt);
+
+
+
+	f = fopen ("hello.txt","w");
+	fprintf (f, "helloworld\n");
+	fclose(f);
 	
-	//fformat("F0:", NULL);
-	
-//	f = fopen ("test.txt","w");
-//	fprintf (f, "111111111111111111111111111111111t");
-//	fclose(f);
-//	
-//	f = fopen ("hello.txt","w");
-//	fprintf (f, "helloworld\n");
-//	fclose(f);
-//	
-//	f = fopen ("log.txt","w");
-//	fprintf (f, "222222222222222222222222222222222t");
-//	fclose(f);	
-	
-	//fdelete("F0:\\", "/S");
+	f = fopen ("log.txt","w");
+	fprintf (f, "222222222222222222222222222222222t");
+	fclose(f);	
+
+	f = fopen ("test.txt","w");
+	fprintf (f, "111111111111111111111111111111111t\n222222222222\nlllllllll\n");
+	fclose(f);	
+	//
 	fsFileInfo info;
 	
-	while ( ffind("F0:*.txt", &info) == fsOK )
+	while ( ffind("F0:*.*", &info) == fsOK )
 	{
 		em_printf("**********\n%-32s %5d bytes, ID: %04d\n",
 		info.name,
@@ -80,15 +90,26 @@ void app_pwm(void* argument)
 //		Driver_FLASH.ProgramData(0x00, ss, strlen(ss));
 //		Driver_FLASH.ReadData(0x00, bb, strlen(ss));
 //		em_printf("flash>>> \"%s\".\n", bb);
-		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-		HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
-		HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
-		HAL_GPIO_TogglePin(LED4_GPIO_Port, LED4_Pin);
-		for ( int i = 0; i < 20000-light; i ++ )	{__NOP();};
-		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-		HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
-		HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
-		HAL_GPIO_TogglePin(LED4_GPIO_Port, LED4_Pin);
+		if ( light == 0 )
+		{
+			HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_RESET);
+			
+			continue;
+		}
+		
+		
+		HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_RESET);
+		for ( int i = 0; i < 10000-light; i ++ )	{__NOP();};
+		HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_SET);
 		for ( int i = 0; i < light; i ++ )	{__NOP();};
     }
 }

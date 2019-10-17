@@ -157,7 +157,7 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>44</LineNumber>
+          <LineNumber>41</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -173,25 +173,25 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>40</LineNumber>
+          <LineNumber>38</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134240692</Address>
+          <Address>0</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
+          <BreakIfRCount>0</BreakIfRCount>
           <Filename>..\Usr\osMain.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\8_flash_lower\../Usr/osMain.c\40</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>23</LineNumber>
+          <LineNumber>39</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134240590</Address>
+          <Address>134240596</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -200,7 +200,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Usr\osMain.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\8_flash_lower\../Usr/osMain.c\23</Expression>
+          <Expression>\\8_flash_lower\../Usr/osMain.c\39</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -208,6 +208,11 @@
           <count>0</count>
           <WinNumber>1</WinNumber>
           <ItemText>f</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cnt,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <ScvdPack>
