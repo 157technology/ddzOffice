@@ -17,8 +17,8 @@ void mmdelay(uint32_t tt)
 {
 	int i;
 	
-	for ( i = 0; i < 5; i ++ )
-		;
+	for ( i = 0; i < 100; i ++ )
+		__NOP();
 }
 
 #if (_W25QXX_USE_FREERTOS==1)

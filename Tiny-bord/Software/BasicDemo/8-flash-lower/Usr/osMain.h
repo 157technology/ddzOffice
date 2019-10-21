@@ -11,6 +11,8 @@
 #include <string.h>
 #include <math.h>
 
+#include "shell.h"
+
 int osMain(void);
 
 #endif

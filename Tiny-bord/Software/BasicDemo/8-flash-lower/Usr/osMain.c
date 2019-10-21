@@ -30,7 +30,8 @@ void app_main(void* argument)
 	s = finit("F0:");
 	s = fmount("F0:");
 
-//	fformat("F0:", "/W"); // take a long time 
+	//W25qxx_EraseChip();
+	//fformat("F0:", "/W"); // take a long time 
 //	extern uint32_t cnt;
 //	em_printf("Erase:: %u times.\n", cnt);
 
@@ -50,9 +51,11 @@ void app_main(void* argument)
 	//
 	fsFileInfo info;
 	
+	
+	em_printf("###############################################\n");
 	while ( ffind("F0:*.*", &info) == fsOK )
 	{
-		em_printf("**********\n%-32s %5d bytes, ID: %04d\n",
+		em_printf("%-32s %5d bytes, ID: %04d\n",
 		info.name,
 		info.size,
 		info.fileID);
@@ -61,21 +64,24 @@ void app_main(void* argument)
 	f = fopen ("test.txt", "r");
 	if ( f != NULL )
 	{
-		em_printf("Open test.txt...\n");
-		em_printf("------------------------------\n");
+		em_printf("root>>> vi test.txt\n");
+		
 		while ( fscanf (f, "%s", b) != EOF )
 			em_printf("%s.\n", b);
 		
-		em_printf("------------------------------\n");
+		
 	}
+	
+	em_printf("root>>> ");
 	funmount("F0:");
 	funinit("F0:");
 	for (;;) {
 //		W25qxx_Init();
 		osSemaphoreAcquire(semSerial, osWaitForever);
-		em_printf("Thread>>> %s\n", buf);
-		sscanf(buf, "%d", &light);
-		em_printf("Thread>>> Light: %d.\n", light);
+		shell_line_handle(buf, emSerial->rCnt);
+		//em_printf("Thread>>> %s\n", buf);
+		//sscanf(buf, "%d", &light);
+		//em_printf("Thread>>> Light: %d.\n", light);
 	}
 }
 

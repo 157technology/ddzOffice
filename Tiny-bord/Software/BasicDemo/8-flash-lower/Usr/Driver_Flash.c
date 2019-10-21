@@ -126,8 +126,13 @@ uint32_t cnt = 0;
 int32_t ARM_Flash_EraseSector(uint32_t addr)
 {
 	//em_printf("CNT::%5u\n", cnt ++);
+	if ( cnt % 10 == 0 )
+	{
+		em_printf(".");
+	}
 	//HAL_Delay(1);
 	cnt ++;
+	
 	W25qxx_EraseSector(addr);
 	return ARM_DRIVER_OK;
 }

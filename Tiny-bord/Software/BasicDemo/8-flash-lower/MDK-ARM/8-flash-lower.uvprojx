@@ -403,6 +403,11 @@
               <FileType>1</FileType>
               <FilePath>..\Usr\Driver_Flash.c</FilePath>
             </File>
+            <File>
+              <FileName>shell.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Usr\shell.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

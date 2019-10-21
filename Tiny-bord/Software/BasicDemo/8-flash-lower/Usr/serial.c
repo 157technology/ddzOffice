@@ -137,22 +137,20 @@ int recCnt = 0;
 void USART1_IRQHandler(void)
 {
 	__disable_irq();
-
+	//m_serialDev->puart->Instance->DR;
+	READ_REG(m_serialDev->puart->Instance->SR);	
+	
 	m_serialDev->rCnt = m_serialDev->rbufSize - READ_REG(m_serialDev->puart->hdmarx->Instance->NDTR);
 	m_serialDev->rbuf[m_serialDev->rCnt] = '\0';
-
-	em_printf("****---****\n");
-	em_printf("ISR>>> %s\n", m_serialDev->rbuf);
-    m_serialDev->RestartDma(m_serialDev);
 	
-
+	//em_printf("ISR>>> %s, %d\n", m_serialDev->rbuf, m_serialDev->rCnt);
+    m_serialDev->RestartDma(m_serialDev);
 	osSemaphoreRelease(*(m_serialDev->pSemSerial));
 	
 	m_serialDev->puart->Instance->DR;
 	READ_REG(m_serialDev->puart->Instance->SR);
-    __enable_irq();
 	
-
+    __enable_irq();
 }
 
 SerialDev * registerSerial(UART_HandleTypeDef * huart, uint16_t rbufsize, uint16_t tbufsize, osSemaphoreId_t * pSemSerial)
