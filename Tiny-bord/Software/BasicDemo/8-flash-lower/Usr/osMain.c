@@ -10,7 +10,7 @@
  *---------------------------------------------------------------------------*/
 
 osSemaphoreId_t semSerial;
-SerialDev* emSerial;
+SerialDev_t* emSerial;
 
 uint16_t light = 0;
 fsStatus s;

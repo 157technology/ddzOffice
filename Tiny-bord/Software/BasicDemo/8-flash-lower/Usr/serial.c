@@ -1,28 +1,7 @@
 #include "serial.h"
 
 
-//#include <stdio.h>
-//struct __FILE
-//{
-//  int handle;
-//  /* Whatever you require here. If the only file you are using is */
-//  /* standard output using printf() for debugging, no file handling */
-//  /* is required. */
-//};
-///* FILE is typedef’d in stdio.h. */
-//FILE __stdout;
-//int fputc(int ch, FILE *f) 
-//{
-//	return HAL_UART_Transmit(&huart1, (uint8_t*)&ch, 1, 999);
-//}
-//int ferror(FILE *f)
-//{
-//  /* Your implementation of ferror(). */
-//  return 0;
-//}
-
-
-/* private */
+/* private for hal register */
 typedef struct
 {
   __IO uint32_t ISR;   /*!< DMA interrupt status register */
@@ -34,14 +13,8 @@ typedef struct
 
 
 
-
-
-
-
-
-
-
-SerialDev * m_serialDev;
+/* serial device */
+static SerialDev_t * m_consoleDev;
 
 
 
@@ -75,13 +48,13 @@ void em_printf(const char *format, ...)
 	static uint8_t busy = 0;
 	uint16_t length;
 	
-	while ( busy==1 && READ_BIT(m_serialDev->puart->Instance->SR, USART_SR_TC) == 0  )
+	while ( busy==1 && READ_BIT(m_consoleDev->puart->Instance->SR, USART_SR_TC) == 0  )
 	{}
 	busy = 1;
 
-    length = vsnprintf(m_serialDev->tbuf, m_serialDev->tbufSize, (char*)format, args);
+    length = vsnprintf(m_consoleDev->tbuf, m_consoleDev->tbufSize, (char*)format, args);
     va_end(args);
-	emHAL_UART_Transmit_DMA(m_serialDev->puart, (uint8_t*)(m_serialDev->tbuf), length);
+	emHAL_UART_Transmit_DMA(m_consoleDev->puart, (uint8_t*)(m_consoleDev->tbuf), length);
 }
 
 
@@ -91,71 +64,72 @@ void em_printf(const char *format, ...)
 	IDLE(ISR) + DMA
 	init buf -> 512 bytes
 */
-int initSerial(SerialDev * serial)
+void initSerial(SerialDev_t * this)
 {
-	DMA_HandleTypeDef * hdma = serial->puart->hdmarx;
+	DMA_HandleTypeDef * hdma = this->puart->hdmarx;
 
 	__HAL_DMA_DISABLE(hdma);
     DMA_Base_Registers *regs = (DMA_Base_Registers *)hdma->StreamBaseAddress;
   
 	/* Clear DBM bit */
 	hdma->Instance->CR &= (uint32_t)(~DMA_SxCR_DBM);
-    hdma->Instance->NDTR = serial->rbufSize;
+    hdma->Instance->NDTR = this->rbufSize;
 
-    hdma->Instance->PAR = (uint32_t)(&(serial->puart->Instance->DR));
-    hdma->Instance->M0AR = (uint32_t)(serial->rbuf);
+    hdma->Instance->PAR = (uint32_t)(&(this->puart->Instance->DR));
+    hdma->Instance->M0AR = (uint32_t)(this->rbuf);
 	
 	regs->IFCR = 0x3FU << hdma->StreamIndex;
 	
     __HAL_DMA_ENABLE(hdma);
-	__HAL_UART_CLEAR_OREFLAG(serial->puart);
+	__HAL_UART_CLEAR_OREFLAG(this->puart);
 	
-    SET_BIT(serial->puart->Instance->CR1, USART_CR1_IDLEIE);
-	SET_BIT(serial->puart->Instance->CR3, USART_CR3_DMAR);	// enable DMA Receive
-	return 0;
+    SET_BIT(this->puart->Instance->CR1, USART_CR1_IDLEIE);
+	SET_BIT(this->puart->Instance->CR3, USART_CR3_DMAR);	// enable DMA Receive
 }
-void restartDMA(SerialDev * serial)
+void restartDMA(SerialDev_t * this)
 {
-	DMA_HandleTypeDef * hdma = serial->puart->hdmarx;
+	DMA_HandleTypeDef * hdma = this->puart->hdmarx;
 
 	__HAL_DMA_DISABLE(hdma);
     DMA_Base_Registers *regs = (DMA_Base_Registers *)hdma->StreamBaseAddress;
   
 	/* Clear DBM bit */
 	hdma->Instance->CR &= (uint32_t)(~DMA_SxCR_DBM);
-    hdma->Instance->NDTR = serial->rbufSize;
+    hdma->Instance->NDTR = this->rbufSize;
 
-    hdma->Instance->PAR = (uint32_t)&serial->puart->Instance->DR;
-    hdma->Instance->M0AR = (uint32_t)(serial->rbuf);
+    hdma->Instance->PAR = (uint32_t)&this->puart->Instance->DR;
+    hdma->Instance->M0AR = (uint32_t)(this->rbuf);
 	
 	regs->IFCR = 0x3FU << hdma->StreamIndex;
 	__HAL_DMA_ENABLE(hdma);
 }
 
 
-int recCnt = 0;
-void USART1_IRQHandler(void)
+
+void SHELL_ISR(void)
 {
 	__disable_irq();
 	//m_serialDev->puart->Instance->DR;
-	READ_REG(m_serialDev->puart->Instance->SR);	
+	READ_REG(m_consoleDev->puart->Instance->SR);	
 	
-	m_serialDev->rCnt = m_serialDev->rbufSize - READ_REG(m_serialDev->puart->hdmarx->Instance->NDTR);
-	m_serialDev->rbuf[m_serialDev->rCnt] = '\0';
+	m_consoleDev->rCnt = m_consoleDev->rbufSize - READ_REG(m_consoleDev->puart->hdmarx->Instance->NDTR);
+	m_consoleDev->rbuf[m_consoleDev->rCnt] = '\0';
 	
-	//em_printf("ISR>>> %s, %d\n", m_serialDev->rbuf, m_serialDev->rCnt);
-    m_serialDev->RestartDma(m_serialDev);
-	osSemaphoreRelease(*(m_serialDev->pSemSerial));
+	//em_printf("ISR>>> %s, %d\n", m_consoleDev->rbuf, m_consoleDev->rCnt);
+    m_consoleDev->RestartDma(m_consoleDev);
+	osSemaphoreRelease(*(m_consoleDev->pSemSerial));
 	
-	m_serialDev->puart->Instance->DR;
-	READ_REG(m_serialDev->puart->Instance->SR);
+	/* clear idle flag */
+	m_consoleDev->puart->Instance->DR;
+	READ_REG(m_consoleDev->puart->Instance->SR);
 	
     __enable_irq();
 }
 
-SerialDev * registerSerial(UART_HandleTypeDef * huart, uint16_t rbufsize, uint16_t tbufsize, osSemaphoreId_t * pSemSerial)
+
+SerialDev_t * registerSerial(UART_HandleTypeDef * huart, uint16_t rbufsize, uint16_t tbufsize, osSemaphoreId_t * pSemSerial)
 {
-	SerialDev * m_serial = (SerialDev*)malloc(sizeof(SerialDev));
+	SerialDev_t * m_serial = (SerialDev_t*)malloc(sizeof(SerialDev_t));
     m_serial->puart = huart;
 	
 	
@@ -167,12 +141,21 @@ SerialDev * registerSerial(UART_HandleTypeDef * huart, uint16_t rbufsize, uint16
 	m_serial->tbuf		 = NULL;
 	m_serial->tbuf	     = (char *)malloc(sizeof(char)*tbufsize);
 	
+	#ifdef USING_OS
 	m_serial->pSemSerial = pSemSerial;
+	#endif
 
 	m_serial->RestartDma = &restartDMA;
     m_serial->Initialize = &initSerial;
 	
-	m_serialDev = m_serial;
+	if ( huart == &SHELL_UART )
+	{
+		m_consoleDev = m_serial;
+	}
+	else
+	{
+		em_printf("Serial Device Not Found.\n");
+	}
 
     return m_serial;
 }

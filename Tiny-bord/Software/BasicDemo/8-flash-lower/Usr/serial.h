@@ -1,14 +1,24 @@
 #ifndef __SERIAL_H__
 #define __SERIAL_H__ 
 
-#include "main.h"
-#include "usart.h"
+#include "serial_config.h"
+#include "shell_config.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
 
+#ifdef USING_OS
 #include "cmsis_os2.h"
+#endif
 
+#ifdef USING_SHELL
+#include "shell.h"
+#endif
+
+
+
+/**/
 void em_printf(const char * format, ...);
 
 typedef struct em_serial_dev
@@ -23,17 +33,18 @@ typedef struct em_serial_dev
 	char * tbuf;
 	uint16_t tbufSize;
 
-
+	#ifdef USING_OS
 	osSemaphoreId_t * pSemSerial;
+	#endif
 
 	void (* RestartDma) (struct em_serial_dev *serial);
-	int (* Initialize) (struct em_serial_dev *serial);
-} SerialDev;
+	void (* Initialize) (struct em_serial_dev *serial);
+} SerialDev_t;
 
 //extern SerialDev serialDev;
-SerialDev * registerSerial(UART_HandleTypeDef * huart, uint16_t rbufsize, uint16_t tbufsize, osSemaphoreId_t * pSemSerial);
+SerialDev_t * registerSerial(UART_HandleTypeDef * huart, uint16_t rbufsize, uint16_t tbufsize, osSemaphoreId_t * pSemSerial);
 
 
-int initSerial(SerialDev * serial);
+
 
 #endif
