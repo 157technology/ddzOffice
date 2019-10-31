@@ -78,7 +78,7 @@ void app_main(void* argument)
 	for (;;) {
 //		W25qxx_Init();
 		osSemaphoreAcquire(semSerial, osWaitForever);
-		shell_line_handle(buf, emSerial->rCnt);
+		console_line_handle(buf, emSerial->rCnt);
 		//em_printf("Thread>>> %s\n", buf);
 		//sscanf(buf, "%d", &light);
 		//em_printf("Thread>>> Light: %d.\n", light);
@@ -133,7 +133,7 @@ int osMain(void)
     emSerial = registerSerial(&huart1, 512, 512, &semSerial);
     emSerial->Initialize(emSerial);
 	
-	
+	console_cmd_init();
 
 //    ARM_Flash_Initialize(NULL);
 //    ARM_Flash_EraseSector(0xfff4);

@@ -2,9 +2,6 @@
 
 
 
-
-
-
 /////////////////////////////////////////////////////////////////
 // cmd history
 // 实现--环形双向链表
@@ -97,6 +94,7 @@ historyStack_t emHistory = {
 //	void   (*insert)		(struct tConsoleString * this, char c);
 //	void   (*remove)		(struct tConsoleString * this);
 //	char * (*getString)		(struct tConsoleString * this);
+//	
 static void consoleStringSetString(consoleString_t * this, char* str)
 {
 	uint16_t len = strlen(str);
@@ -182,9 +180,40 @@ static char * consoleStringGetString(consoleString_t * this)
 	return this->str;
 }
 
+static void consoleStringStringSplit(consoleString_t * this)
+{
+	char str[20];
+	char * src;
+	int count = 0;
+	int pos	  = 0;
+
+	src = this->str;
+	this->name[0] = '\0';
+	while ( src[pos] == ' ' )	pos ++;
+	while ( sscanf(src+pos, "%s", str) != EOF )
+	{
+		pos += strlen(str);	while ( src[pos] == ' ' )	pos ++;
+		if ( count == 0 )	memcpy(this->name, str, strlen(str)+1);
+		else
+		{
+			if ( this->argv[count-1] == NULL )
+			{
+				this->argv[count-1] = (char *)malloc(sizeof(char)*20);
+			}
+			memcpy(this->argv[count-1], str, strlen(str));
+		}				
+		count ++;
+	}
+	this->argc = count - 1;
+}
+
+
 
 consoleString_t emConsoleString =  {
 	"",
+	"",
+	{NULL, NULL, NULL, NULL, NULL},
+	0,
 	0,
 	0,
 	consoleStringSetString,
@@ -192,6 +221,7 @@ consoleString_t emConsoleString =  {
 	consoleStringInsert,
 	consoleStringRemove,
 	consoleStringGetString,
+	consoleStringStringSplit
 };
 /////////////////////////////////////////////////////////////////
 
@@ -200,21 +230,27 @@ consoleString_t emConsoleString =  {
 /////////////////////////////////////////////////////////////////
 ///     CMD
 ///
-void consoleCmdManageAppend(consoleCmdManage_t * this, consoleCmd_t * pcmd)
+static void consoleCmdManageAppend(consoleCmdManage_t * this, consoleCmd_t * pcmd)
 {
 	if ( this->count == 0 )
 	{
-		
+		this->root = pcmd;
+		this->top = pcmd;
+		this->count ++;
 	}
-	this->top->pnextcmd = pcmd;
-	this->top = pcmd;
-	this->count ++;
+	else
+	{
+		this->top->pnextcmd = pcmd;
+		this->top = pcmd;
+		this->count ++;	
+	}
+
 }
 
-consoleCmd_t * consoleCmdManageFind(consoleCmdManage_t * this, char * str)
+static consoleCmd_t * consoleCmdManageFind(consoleCmdManage_t * this, char * str)
 {
 	if ( this->count == 0 )	return NULL;
-	consoleCmd_t * pcmd = this->root.pnextcmd;
+	consoleCmd_t * pcmd = this->root;
 	for ( int i = 0; i < this->count; i ++ )
 	{
 		if ( strcmp(pcmd->name, str) == 0 )
@@ -226,6 +262,13 @@ consoleCmd_t * consoleCmdManageFind(consoleCmdManage_t * this, char * str)
 	return NULL;
 }
 
+consoleCmdManage_t emConsoleCmdManage = {
+	NULL,
+	NULL,
+	0,
+	consoleCmdManageAppend,
+	consoleCmdManageFind
+};
 
 /////////////////////////////////////////////////////////////////
 
@@ -286,10 +329,22 @@ static uint8_t m_deal_special_button(char * str, uint16_t len)
 	case 2:
 		if ( strcmp(str, "\r\n") == 0 )
 		{
-			//em_printf("press Enter.\n");
-			em_printf("\nGet:: %s.\n", emConsoleString.getString(&emConsoleString));
+			em_printf("\n");
+			//em_printf("\nGet:: %s.\n", emConsoleString.getString(&emConsoleString));
 			emHistory.append(&emHistory, emConsoleString.str);
+			
+			emConsoleString.stringSplit(&emConsoleString);
+			
+			////////////
+			consoleCmd_t * pcmd = emConsoleCmdManage.find(&emConsoleCmdManage, emConsoleString.name);
+			if ( pcmd != NULL )
+				pcmd->run(emConsoleString.argc, emConsoleString.argv);
+			else
+				em_printf("Error>>> Command[%s] not find!\n", emConsoleString.name);
+			////////////
 			emConsoleString.reset(&emConsoleString);
+
+			em_printf("root>>> ");
 			return 1;
 		}
 		break;
@@ -315,7 +370,7 @@ static uint8_t m_deal_special_button(char * str, uint16_t len)
 	return 0;
 }
 
-void shell_line_handle(char* str, uint16_t len)
+void console_line_handle(char* str, uint16_t len)
 {
 	static char buf[20];
 	static uint16_t cursor = 0;
@@ -330,4 +385,42 @@ void shell_line_handle(char* str, uint16_t len)
 		}
 	}
 
+}
+
+
+
+
+
+
+
+
+/////////////////////////cmd/////////////////////////
+///
+///
+void m_cmd_fun_help(int argc, char *argv[])
+{
+	em_printf("This command is for help.\n");
+	
+	for ( int i = 0; i < argc; i ++ )
+		em_printf("argv[%d]: %s\n", i, argv[i]);
+	
+	em_printf("This command is for help.\n");
+}
+CMD_ADD(1, "help", "show help", m_cmd_fun_help);
+
+
+
+
+
+
+
+/////////////////////////cmd/////////////////////////
+
+
+
+
+
+void console_cmd_init(void)
+{
+	emConsoleCmdManage.append(&emConsoleCmdManage, &s_cmd_1);
 }

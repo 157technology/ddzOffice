@@ -147,9 +147,11 @@ SerialDev_t * registerSerial(UART_HandleTypeDef * huart, uint16_t rbufsize, uint
 
 	m_serial->RestartDma = &restartDMA;
     m_serial->Initialize = &initSerial;
+ 
 	
 	if ( huart == &SHELL_UART )
 	{
+		m_serial->print = em_printf;
 		m_consoleDev = m_serial;
 	}
 	else

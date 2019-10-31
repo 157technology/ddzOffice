@@ -24,7 +24,10 @@ typedef struct tHistoryStack
 
 typedef struct tConsoleString
 {
-	char str[128];
+	char   str[128];
+	char   name[20];
+	char * argv[5];
+	int    argc;
 	uint16_t len;		//string 长度
 	uint16_t cursor;	//光标位置
 
@@ -33,6 +36,7 @@ typedef struct tConsoleString
 	void   (*insert)		(struct tConsoleString * this, char c);
 	void   (*remove)		(struct tConsoleString * this);
 	char * (*getString)		(struct tConsoleString * this);
+	void   (*stringSplit)	(struct tConsoleString * this);
 
 }consoleString_t;
 
@@ -42,7 +46,7 @@ typedef struct tConsoleCmd
 	char name[50];
 	char help[50];
 
-	void (*run) (int argc, char const *argv[]);
+	void (*run) (int argc, char *argv[]);
 
 	struct tConsoleCmd * pnextcmd;
 }consoleCmd_t;
@@ -56,19 +60,18 @@ typedef struct tConsoleCmdManage
 
 	uint16_t count;
 
-	void 			(*append)	(struct tConsoleCmdManage * this, tConsoleCmd * pcmd);
+	void 		    (*append)	(struct tConsoleCmdManage * this, consoleCmd_t * pcmd);
 	consoleCmd_t *	(*find)		(struct tConsoleCmdManage * this, char * str);
 
 }consoleCmdManage_t;
 
-void shell_line_handle(char * str, uint16_t len);
+void console_line_handle(char * str, uint16_t len);
+
+void console_cmd_init(void);
 
 
-consoleCmd_t rootCmd;
-
-
-//#define CMD_ADD(name, help, fun) 	static const consoleCmd_t s_cmd_##name = \
-//									{name, help, fun, rootCmd}
+#define CMD_ADD(id, name, help, fun) 	static const consoleCmd_t s_cmd_##id = \
+									{name, help, fun, NULL}
 
 
 #endif

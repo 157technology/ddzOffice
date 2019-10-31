@@ -39,6 +39,7 @@ typedef struct em_serial_dev
 
 	void (* RestartDma) (struct em_serial_dev *serial);
 	void (* Initialize) (struct em_serial_dev *serial);
+	void (* print)		(const char * format, ...);
 } SerialDev_t;
 
 //extern SerialDev serialDev;
