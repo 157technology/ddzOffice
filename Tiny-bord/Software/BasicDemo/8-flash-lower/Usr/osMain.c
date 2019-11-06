@@ -30,7 +30,7 @@ void app_main(void* argument)
 	s = finit("F0:");
 	s = fmount("F0:");
 
-	//W25qxx_EraseChip();
+	W25qxx_EraseChip();
 	//fformat("F0:", "/W"); // take a long time 
 //	extern uint32_t cnt;
 //	em_printf("Erase:: %u times.\n", cnt);
