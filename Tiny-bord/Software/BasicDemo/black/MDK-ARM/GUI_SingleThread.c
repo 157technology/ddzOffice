@@ -59,12 +59,14 @@ __NO_RETURN static void GUIThread (void *argument) {
 	GUI_TIMER_SetPeriod(hTimer, 100);
 	
 	GUI_SetColor(GUI_WHITE);
-	GUI_SetPenSize(1);
+	GUI_SetPenSize(2);
+	GUI_SetFont(GUI_FONT_32B_1);
+	//GUI_SetFont();
 	//GUI_DrawLine(0, 0, 127, 63);
 	//GUI_DrawLine(0, 63, 127, 0);
 //	GUI_DispString("EMei_Li\nemWin Start...\n");
 //	GUI_SetTextMode(GUI_TM_REV); 
-//	GUI_DispString("root>>>");
+	GUI_DispString("This is\nTiny Bord");
 //	GUI_SetTextMode(GUI_TM_NORMAL);
 //	GUI_DispString(" ");
 	

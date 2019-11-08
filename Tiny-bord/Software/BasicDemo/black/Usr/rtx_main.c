@@ -14,60 +14,36 @@ mem_head_t * SRAMUsed;
 osSemaphoreId_t semSerial;
 SerialDev_t* emSerial;
 
-extern GUI_CONST_STORAGE GUI_BITMAP bm0;
-extern GUI_CONST_STORAGE GUI_BITMAP bm1;
-extern GUI_CONST_STORAGE GUI_BITMAP bm2;
-extern GUI_CONST_STORAGE GUI_BITMAP bm3;
-extern GUI_CONST_STORAGE GUI_BITMAP bm4;
-extern GUI_CONST_STORAGE GUI_BITMAP bm5;
-extern GUI_CONST_STORAGE GUI_BITMAP bm6;
-extern GUI_CONST_STORAGE GUI_BITMAP bm7;
-extern GUI_CONST_STORAGE GUI_BITMAP bm8;
-extern GUI_CONST_STORAGE GUI_BITMAP bm9;
-extern GUI_CONST_STORAGE GUI_BITMAP bm10;
-extern GUI_CONST_STORAGE GUI_BITMAP bm11;
-extern GUI_CONST_STORAGE GUI_BITMAP bm12;
+extern uint16_t frame;
+extern uint16_t _w;
+extern uint16_t _h;
+extern const uint8_t img[][360];
 
 
 
 
 void app_main(void* argument)
 {
+	
 	Init_GUIThread();
+	
+//	while ( 1 )
+//	{
+//		for ( int i = 0; i < frame; i ++ )
+//		{
+//			OLED_DrawBMP(26, 0, _w+26, 8, (unsigned char *)img[i]);
+//			osDelay(20);
+//		}
+//	}
 	while ( 1 )
 	{
 		//osDelay(1000);
-		//HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 	
-		//osSemaphoreAcquire(semSerial, osWaitForever);
-		//em_printf("Get!\n");
-		//console_line_handle(emSerial->rbuf, emSerial->rCnt);
-		osDelay(50);
-		GUI_DrawBitmap(&bm0, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm1, 0, 0);
-		osDelay(50);		
-		GUI_DrawBitmap(&bm2, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm3, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm4, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm5, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm6, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm7, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm8, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm9, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm10, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm11, 0, 0);
-		osDelay(50);
-		GUI_DrawBitmap(&bm12, 0, 0);
+		osSemaphoreAcquire(semSerial, osWaitForever);
+		em_printf("Get!\n");
+		console_line_handle(emSerial->rbuf, emSerial->rCnt);
+
 
 	}
 }
@@ -118,6 +94,7 @@ void rtx_main(void)
 	
 	
 	console_cmd_init();
+	
 	
 	// System Initialization
     SystemCoreClockUpdate();

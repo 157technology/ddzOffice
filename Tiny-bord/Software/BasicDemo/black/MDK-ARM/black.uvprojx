@@ -619,69 +619,9 @@
               <FilePath>..\Usr\shell.c</FilePath>
             </File>
             <File>
-              <FileName>0.c</FileName>
+              <FileName>img.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Usr\0.c</FilePath>
-            </File>
-            <File>
-              <FileName>1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\1.c</FilePath>
-            </File>
-            <File>
-              <FileName>2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\2.c</FilePath>
-            </File>
-            <File>
-              <FileName>3.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\3.c</FilePath>
-            </File>
-            <File>
-              <FileName>4.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\4.c</FilePath>
-            </File>
-            <File>
-              <FileName>5.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\5.c</FilePath>
-            </File>
-            <File>
-              <FileName>6.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\6.c</FilePath>
-            </File>
-            <File>
-              <FileName>7.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\7.c</FilePath>
-            </File>
-            <File>
-              <FileName>8.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\8.c</FilePath>
-            </File>
-            <File>
-              <FileName>9.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\9.c</FilePath>
-            </File>
-            <File>
-              <FileName>10.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\10.c</FilePath>
-            </File>
-            <File>
-              <FileName>11.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\11.c</FilePath>
-            </File>
-            <File>
-              <FileName>12.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Usr\12.c</FilePath>
+              <FilePath>..\Usr\img.c</FilePath>
             </File>
           </Files>
         </Group>
