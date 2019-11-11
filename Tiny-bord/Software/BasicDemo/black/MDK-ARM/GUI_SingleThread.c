@@ -66,7 +66,7 @@ __NO_RETURN static void GUIThread (void *argument) {
 	//GUI_DrawLine(0, 63, 127, 0);
 //	GUI_DispString("EMei_Li\nemWin Start...\n");
 //	GUI_SetTextMode(GUI_TM_REV); 
-	GUI_DispString("This is\nTiny Bord");
+//	GUI_DispString("This is\nTiny Bord");
 //	GUI_SetTextMode(GUI_TM_NORMAL);
 //	GUI_DispString(" ");
 	

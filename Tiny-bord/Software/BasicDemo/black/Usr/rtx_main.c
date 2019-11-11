@@ -25,16 +25,16 @@ extern const uint8_t img[][360];
 void app_main(void* argument)
 {
 	
-	Init_GUIThread();
+//	Init_GUIThread();
 	
-//	while ( 1 )
-//	{
-//		for ( int i = 0; i < frame; i ++ )
-//		{
-//			OLED_DrawBMP(26, 0, _w+26, 8, (unsigned char *)img[i]);
-//			osDelay(20);
-//		}
-//	}
+	while ( 1 )
+	{
+		for ( int i = 0; i < frame; i ++ )
+		{
+			OLED_DrawBMP(26, 0, _w+26, 8, (unsigned char *)img[i]);
+			osDelay(20);
+		}
+	}
 	while ( 1 )
 	{
 		//osDelay(1000);
