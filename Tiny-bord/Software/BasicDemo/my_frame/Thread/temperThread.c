@@ -25,8 +25,9 @@ static void Thread (void *argument)
 	char str[20];
 	while (1)
 	{
-		sprintf(str, "T :: %.2lf", Temper18b20.temper());
-		GUI_DispStringAtCEOL(str, 0, 0);
-		osDelay(500);                           // suspend thread
+		ui_printf("Temper :: %.2lf\r", Temper18b20.temper());
+		//sprintf(str, "Temper :: %.2lf\r", Temper18b20.temper());
+		//GUI_DispStringAtCEOL(str, 0, 0);
+		osDelay(100);                           // suspend thread
 	}
 }

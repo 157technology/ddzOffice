@@ -25,7 +25,7 @@ int main(void)
 	GUI_SetLBorder(0);
 	W25qxx_Init();
 	
-	
+//	ui_printf("aaabbbccdddeeefffggg   vvvwwwwvvv");
 //	GUI_DispStringAtCEOL("Tiny Bord", 0, 0);
 //	GUI_DispNextLine();
 //	//GUI_DispString("Tiny Bord");

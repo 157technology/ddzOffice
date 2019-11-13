@@ -8,7 +8,7 @@ void app_main (void *argument)
     Init_Temper_Thread();
     for (;;) 
 	{
-        ledDrv.leftstream(&ledDrv, 0);
+        //ledDrv.leftstream(&ledDrv, 0);
 		osDelay(1000);
 	}
 }
