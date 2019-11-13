@@ -23,11 +23,11 @@
 /*  Keil.ARM Compiler::Compiler:I/O:File:File System:1.2.0 */
 #define RTE_Compiler_IO_File            /* Compiler I/O: File */
           #define RTE_Compiler_IO_File_FS         /* Compiler I/O: File (File System) */
-/*  Keil.MDK-Plus::File System:CORE:LFN:6.12.0 */
+/*  Keil.MDK-Plus::File System:CORE:LFN:6.13.0 */
 #define RTE_FileSystem_Core             /* File System Core */
           #define RTE_FileSystem_LFN              /* File System with Long Filename support */
           #define RTE_FileSystem_Release          /* File System Release Version */
-/*  Keil.MDK-Plus::File System:Drive:NOR:6.12.0 */
+/*  Keil.MDK-Plus::File System:Drive:NOR:6.13.0 */
 #define RTE_FileSystem_Drive_NOR_0      /* File System NOR Flash Drive 0 */
 
 /*  Segger.MDK-Plus::Graphics:CORE:5.50.0 */

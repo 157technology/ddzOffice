@@ -12,8 +12,14 @@
 
 
 
-#define LED_Set(port, pin, state)		HAL_GPIO_WritePin(port, pin, (GPIO_PinState)state)
-#define LED_Toggle(port, pin)			HAL_GPIO_Toggle(port, pin)
+#define LED_Set(port, pin, state)		HAL_GPIO_WritePin((port), (pin), (GPIO_PinState)(state))
+#define LED_Toggle(port, pin)			HAL_GPIO_TogglePin((port), (pin))
+
+#ifdef USING_OS
+	#define LED_Delay 	osDelay
+#else
+	#define LED_Delay	HAL_Delay
+#endif
 
 
 

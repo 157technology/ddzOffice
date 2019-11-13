@@ -9,5 +9,10 @@
 #include "spi.h"
 #include "usart.h"
 #include "gpio.h"
+#include "tim.h"
+
+#include "memory.h"
+#include "oled.h"
+#include "w25qxx.h"
 
 #endif

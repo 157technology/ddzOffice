@@ -737,16 +737,16 @@
       </file>
       <file attr="config" category="source" name="FileSystem\Config\FS_Config.c" version="6.3.0">
         <instance index="0">RTE\File_System\FS_Config.c</instance>
-        <component Cbundle="MDK-Plus" Cclass="File System" Cgroup="CORE" Cvariant="LFN" Cvendor="Keil" Cversion="6.12.0" condition="CMSIS Core with RTOS and File System I/O"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.9.0"/>
+        <component Cbundle="MDK-Plus" Cclass="File System" Cgroup="CORE" Cvariant="LFN" Cvendor="Keil" Cversion="6.13.0" condition="CMSIS Core with RTOS and File System I/O"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
         <targetInfos>
           <targetInfo name="black"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="FileSystem\Config\FS_Config_NOR.h" version="6.2.0">
+      <file attr="config" category="header" name="FileSystem\Config\FS_Config_NOR.h" version="6.2.0">
         <instance index="0">RTE\File_System\FS_Config_NOR_0.h</instance>
-        <component Cbundle="MDK-Plus" Cclass="File System" Cgroup="Drive" Csub="NOR" Cvendor="Keil" Cversion="6.12.0" condition="File System and Flash Driver" maxInstances="2"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.9.0"/>
+        <component Cbundle="MDK-Plus" Cclass="File System" Cgroup="Drive" Csub="NOR" Cvendor="Keil" Cversion="6.13.0" condition="File System and Flash Driver" maxInstances="2"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
         <targetInfos>
           <targetInfo name="black"/>
         </targetInfos>
@@ -754,7 +754,7 @@
       <file attr="config" category="doc" name="emWin\Tool\GUIBuilder.txt" version="1.0.0">
         <instance index="0">RTE\Graphics\GUIBuilder.txt</instance>
         <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="Tools" Csub="GUI Builder" Cvendor="Segger" Cversion="5.50.0" condition="Graphics Core"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.9.0"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
         <targetInfos>
           <targetInfo name="black"/>
         </targetInfos>
@@ -762,7 +762,7 @@
       <file attr="config" category="source" name="emWin\Sample\Config\GUIConf.c" version="5.0.0">
         <instance index="0">RTE\Graphics\GUIConf.c</instance>
         <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="CORE" Cvendor="Segger" Cversion="5.50.0" condition="CMSIS Core with RTOS and Display"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.9.0"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
         <targetInfos>
           <targetInfo name="black"/>
         </targetInfos>
@@ -770,7 +770,7 @@
       <file attr="config" category="source" name="emWin\Sample\Config\LCDConf.c" version="5.0.0">
         <instance index="0">RTE\Graphics\LCDConf.c</instance>
         <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="Display" Csub="Interface Template" Cvendor="Segger" Cversion="5.50.0" condition="Graphics Core"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.9.0"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
         <targetInfos>
           <targetInfo name="black"/>
         </targetInfos>

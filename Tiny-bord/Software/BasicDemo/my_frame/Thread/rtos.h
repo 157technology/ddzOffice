@@ -1,0 +1,17 @@
+#ifndef __RTOS_H__
+#define __RTOS_H__ 
+
+#include "RTE_Components.h"
+#include  CMSIS_device_header
+#include "cmsis_os2.h"
+
+void rtosInit(void);
+void Init_GUIThread(void);
+
+
+
+/**/
+int Init_Temper_Thread(void);
+extern osThreadId_t tid_Temper_Thread; 
+
+#endif
