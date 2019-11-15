@@ -13,16 +13,21 @@
 #include "usart.h"
 #include "ui_print.h"
 
-char str[20];
+#include "serial.h"
+
+
+
 
 int main(void)
 {
 	//ledDrv.set(&ledDrv, 1, LED_ON);
+
 	GUI_Init();
-	GUI_SetColor(GUI_WHITE);
+//	GUI_SetBkColor(GUI_WHITE);
+//	GUI_SetColor(GUI_BLACK);
 	GUI_SetPenSize(1);
 	GUI_SetFont(GUI_FONT_8_ASCII);
-	GUI_SetLBorder(0);
+//	GUI_Clear();
 	W25qxx_Init();
 	
 //	ui_printf("aaabbbccdddeeefffggg   vvvwwwwvvv");
@@ -49,6 +54,7 @@ int main(void)
 	//GUI_DispStringAt("Hi!", 0, 0);
 	
 	ui_printf("start rtos...\n");
+	ui_printf("app_main start.\n");
 	rtosInit();
 //	ledDrv.set(&ledDrv, 2, LED_OFF);
 //	while ( 1 )

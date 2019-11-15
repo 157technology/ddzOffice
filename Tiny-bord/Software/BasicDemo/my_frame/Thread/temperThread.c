@@ -23,11 +23,15 @@ int Init_Temper_Thread(void)
 static void Thread (void *argument)
 {
 	char str[20];
+	
+	//GUI_SetFont(GUI_FONT_20_ASCII);
+	//GUI_FillRect(0, 0, 127, 63);
 	while (1)
 	{
-		ui_printf("Temper :: %.2lf\r", Temper18b20.temper());
-		//sprintf(str, "Temper :: %.2lf\r", Temper18b20.temper());
+		//ui_printf("APP-Temper.\n");
+		//ui_printf("> T = %.2lf\n", Temper18b20.temper());
+		//sprintf(str, "Temper :: %.2lf", Temper18b20.temper());
 		//GUI_DispStringAtCEOL(str, 0, 0);
-		osDelay(100);                           // suspend thread
+		osDelay(500);                           // suspend thread
 	}
 }

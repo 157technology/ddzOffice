@@ -257,10 +257,10 @@ void OLED_SetPixel(uint16_t _usX, uint16_t _usY, uint8_t _ucColor)
 	//OLED_Replot();
 	//if (s_ucUpdateEn == 1)
 //	{
-		WriteCmd (0xB0 + ucPageAddr);					/* 设置页地址 */
-		WriteCmd (0x00 + (ucColAddr & 0x0F));			/* 设置列地址的低地址 */
-		WriteCmd (0x10 + ((ucColAddr >> 4) & 0x0F));	/* 设置列地址的高地址 */
-		WriteDat(ucValue);
+//		WriteCmd (0xB0 + ucPageAddr);					/* 设置页地址 */
+//		WriteCmd (0x00 + (ucColAddr & 0x0F));			/* 设置列地址的低地址 */
+//		WriteCmd (0x10 + ((ucColAddr >> 4) & 0x0F));	/* 设置列地址的高地址 */
+//		WriteDat(ucValue);
 //	}
 }
 
