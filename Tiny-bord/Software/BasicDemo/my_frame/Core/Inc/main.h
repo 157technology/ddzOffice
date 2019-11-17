@@ -61,6 +61,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED1_Pin GPIO_PIN_1
 #define LED1_GPIO_Port GPIOA
+#define BEEP_Pin GPIO_PIN_10
+#define BEEP_GPIO_Port GPIOB
 #define FLASH_CS_Pin GPIO_PIN_12
 #define FLASH_CS_GPIO_Port GPIOB
 #define LED4_Pin GPIO_PIN_10
@@ -71,8 +73,6 @@ void Error_Handler(void);
 #define DS18B20_GPIO_Port GPIOA
 #define LED2_Pin GPIO_PIN_15
 #define LED2_GPIO_Port GPIOA
-#define BEEP_Pin GPIO_PIN_3
-#define BEEP_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

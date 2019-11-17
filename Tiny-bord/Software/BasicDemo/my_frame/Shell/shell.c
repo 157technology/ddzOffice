@@ -148,3 +148,52 @@ static void shell_handle_console(char * str)
 	}
 	__set_console(CONSOLE_WHITE);
 }
+
+
+
+shell_cmd_t ** _syscall_table_begin = (shell_cmd_t **)&ShellCmdTab$$Base;
+shell_cmd_t ** _syscall_table_end = (shell_cmd_t **)&ShellCmdTab$$Limit;
+
+
+
+uint16_t test(int argc, char *argv[])
+{
+	if (_syscall_table_begin != NULL)
+		em_printf("start: %X.\n", _syscall_table_begin);
+	em_printf("*****************\n");
+	em_printf("Test Cmd\n");
+	em_printf("*****************\n");
+		if (_syscall_table_end != NULL)
+		em_printf("end: %X.\n", _syscall_table_end);
+	return 1;
+}
+SHELL_CMD_REJESTER(tttt, hh, test);
+
+uint16_t test1(int argc, char *argv[])
+{
+	if (_syscall_table_begin != NULL)
+		em_printf("start: %X.\n", _syscall_table_begin);
+	em_printf("*****************\n");
+	em_printf("Test1 Cmd\n");
+	em_printf("*****************\n");
+		if (_syscall_table_end != NULL)
+		em_printf("end: %X.\n", _syscall_table_end);
+	return 1;
+}
+SHELL_CMD_REJESTER(tttt1, hh1, test1);
+
+
+void cmdtest(void)
+{
+	em_printf("start: %X.\n", __shell_cmd_tttt1);
+	em_printf("start: %X.\n", __shell_cmd_tttt);
+	em_printf("start: %X.\n", &__shell_cmd_tttt1_ptr);
+	em_printf("start: %X.\n", &__shell_cmd_tttt_ptr);
+	for ( shell_cmd_t ** p = _syscall_table_begin; p != _syscall_table_end; p ++ )
+	{
+		shell_cmd_t * cmd = *p;
+		em_printf("Cmd: %s  Desc: %s.\nrun it...\n", cmd->cmd, cmd->help);
+		cmd->run(0, NULL);
+		em_printf("*********************\n\n");
+	}
+}

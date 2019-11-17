@@ -34,7 +34,10 @@ static void Thread (void *argument)
 	consoleDev = registerSerial(&huart2, 1024, 512, &semConsole);
 	consoleDev->Initialize(consoleDev);
 	em_printf("Init success.\n");
-
+	
+	cmdtest();
+	
+	
 	shell_init();
 	//shell_history_init();
 	while (1)

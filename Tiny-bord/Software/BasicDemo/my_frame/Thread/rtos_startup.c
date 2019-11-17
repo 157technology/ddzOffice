@@ -19,7 +19,10 @@ void app_main (void *argument)
 	{
         //ledDrv.leftstream(&ledDrv, 0);
 		OLED_Replot();
-		osDelay(100);
+		
+		HAL_GPIO_TogglePin(BEEP_GPIO_Port, BEEP_Pin);
+		
+		osDelay(1000);
         //ui_printf("> main running.\n");
 	}
 }
