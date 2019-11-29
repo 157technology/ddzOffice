@@ -13,6 +13,17 @@
 shell_string_t shellString;
 
 
+/*######################################*/
+static void shell_string_reset();
+static void shell_string_insert(char * str);
+static void shell_string_setString(char * str);
+static void shell_string_cursor_left(uint16_t step);
+static void shell_string_cursor_right(uint16_t step);
+static void shell_string_cursor_backspace(uint16_t step);
+static void shell_string_autoComplete();
+
+/*######################################*/
+
 static void shell_string_reset()
 {
 	shellString.cursor = 0;
@@ -58,6 +69,16 @@ static void shell_string_insert(char * str)
 	//SHELL_LOG("\n%2d -> %s\n", shellString.len, shellString.str);
 	__set_console(CONSOLE_WHITE);
 #endif
+}
+
+static void shell_string_setString(char * str)
+{
+	shell_string_cursor_right(shellString.len-shellString.cursor);
+	shell_string_cursor_backspace(shellString.len);
+
+	memcpy(shellString.str, str, strlen(str)+1);
+	shellString.len = strlen(str);
+	shellString.cursor = shellString.len;
 }
 
 static void shell_string_cursor_left(uint16_t step)
@@ -149,6 +170,7 @@ int shell_string_init()
 	shellString.cursor_right	 = shell_string_cursor_right;
 	shellString.cursor_backspace = shell_string_cursor_backspace;
 	shellString.insert			 = shell_string_insert;
+	shellString.set 			 = shell_string_setString;
 	shellString.autoComplete	 = shell_string_autoComplete;
 	shellString.reset			 = shell_string_reset;
 	return 1;

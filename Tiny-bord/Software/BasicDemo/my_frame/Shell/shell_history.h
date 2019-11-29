@@ -8,7 +8,7 @@
 
 typedef struct m_shell_history_s
 {
-	char (*buf)[SHELL_MAX_LEN];
+	char (*buf)[SHELL_MAX_LINE];
 	
 	uint16_t root;
 	uint16_t head;
@@ -20,7 +20,7 @@ typedef struct m_shell_history_s
 
 }shell_history_t;
 
-
+extern shell_history_t shellHistory;
 int shell_history_init();
 
 #endif

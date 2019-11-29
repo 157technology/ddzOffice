@@ -2,7 +2,7 @@
 
 #include "led_config.h"
 
-led_t m_leds[] = 
+led_t m_leds[] =
 {
 	{LED1},
 	{LED2},
@@ -11,44 +11,66 @@ led_t m_leds[] =
 };
 
 
+/**
+ * [led_set description]
+ * @Author   EMei_Li
+ * @DateTime 2019-11-19T11:00:16+0800
+ * @param    lednum                   [description]
+ * @param    s                        [description]
+ */
+static void led_set(uint16_t lednum, LED_State s)
+{
+	LED_Set(m_leds[lednum - 1].port, m_leds[lednum - 1].pin, (GPIO_PinState)s);
+}
 
-static void led_set(led_drv_t * this, uint16_t lednum, LED_State s)
+static void led_toggle(uint16_t lednum)
 {
-	LED_Set(m_leds[lednum-1].port, m_leds[lednum-1].pin, (GPIO_PinState)s);
+	LED_Toggle(m_leds[lednum - 1].port, m_leds[lednum - 1].pin);
 }
-static void led_toggle(led_drv_t * this, uint16_t lednum)
+
+static void led_leftstream(uint16_t v)
 {
-	LED_Toggle(m_leds[lednum-1].port, m_leds[lednum-1].pin);
-}
-static void led_leftstream(led_drv_t * this, uint16_t v)
-{
-	static uint16_t pos = 0;
-	LED_Toggle(m_leds[pos].port, m_leds[pos].pin);
-	if ( pos ++  == this->num )	pos = 0;
-	
-	LED_Delay(v);
-}
-static void led_rightstream(led_drv_t * this, uint16_t v)
-{
-	static int f = 0;
-	static uint16_t pos = 0;
-	
-	if ( f ==  0 )
+	for ( int i = 0; i < ledDrv.num; i ++ )
 	{
-		pos = this->num - 1;
-		f = 1;
+		LED_Set(m_leds[i].port, m_leds[i].pin, LED_OFF);
 	}
-	
-	LED_Toggle(m_leds[pos].port, m_leds[pos].pin);
-	if ( pos == 0 )	pos = this->num - 1;
-	else			pos --;
-	
-	LED_Delay(v);
+
+	for ( int i = 0; i < ledDrv.num; i ++ )
+	{
+		LED_Toggle(m_leds[i].port, m_leds[i].pin);
+		LED_Delay(v);
+	}
+
+	for ( int i = 0; i < ledDrv.num; i ++ )
+	{
+		LED_Toggle(m_leds[i].port, m_leds[i].pin);
+		LED_Delay(v);
+	}
 }
 
-led_drv_t ledDrv = 
+static void led_rightstream(uint16_t v)
 {
-	sizeof(m_leds)/sizeof(led_t),
+	for ( int i = ledDrv.num - 1; i >= 0; i -- )
+	{
+		LED_Set(m_leds[i].port, m_leds[i].pin, LED_OFF);
+	}
+
+	for ( int i = ledDrv.num - 1; i >= 0; i -- )
+	{
+		LED_Toggle(m_leds[i].port, m_leds[i].pin);
+		LED_Delay(v);
+	}
+
+	for ( int i = ledDrv.num - 1; i >= 0; i -- )
+	{
+		LED_Toggle(m_leds[i].port, m_leds[i].pin);
+		LED_Delay(v);
+	}
+}
+
+led_drv_t ledDrv =
+{
+	sizeof(m_leds) / sizeof(led_t),
 	m_leds,
 	led_set,
 	led_toggle,

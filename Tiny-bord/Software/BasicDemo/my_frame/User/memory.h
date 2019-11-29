@@ -59,7 +59,8 @@ extern uint64_t MallocRAM[MEMORY_SIZE*1024/8];
 
 #define MALLOC(size)	osRtxMemoryAlloc(MallocRAM, size, 0)
 #define FREE(addr)		osRtxMemoryFree(MallocRAM, addr)
-#define RAMINFO()		MemHeadPtr(MallocRAM)
+#define RAMINFO()		  MemHeadPtr(MallocRAM)
+
 
 void MallocInit();
 

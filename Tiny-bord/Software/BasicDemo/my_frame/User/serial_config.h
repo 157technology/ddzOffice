@@ -4,7 +4,7 @@
 #include "main.h"
 #include "usart.h"
 
-#define USING_OS	1
+#define USING_OS		1
 
 #define SHELL_UART		huart2
 #define SHELL_ISR		USART2_IRQHandler

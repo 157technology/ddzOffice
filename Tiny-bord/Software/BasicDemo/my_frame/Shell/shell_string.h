@@ -22,6 +22,7 @@ typedef struct shell_string_s
 	void (* cursor_backspace)	(uint16_t step);
 
 	void (* insert)				(char * str);
+	void (* set)				(char * str);
 
 	void (* autoComplete)		(void);
 

@@ -20,10 +20,10 @@ typedef struct led_drv_s
 {
 	uint16_t num;	// 个数
 	led_t * led;
-	void (* set)			(struct led_drv_s * this, uint16_t lednum, LED_State s);
-	void (* toggle)			(struct led_drv_s * this, uint16_t lednum);
-	void (* leftstream)		(struct led_drv_s * this, uint16_t v);
-	void (* rightstream)	(struct led_drv_s * this, uint16_t v);
+	void (* set)			(uint16_t lednum, LED_State s);
+	void (* toggle)			(uint16_t lednum);
+	void (* leftstream)		(uint16_t v);
+	void (* rightstream)	(uint16_t v);
 }led_drv_t;
 
 

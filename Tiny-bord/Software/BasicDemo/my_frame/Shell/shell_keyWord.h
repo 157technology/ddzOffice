@@ -3,6 +3,6 @@
 
 #include "shell_config.h"
 
-extern char shellKeyWord[][SHELL_KEYWORD_MAX_LEN];
+extern char shellKeyWord[][SHELL_CMDS_MAX_LEN];
 
 #endif

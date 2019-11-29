@@ -10,10 +10,9 @@
 #define LED4	LED4_GPIO_Port, LED4_Pin
 
 
-
-
 #define LED_Set(port, pin, state)		HAL_GPIO_WritePin((port), (pin), (GPIO_PinState)(state))
 #define LED_Toggle(port, pin)			HAL_GPIO_TogglePin((port), (pin))
+
 
 #ifdef USING_OS
 	#define LED_Delay 	osDelay

@@ -37,46 +37,30 @@ void ui_printf(const char *format, ...)
 
     length = vsnprintf(ui_buf, 512, (char*)format, args);
     va_end(args);
- 	//x = GUI_GetDispPosX();
-	//y = GUI_GetDispPosY();  
-	if ( x != 0 )
-	{
-		GUI_DispNextLine();
-		y = GUI_GetDispPosY();
-		
-		rect.x0 = 0;	rect.y0 = y;
-	}
-	else
-	{
-		rect.x0 = 0;	rect.y0 = y;
-	}
+
+	if ( rect.y0 == 0 )
+		GUI_Clear();
+	
+	int lines = GUI_WrapGetNumLines(ui_buf, 128, GUI_WRAPMODE_CHAR);
     GUI_DispStringInRectWrap(ui_buf, &rect, GUI_TA_LEFT, GUI_WRAPMODE_CHAR);
-	//GUI_DispString("hello");
-
 	GUI_DispCEOL();
 
-//	//GUI_DispCEOL();
-//	x = GUI_GetDispPosX();
-//	y = GUI_GetDispPosY();	
+	x = GUI_GetDispPosX();
+	y = GUI_GetDispPosY();	
+//	GUI_DispDec(x, 3);
+//	GUI_DispDec(y, 3);
+
+//	GUI_DispDec(lines, 3);
 	GUI_DispNextLine();
-	GUI_DispCEOL();
-//	uint16_t yn = GUI_GetDispPosY();
-//	if ( yn > 63 )
-//	{
-//		y = 0;
-//		GUI_GotoX(0);
-//	}
-//	else
-//		GUI_GotoX(x);
-//	
-//	GUI_GotoY(y);
-	y += 8;
-	if ( y + 8 > 64 )	
+//	GUI_DispCEOL();
+	uint16_t yn = GUI_GetDispPosY();
+	if ( yn > 63 )
 	{
-		OLED_Replot();
-		HAL_Delay(800);
-		OLED_Fill(0x00);
+		rect.y0 = 0;
 		y = 0;
 	}
+	else
+		rect.y0 = yn;
+
 	lock = 0;
 }

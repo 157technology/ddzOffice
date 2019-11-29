@@ -31,11 +31,11 @@ int Init_Console_Thread(void)
 static void Thread (void *argument)
 {
 	semConsole = osSemaphoreNew(1U, 0U, NULL);
-	consoleDev = registerSerial(&huart2, 1024, 512, &semConsole);
+	consoleDev = registerSerial(&huart2, 1024, 1024, &semConsole);
 	consoleDev->Initialize(consoleDev);
 	em_printf("Init success.\n");
 	
-	cmdtest();
+
 	
 	
 	shell_init();

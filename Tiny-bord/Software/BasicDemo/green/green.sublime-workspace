@@ -1,1 +1,451 @@
-{}
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"mem",
+				"memory_config.h\tC:\\Users\\emeili\\Desktop\\GitApp\\New Folder\\black\\Usr"
+			],
+			[
+				"in",
+				"inc\t#include \"…\""
+			],
+			[
+				"qui",
+				"quitTransLink\tWIFI_STATUS (*)(struct tWifi8266Device *) quitTransLink"
+			],
+			[
+				"s",
+				"send\tWIFI_STATUS (*)(struct tWifi8266Device *, char *) send"
+			],
+			[
+				"WIFI",
+				"WIFI_STATUS\tWIFI_STATUS"
+			],
+			[
+				"rem",
+				"remotePort\tint remotePort"
+			],
+			[
+				"c",
+				"connect\tWIFI_STATUS (*)(struct tWifi8266Device *, char *, char *, int) connect"
+			],
+			[
+				"remo",
+				"remotePort\tint remotePort"
+			],
+			[
+				"WI",
+				"WIFI_STATUS\tWIFI_STATUS"
+			],
+			[
+				"arg",
+				"argv\tchar ** argv"
+			],
+			[
+				"ar",
+				"argv\tchar ** argv"
+			],
+			[
+				"STA",
+				"WIFI_STATION\tWIFI_MODE WIFI_STATION"
+			],
+			[
+				"a",
+				"is_active\tint is_active"
+			],
+			[
+				"W",
+				"WIFI_OK\tWIFI_STATUS WIFI_OK"
+			],
+			[
+				"em",
+				"emConsoleString\tconsoleString_t emConsoleString"
+			],
+			[
+				"p",
+				"print\tvoid (*)(const char *, ...) print"
+			],
+			[
+				"r",
+				"rbuf\tchar * rbuf"
+			],
+			[
+				"rbuf",
+				"rbufSize\tint rbufSize"
+			],
+			[
+				"seri",
+				"serial_config.h\tE:\\myGitApp\\SmartLed1\\Usr"
+			],
+			[
+				"stda",
+				"stdarg.h\tC:\\Program Files\\LLVM\\lib\\clang\\8.0.1\\include"
+			],
+			[
+				"she",
+				"shell_config.h\tE:\\DDZ-Office\\Tiny-bord\\Software\\BasicDemo\\8-flash-lower\\Usr"
+			],
+			[
+				"__HAL_DMA",
+				"__HAL_DMA_DISABLE\t__HAL_DMA_DISABLE(__HANDLE__)"
+			],
+			[
+				"hd",
+				"hdmarx\tDMA_HandleTypeDef * hdmarx"
+			],
+			[
+				"UART",
+				"UART_HandleTypeDef\tUART_HandleTypeDef"
+			],
+			[
+				"led1",
+				"LED1_Pin\tLED1_Pin"
+			],
+			[
+				"led",
+				"LED1_Pin\tLED1_Pin"
+			],
+			[
+				"LED",
+				"LED1_Pin\tLED1_Pin"
+			],
+			[
+				"std",
+				"stdio.h\tC:\\Keil_v5\\ARM\\ARMCLANG\\include"
+			],
+			[
+				"MX",
+				"MX_GPIO_Init\tint MX_GPIO_Init()"
+			],
+			[
+				"uint",
+				"uint16_t\tuint16_t"
+			],
+			[
+				"LED4",
+				"LED4_GPIO_Port\tLED4_GPIO_Port"
+			],
+			[
+				"LED3",
+				"LED3_GPIO_Port\tLED3_GPIO_Port"
+			],
+			[
+				"HAL_GPIO",
+				"HAL_GPIO_TogglePin\tvoid HAL_GPIO_TogglePin(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)"
+			],
+			[
+				"HAL_",
+				"HAL_Delay\tvoid HAL_Delay(int Delay)"
+			],
+			[
+				"stm32f4xx",
+				"stm32f4xx_hal_uart.h\tE:\\myGitApp\\Tiny Bord\\1-code\\Drivers\\STM32F4xx_HAL_Driver\\Inc"
+			],
+			[
+				"prin",
+				"printf\tint printf(const char *restrict, ...)"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				" git:comm",
+				"Git: Commit"
+			],
+			[
+				" git:add",
+				"Git: Add Current File"
+			],
+			[
+				" git:init",
+				"Git: Diff All Files (Ignore Whitespace)"
+			],
+			[
+				" git:commit init",
+				"Git: Amend Commit"
+			],
+			[
+				"git:commit ",
+				"Git: Commit"
+			],
+			[
+				"git:comm",
+				"Git: Commit"
+			],
+			[
+				"git:add ",
+				"Git: Add Current File"
+			],
+			[
+				"git:",
+				"Git: Gui"
+			],
+			[
+				"clang",
+				"Clang Format: Select Style"
+			],
+			[
+				"cla",
+				"Clang Format: Select Style"
+			],
+			[
+				"easyclang",
+				"EasyClangComplete: Open completion triggers location"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/green"
+	],
+	"file_history":
+	[
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Hardware/TinyBord/readme.md",
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Software/BasicDemo/black/CoreDriver/pin.h",
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Software/BasicDemo/black/CoreDriver/timer.c",
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Software/BasicDemo/black/CoreDriver/timer.h",
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Software/BasicDemo/black/DeviceDriver/led.c",
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Software/BasicDemo/black/DeviceDriver/key.c",
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Software/BasicDemo/black/DeviceDriver/key.h",
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Software/BasicDemo/black/DeviceDriver/key_config.h",
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Software/BasicDemo/black/DeviceDriver/led.h",
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Software/BasicDemo/black/DeviceDriver/led_config.h",
+		"/C/Users/emeili/Desktop/GitApp/TinyBord/ddzOffice/Tiny-bord/Software/BasicDemo/black/CoreDriver/pin.c",
+		"/C/Users/87436/Downloads/zephyr-master/zephyr-master/drivers/gpio/gpio_stm32.h",
+		"/C/Users/87436/Downloads/zephyr-master/zephyr-master/drivers/gpio/gpio_stm32.c",
+		"/C/Users/87436/Downloads/zephyr-master/zephyr-master/CODE_OF_CONDUCT.md",
+		"/C/Users/87436/Downloads/zephyr-master/zephyr-master/subsys/shell/shell_help.c",
+		"/C/Users/87436/Downloads/zephyr-master/zephyr-master/subsys/shell/shell_fprintf.c",
+		"/C/Users/87436/Downloads/zephyr-master/zephyr-master/subsys/shell/shell_ops.c",
+		"/C/Users/87436/Downloads/zephyr-master/zephyr-master/subsys/console/tty.c",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/black/Usr/OLED_I2C.c",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/black/Usr/GUIDRV_Template.c",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/black/Usr/OLED_I2C.h",
+		"/C/Users/87436/Downloads/zephyr-master/zephyr-master/drivers/serial/uart_esp32.c",
+		"/C/Users/87436/Desktop/black/black/Usr/serial.c",
+		"/C/Users/87436/Desktop/black/black/Usr/GUIDRV_Template.c",
+		"/C/Users/87436/Desktop/black/black/Usr/memory_config.h",
+		"/C/Users/87436/Desktop/black/black/Usr/memory.h",
+		"/C/Users/87436/Desktop/black/black/Usr/memory.c",
+		"/C/Users/87436/Desktop/black/black/Usr/rtx_main.c",
+		"/C/Users/87436/Desktop/black/black/Usr/OLED_I2C.h",
+		"/C/Users/87436/Desktop/black/black/Usr/OLED_I2C.c",
+		"/C/Users/87436/Desktop/black/black/Usr/rtx_main.h",
+		"/C/Users/emeili/Desktop/GitApp/New Folder/black/LightLed.sublime-project",
+		"/C/Users/emeili/Desktop/GitApp/SmartLed/led/Usr/wifi8266.h",
+		"/C/Users/emeili/Desktop/GitApp/SmartLed/led/Usr/osmain.c",
+		"/C/Users/emeili/Desktop/GitApp/SmartLed/led/Usr/wifi8266_config.h",
+		"/C/Users/emeili/Desktop/GitApp/SmartLed/led/Usr/shell.c",
+		"/C/Users/emeili/Desktop/GitApp/SmartLed/led/Usr/shell.h",
+		"/C/Users/emeili/Desktop/GitApp/SmartLed/led/Usr/serial.c",
+		"/C/Users/emeili/Desktop/GitApp/SmartLed/led/Usr/serial.h",
+		"/C/Users/emeili/Desktop/GitApp/SmartLed/led/Usr/shell_config.h",
+		"/E/myGitApp/SmartLed/README.md",
+		"/E/myGitApp/SmartLed1/Usr/serial.h",
+		"/E/myGitApp/SmartLed1/Usr/serial_config.h",
+		"/E/myGitApp/SmartLed1/Core/Src/stm32g0xx_it.c",
+		"/E/myGitApp/SmartLed1/Usr/serial.c",
+		"/E/myGitApp/H734/serial/Src/serial.c",
+		"/E/myGitApp/SmartLed1/LightLed.sublime-project",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/8-flash-lower/include/shell/shell_uart.h",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/8-flash-lower/shell/shell.c",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/8-flash-lower/shell/shell_ops.c",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/8-flash-lower/include/shell/shell.h",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/8-flash-lower/Usr/shell.c",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/8-flash-lower/LightLed.sublime-project",
+		"/C/Users/87436/Downloads/S_Param_Plotting-master/S_Param_Plotting-master/README.md",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/5-serial-isr/Core/Src/main.c",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/5-serial-isr/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/5-serial-isr/Core/Src/usart.c",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/5-serial-isr/Core/Src/serial.c",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/5-serial-isr/Core/Inc/serial.h",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/5-serial-isr/LightLed.sublime-project",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/1-LightLed/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/1-LightLed/Core/Inc/main.h",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/1-LightLed/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f411xe.h",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/1-LightLed/LightLed.sublime-project",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/1-LightLed/111.json",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/1-LightLed/.clang_complete",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/1-LightLed/c_cpp_properties.json",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/1-LightLed/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h",
+		"/E/DDZ-Office/Tiny-bord/Software/BasicDemo/1-LightLed/Core/Src/stm32f4xx_it.c",
+		"/E/DDZ-Office/Tiny-bord/README.txt",
+		"/E/DDZ-Office/Tiny-bord/software/BasicDemo/1-LightLed/LightLed.sublime-project",
+		"/E/DDZ-Office/Tiny-bord/code/1-LED/main.c",
+		"/E/DDZ-Office/Tiny-bord/code/1-LED/readme.txt",
+		"/E/DDZ-Office/Tiny-bord/code/1-LED/test.c",
+		"/C/Users/87436/AppData/Roaming/Sublime Text 3/Packages/User/Git.sublime-settings",
+		"/C/Users/87436/AppData/Roaming/Sublime Text 3/Packages/Git/Git.sublime-settings",
+		"/E/myGitApp/Tiny Bord/1-code/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c",
+		"/E/myGitApp/Tiny Bord/1-code/Inc/main.h",
+		"/E/myGitApp/Tiny Bord/1-code/Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f411xe.h",
+		"/C/Keil_v5/ARM/ARMCLANG/include/stdint.h",
+		"/E/myGitApp/Tiny Bord/1-code/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h",
+		"/E/myGitApp/Tiny Bord/1-code/Src/main.c",
+		"/C/Users/87436/AppData/Roaming/Sublime Text 3/Packages/User/EasyClangComplete.sublime-settings",
+		"/E/myGitApp/Tiny Bord/1-code/c_cpp_properties.json",
+		"/E/myGitApp/Tiny Bord/1-code/config.sublime-project",
+		"/E/myGitApp/Tiny Bord/1-code/compile_commands.json",
+		"/C/Users/87436/AppData/Roaming/Sublime Text 3/Packages/ClangAutoComplete/ClangAutoComplete.sublime-settings",
+		"/C/Users/87436/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/87436/AppData/Roaming/Sublime Text 3/Packages/Alignment/Default (Windows).sublime-keymap",
+		"/C/Users/87436/AppData/Roaming/Sublime Text 3/Packages/Clang Format/Default (Windows).sublime-keymap",
+		"/C/Users/87436/AppData/Roaming/Sublime Text 3/Packages/Clang Format/clang_format_custom.sublime-settings"
+	],
+	"find":
+	{
+		"height": 57.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 50.0
+	},
+	"input":
+	{
+		"height": 50.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "green.sublime-project",
+	"replace":
+	{
+		"height": 96.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 248.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

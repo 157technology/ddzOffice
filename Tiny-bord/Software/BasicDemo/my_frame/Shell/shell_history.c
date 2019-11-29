@@ -94,7 +94,7 @@ int shell_history_init()
 {
 	//初始化内存
 	//
-	shellHistory.buf = MALLOC(sizeof(char)*SHELL_MAX_LEN*SHELL_HISTORY_AMOUNT);
+	shellHistory.buf = MALLOC(sizeof(char)*SHELL_MAX_LINE*SHELL_HISTORY_AMOUNT);
 	if ( shellHistory.buf == NULL )
 	{
 		#ifdef SHELL_DEBUG

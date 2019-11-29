@@ -135,11 +135,11 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4107</DriverSelection>
+            <DriverSelection>4101</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -329,7 +329,7 @@
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>6</v6Lang>
-            <v6LangP>9</v6LangP>
+            <v6LangP>4</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F411xE</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;   ../Drivers/STM32F4xx_HAL_Driver/Inc;   ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;   ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;   ../Drivers/CMSIS/Include;   ../User;   ../emWin;   ../Thread;   ../Shell</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../User;../emWin;../Thread;../Shell;../cplusplus</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -688,6 +688,21 @@
               <FileType>1</FileType>
               <FilePath>..\Shell\shell_keyWord.c</FilePath>
             </File>
+            <File>
+              <FileName>shell_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Shell\shell_cmd.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>wifi</GroupName>
+          <Files>
+            <File>
+              <FileName>wifi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\cplusplus\wifi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -761,7 +776,7 @@
       <file attr="config" category="doc" name="emWin\Tool\GUIBuilder.txt" version="1.0.0">
         <instance index="0">RTE\Graphics\GUIBuilder.txt</instance>
         <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="Tools" Csub="GUI Builder" Cvendor="Segger" Cversion="5.50.0" condition="Graphics Core"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.9.0"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
         <targetInfos>
           <targetInfo name="black"/>
         </targetInfos>
@@ -769,7 +784,7 @@
       <file attr="config" category="source" name="emWin\Sample\Config\GUIConf.c" version="5.0.0">
         <instance index="0">RTE\Graphics\GUIConf.c</instance>
         <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="CORE" Cvendor="Segger" Cversion="5.50.0" condition="CMSIS Core with RTOS and Display"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.9.0"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
         <targetInfos>
           <targetInfo name="black"/>
         </targetInfos>
@@ -777,7 +792,7 @@
       <file attr="config" category="source" name="emWin\Sample\Config\LCDConf.c" version="5.0.0">
         <instance index="0">RTE\Graphics\LCDConf.c</instance>
         <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="Display" Csub="Interface Template" Cvendor="Segger" Cversion="5.50.0" condition="Graphics Core"/>
-        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.9.0"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
         <targetInfos>
           <targetInfo name="black"/>
         </targetInfos>

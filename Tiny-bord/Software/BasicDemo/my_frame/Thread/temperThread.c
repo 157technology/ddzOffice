@@ -24,14 +24,14 @@ static void Thread (void *argument)
 {
 	char str[20];
 	
-	//GUI_SetFont(GUI_FONT_20_ASCII);
+	GUI_SetFont(GUI_FONT_8X8);
 	//GUI_FillRect(0, 0, 127, 63);
 	while (1)
 	{
 		//ui_printf("APP-Temper.\n");
-		//ui_printf("> T = %.2lf\n", Temper18b20.temper());
+		ui_printf("> T = %.2lf\n", Temper18b20.temper());
 		//sprintf(str, "Temper :: %.2lf", Temper18b20.temper());
 		//GUI_DispStringAtCEOL(str, 0, 0);
-		osDelay(500);                           // suspend thread
+		osDelay(2000);                           // suspend thread
 	}
 }

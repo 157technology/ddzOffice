@@ -29,10 +29,11 @@ typedef struct em_serial_dev
 {
 	UART_HandleTypeDef * puart;
 
+
 	char * rbuf;
 	uint16_t rbufSize;
 	uint16_t rCnt;
-	
+	uint16_t rflag;
 
 	char * tbuf;
 	uint16_t tbufSize;
@@ -41,6 +42,7 @@ typedef struct em_serial_dev
 	osSemaphoreId_t * pSemSerial;
 	#endif
 
+	//int  (* hasData)	(struct em_serial_dev *serial)
 	void (* RestartDma) (struct em_serial_dev *serial);
 	void (* Initialize) (struct em_serial_dev *serial);
 	void (* print)		(const char * format, ...);

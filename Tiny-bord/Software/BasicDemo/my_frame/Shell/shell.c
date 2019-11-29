@@ -4,6 +4,7 @@
 #include "shell_config.h"
 #include "shell_string.h"
 #include "shell_history.h"
+#include "shell_cmd.h"
 #include "ui_print.h"
 
 #ifdef SHELL_DEBUG
@@ -32,22 +33,22 @@ int shell_init()
 	em_printf("*   *  *   *    ** 		FILE: 	RT-FILE\n");
 	em_printf("*   *  *   *   **		GRAP:	EM-WIN\n");
 	em_printf("****   ****   ******		SCREEM:	OLED-128*64\n");
-	em_printf("====================		1.0.0 Build 2019-11-6 by DDZ team\n");
-	em_printf("2019 - 2029 Copyright by DDZ team\n");
+	em_printf("====================		1.0.0 Build 2019-11-6 by EMei_Li\n");
+//	em_printf("2019 - 2029 Copyright by DDZ team\n");
 	em_printf("root>>> ");	
 	ui_gui_reset();
-	ui_printf("-###----###---######-");
-	ui_printf("-####---####-----##--");
-	ui_printf("-####---####----##---");
-	ui_printf("-####---####---##----");
-	ui_printf("-###----###---######-");
+//	ui_printf("-###----###---######-");
+//	ui_printf("-####---####-----##--");
+//	ui_printf("-####---####----##---");
+//	ui_printf("-####---####---##----");
+//	ui_printf("-###----###---######-");
 	ui_printf("root>>> ");
 	return 1;
 }
 
 void shell_handle(char * str)
 {
-	__set_console(CONSOLE_GREEN);
+	__set_console(CONSOLE_BLUE);
 	if ( shell.mode == SHELL_CONSOLE )
 	{
 		shell_handle_console(str);
@@ -64,19 +65,40 @@ void shell_handle(char * str)
 
 static void shell_handle_console(char * str)
 {
-	__set_console(CONSOLE_GREEN);
+	__set_console(CONSOLE_BLUE);
 
 	if ( __isKey(str, KEY_UP) )
 	{
 		#ifdef SHELL_DEBUG
-		SHELL_LOG("press Key up.\n");
+		//SHELL_LOG("press Key up.\n");
+		//SHELL_LOG(shellHistory.prev());
 		#endif
+		char * his = shellHistory.prev();
+		if ( his != NULL )
+		{
+			shellString.set(his);
+			__set_console(CONSOLE_BLUE);
+			em_printf(his);
+		}
 	}
 	else if ( __isKey(str, KEY_DOWN) )
 	{
 		#ifdef SHELL_DEBUG
-		SHELL_LOG("press Key Down.\n");
+		//SHELL_LOG("press Key Down.\n");
+		//SHELL_LOG(shellHistory.next());
 		#endif
+		char * his = shellHistory.next();
+		if ( his == NULL )
+		{
+			shellString.set("");
+			//em_printf("");
+		}
+		else
+		{
+			shellString.set(his);
+			__set_console(CONSOLE_GREEN);
+			em_printf(his);			
+		}
 	}
 	else if ( __isKey(str, KEY_LEFT) )
 	{
@@ -125,11 +147,19 @@ static void shell_handle_console(char * str)
 	else if ( __isKey(str, KEY_ENTER) )
 	{
 		#ifdef SHELL_DEBUG
-		SHELL_LOG("press Enter.\n");
+		//SHELL_LOG("press Enter.\n");
 		#endif
-		
-		ui_printf(shellString.str);
+		shellHistory.insert(shellString.str);
+		ui_printf("%s\n", shellString.str);
+		__set_console(CONSOLE_RED);
+		shell_cmd_handle(shellString.str);
 		shellString.reset();
+
+		if ( shell.mode == SHELL_CONSOLE )
+		{
+			__set_console(CONSOLE_WHITE);
+			em_printf("\nroot>>> ");
+		}
 	}
 	else if ( __isKey(str, KEY_BACKSPACE) )
 	{
@@ -151,49 +181,36 @@ static void shell_handle_console(char * str)
 
 
 
-shell_cmd_t ** _syscall_table_begin = (shell_cmd_t **)&ShellCmdTab$$Base;
-shell_cmd_t ** _syscall_table_end = (shell_cmd_t **)&ShellCmdTab$$Limit;
-
-
+uint16_t help(int argc, char *argv[])
+{
+	em_printf("%8s | %32s |\n", "cmd", "descrition");
+	em_printf("%8s | %32s |\n", "--------", "--------------------------------");
+	for ( shell_cmd_t ** ppcmd = (shell_cmd_t **)&ShellCmdTab$$Base; ppcmd != (shell_cmd_t **)&ShellCmdTab$$Limit; ppcmd ++ )
+	{
+		shell_cmd_t * pcmd = *ppcmd;
+		em_printf("%8s | %32s |\n", pcmd->cmd, pcmd->help);
+	}	
+	return 0;
+}
+SHELL_CMD_REJESTER(help, show all command);
 
 uint16_t test(int argc, char *argv[])
 {
-	if (_syscall_table_begin != NULL)
-		em_printf("start: %X.\n", _syscall_table_begin);
+	//__setShellMode(SHELL_SUBSYS);
 	em_printf("*****************\n");
 	em_printf("Test Cmd\n");
 	em_printf("*****************\n");
-		if (_syscall_table_end != NULL)
-		em_printf("end: %X.\n", _syscall_table_end);
 	return 1;
 }
-SHELL_CMD_REJESTER(tttt, hh, test);
+SHELL_CMD_REJESTER(test, testhelp);
 
 uint16_t test1(int argc, char *argv[])
 {
-	if (_syscall_table_begin != NULL)
-		em_printf("start: %X.\n", _syscall_table_begin);
 	em_printf("*****************\n");
 	em_printf("Test1 Cmd\n");
 	em_printf("*****************\n");
-		if (_syscall_table_end != NULL)
-		em_printf("end: %X.\n", _syscall_table_end);
 	return 1;
 }
-SHELL_CMD_REJESTER(tttt1, hh1, test1);
+SHELL_CMD_REJESTER(test1, test1help);
 
 
-void cmdtest(void)
-{
-	em_printf("start: %X.\n", __shell_cmd_tttt1);
-	em_printf("start: %X.\n", __shell_cmd_tttt);
-	em_printf("start: %X.\n", &__shell_cmd_tttt1_ptr);
-	em_printf("start: %X.\n", &__shell_cmd_tttt_ptr);
-	for ( shell_cmd_t ** p = _syscall_table_begin; p != _syscall_table_end; p ++ )
-	{
-		shell_cmd_t * cmd = *p;
-		em_printf("Cmd: %s  Desc: %s.\nrun it...\n", cmd->cmd, cmd->help);
-		cmd->run(0, NULL);
-		em_printf("*********************\n\n");
-	}
-}

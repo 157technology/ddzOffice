@@ -15,14 +15,15 @@ void app_main (void *argument)
 	Init_Console_Thread();
     Init_Temper_Thread();
 	Init_Wifi_Thread();
+	GUI_SetFont(GUI_FONT_8X8);
     for (;;) 
 	{
         //ledDrv.leftstream(&ledDrv, 0);
 		OLED_Replot();
 		
-		HAL_GPIO_TogglePin(BEEP_GPIO_Port, BEEP_Pin);
+		//HAL_GPIO_TogglePin(BEEP_GPIO_Port, BEEP_Pin);
 		
-		osDelay(1000);
+		osDelay(500);
         //ui_printf("> main running.\n");
 	}
 }

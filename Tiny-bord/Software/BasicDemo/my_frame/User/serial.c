@@ -57,6 +57,7 @@ void em_printf(const char *format, ...)
     length = vsnprintf(m_consoleDev->tbuf, m_consoleDev->tbufSize, (char*)format, args);
     va_end(args);
 	emHAL_UART_Transmit_DMA(m_consoleDev->puart, (uint8_t*)(m_consoleDev->tbuf), length);
+	m_consoleDev->rCnt = 0;
 }
 
 void wf_printf(const char *format, ...)
@@ -74,6 +75,7 @@ void wf_printf(const char *format, ...)
     length = vsnprintf(m_wifiDev->tbuf, m_wifiDev->tbufSize, (char*)format, args);
     va_end(args);
 	emHAL_UART_Transmit_DMA(m_wifiDev->puart, (uint8_t*)(m_wifiDev->tbuf), length);
+	m_wifiDev->rCnt = 0;
 }
 
 
@@ -155,7 +157,7 @@ void WIFI_ISR(void)
 	//em_printf("ISR>>> %s, %d\n", m_consoleDev->rbuf, m_consoleDev->rCnt);
     m_wifiDev->RestartDma(m_wifiDev);
 	osSemaphoreRelease(*(m_wifiDev->pSemSerial));
-	
+	m_wifiDev->rflag = 1;
 	/* clear idle flag */
 	m_wifiDev->puart->Instance->DR;
 	READ_REG(m_wifiDev->puart->Instance->SR);

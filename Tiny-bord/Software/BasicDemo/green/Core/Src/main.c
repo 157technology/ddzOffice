@@ -28,7 +28,55 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+namespace std {
+  struct __FILE
+  {
+    int handle;
+    /* Whatever you require here. If the only file you are using is */
+    /* standard output using printf() for debugging, no file handling */
+    /* is required. */
+  };
+  FILE __stdout;
+  FILE __stdin;
+  FILE __stderr;
+  int fgetc(FILE *f)
+  {
+    /* Your implementation of fgetc(). */
+    return 0;
+  }
+  int fputc(int c, FILE *stream)
+  {
+	  HAL_UART_Transmit(&huart1, (unsigned char *)(&c), 1, 999);
+	  return 1;
+    /* Your implementation of fputc(). */
+  }
+  int ferror(FILE *stream)
+  {
+    /* Your implementation of ferror(). */
+	  return 0;
+  }
+  long int ftell(FILE *stream)
+  {
+    /* Your implementation of ftell(). */
+	  return 0;
+  }
+  int fclose(FILE *f)
+  {
+    /* Your implementation of fclose(). */
+    return 0;
+  }
+  int fseek(FILE *f, long nPos, int nMode)
+  {
+    /* Your implementation of fseek(). */
+    return 0;
+  }
+  int fflush(FILE *f)
+  {
+    /* Your implementation of fflush(). */    
+    return 0;
+  }
+}
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,6 +97,37 @@
 
 /* USER CODE BEGIN PV */
 
+class IOclass
+{
+	public:
+		IOclass();
+	
+	void on();
+	void off();
+};
+
+IOclass::IOclass()
+{
+	
+}
+
+void IOclass::on()
+{
+	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_SET);
+}
+
+void IOclass::off()
+{
+	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_RESET);
+}
+
+IOclass * pio;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -59,6 +138,8 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#include <iostream>
+using namespace std;
 
 /* USER CODE END 0 */
 
@@ -97,7 +178,7 @@ int main(void)
   MX_USART6_UART_Init();
   MX_DMA_Init();
   /* USER CODE BEGIN 2 */
-
+	pio = new IOclass;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -107,11 +188,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-	  HAL_UART_Transmit(&huart1, (unsigned char *)"hello", 5, 999);
+	  cout << "Hello World.\n";
+	  //HAL_UART_Transmit(&huart1, (unsigned char *)"hello\n", 6, 999);
 	  //HAL_UART_Transmit(&huart1, "hello", 5, 999);
 	  //HAL_GPIO_TogglePin(BEEP_GPIO_Port, BEEP_Pin);
-	  HAL_Delay(1000);
+	  pio->on();
+	  HAL_Delay(500);
+	  pio->off();
+	  HAL_Delay(500);
   }
   /* USER CODE END 3 */
 }
