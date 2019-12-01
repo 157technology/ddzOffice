@@ -28,7 +28,17 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
+#define SHT20_ADDR_WR	0x80
+#define SHT20_ADDR_RD	0x81
+
+#define SHT20_TP	0xE3
+#define SHT20_RH	0xE5
+
 #include <stdio.h>
+#include "QPinDev.hpp"
+#include "oled.h"
+#include "w25qxx.h"
 namespace std {
   struct __FILE
   {
@@ -140,7 +150,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 #include <iostream>
 using namespace std;
-
+uint8_t databuf[4];
 /* USER CODE END 0 */
 
 /**
@@ -180,7 +190,14 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	pio = new IOclass;
   /* USER CODE END 2 */
-
+	QPinDev pin;
+	
+	OLED_Init();
+	OLED_Fill(0xFF);
+	
+	//HAL_Delay(2000);
+	W25qxx_Init();
+	//OLED_Replot();
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -188,14 +205,27 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  cout << "Hello World.\n";
+	  pin.putChar(0);
 	  //HAL_UART_Transmit(&huart1, (unsigned char *)"hello\n", 6, 999);
 	  //HAL_UART_Transmit(&huart1, "hello", 5, 999);
 	  //HAL_GPIO_TogglePin(BEEP_GPIO_Port, BEEP_Pin);
-	  pio->on();
-	  HAL_Delay(500);
-	  pio->off();
-	  HAL_Delay(500);
+	  //pio->on();
+	  HAL_Delay(1000);
+	  //pio->off();
+	  pin.putChar(1);
+	  HAL_Delay(1000);
+	  
+	  HAL_I2C_Mem_Read(&hi2c1, SHT20_ADDR_RD, SHT20_TP, I2C_MEMADD_SIZE_8BIT, databuf, 2, 0xFFFF);
+	  HAL_I2C_Mem_Read(&hi2c1, SHT20_ADDR_RD, SHT20_RH, I2C_MEMADD_SIZE_8BIT, &databuf[2], 2, 0xFFFF);
+	  
+	  uint16_t t_data = ((uint16_t)databuf[0] << 8) + (databuf[1] & 0xfc);
+	  uint16_t r_data = ((uint16_t)databuf[2] << 8) + (databuf[3] & 0xfc);
+	  
+	  float t = t_data*175.72/65536 - 46.85;
+	  float r = r_data*125.00/65536 - 6.000;
+	  
+	  cout << "temper   :" << t << endl;
+	  cout << "Humidity :" << r << endl;
   }
   /* USER CODE END 3 */
 }

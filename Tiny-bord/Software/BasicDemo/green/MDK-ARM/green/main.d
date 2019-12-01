@@ -41,7 +41,10 @@ green/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Core\Inc\dma.h ..\Core\Inc\main.h ..\Core\Inc\i2c.h \
   ..\Core\Inc\spi.h ..\Core\Inc\usart.h ..\Core\Inc\gpio.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\stdio.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h ..\microqt\QPinDev.hpp \
+  ..\microqt\QIODev.hpp ..\Users\oled.h ..\Users\w25qxx.h \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\stdbool.h \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\iostream \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\ios \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\iosfwd \
