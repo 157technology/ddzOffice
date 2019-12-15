@@ -120,4 +120,9 @@ green/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdarg.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\__bsd_locale_fallbacks.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\bitset \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\__bit_reference
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\__bit_reference \
+  ..\Users\signalslot.hpp \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\map \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\__tree \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\__node_handle \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\optional

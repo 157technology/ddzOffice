@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<component_viewer schemaVersion="0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="Component_Viewer.xsd">
+
+  <component name="MyComponent" version="1.0.0"/>    <!-- name and version of the component  -->
+	
+<!-- event list for MyComponent -->
+    <events>	 
+      <group>
+        <component name="MyEventComponent1"  brief="MyC1"    no="0x0B"  prefix="EvrMyC1_"     info="My Component - Demo example">
+          <state name="Clear"       plot="box"  color="red"    />
+          <state name="Create"      plot="box"                 />
+          <state name="Delete"      plot="off"                 />
+          <state name="Waiting"     plot="box"  color="green"  />
+          <state name="Active"      plot="box"  bold="1"       />
+          <state name="Idle"        plot="line"                 />
+          <state name="Stalled"     plot="line" color="black"  />
+		</component>
+        <component name="MyEventComponent2"  brief="MyC2"    no="0x0C"  prefix="EvrMyC2_"     info="My Component - Demo example"/>
+      </group>
+	  <event id="0xB00" level="API"  property="Clear"     state="Clear"    handle="val1"                                    value="h=%x[val1]"            info="Event on Clear"/>
+	  <event id="0xB01" level="API"  property="Create"    state="Create"   handle="val1" hname="%N[val2]"  tracking="Start" value="h=%x[val1] n=%N[val2]" info="Event on Create"/>
+      <event id="0xB02" level="API"  property="Delete"    state="Delete"   handle="val1"                   tracking="Stop"  value="h=%x[val1]"            info="Event on Delete"/>
+	  <event id="0xB03" level="API"  property="Active"    state="Active"   handle="val1"                                    value="h=%x[val1]"            info="Event on Active"/>
+      <event id="0xB04" level="API"  property="Waiting"   state="Waiting"  handle="val1"                                    value="h=%x[val1]"            info="Event on Waiting"/>
+	  <event id="0xB05" level="API"  property="Idle"      state="Idle"     handle="val1"                                    value="h=%x[val1]"            info="Event on Idle"/>
+      <event id="0xB06" level="API"  property="Stalled"   state="Stalled"  handle="val1"                                    value="h=%x[val1]"            info="Event on Stalled"/>
+
+      <event id="0xCF0" level="API"  property="Reset"                                                      tracking="Reset"                               info="Event on Reset"/>
+
+     </events>
+
+
+</component_viewer>

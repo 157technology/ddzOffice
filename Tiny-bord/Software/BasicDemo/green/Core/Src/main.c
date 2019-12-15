@@ -151,6 +151,35 @@ void SystemClock_Config(void);
 #include <iostream>
 using namespace std;
 uint8_t databuf[4];
+
+#include "signalslot.hpp"
+class Object
+{
+public:
+	void numChanged(int a)
+	{
+		cout << "num Changed FUN.\n";
+	}
+	void setNum(int a)
+	{
+		emitWithParam(numChanged, (a), (a));
+	}
+	int numSlot(int a)
+	{
+		cout <<"this is num slot.\n";
+		return 0;
+	}
+};
+
+class Btn : public Object
+{
+public:
+	int numDouble(int a)
+	{
+		cout << "btn slot : " << a*2 << endl;
+		return 0;
+	}
+};
 /* USER CODE END 0 */
 
 /**
@@ -190,14 +219,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	pio = new IOclass;
   /* USER CODE END 2 */
-	QPinDev pin;
-	
-	OLED_Init();
-	OLED_Fill(0xFF);
-	
-	//HAL_Delay(2000);
-	W25qxx_Init();
-	//OLED_Replot();
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -224,8 +246,8 @@ int main(void)
 	  float t = t_data*175.72/65536 - 46.85;
 	  float r = r_data*125.00/65536 - 6.000;
 	  
-	  cout << "temper   :" << t << endl;
-	  cout << "Humidity :" << r << endl;
+	  //cout << "temper   :" << t << endl;
+	  //cout << "Humidity :" << r << endl;
   }
   /* USER CODE END 3 */
 }

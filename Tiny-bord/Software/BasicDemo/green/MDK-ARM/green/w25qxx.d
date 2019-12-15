@@ -36,4 +36,5 @@ green/w25qxx.o: ..\Users\w25qxx.c ..\Users\w25qxx.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim_ex.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h \
   ..\Core\Inc\main.h ..\Users\w25qxxConfig.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  C:\Users\87436\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include\cmsis_os2.h

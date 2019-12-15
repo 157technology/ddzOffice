@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+  Code for minimal viewer, displaying the values of a structure with to members:
+  
+  Add the following to your application:
+  
+  // add code to application
+  typedef struct {
+      uint32_t hi;
+      uint32_t low;
+  } MyType;
+  
+  MyType mysymbol;
+
+
+  // Change mysymbol.member variables
+  int main(void) {
+    int       i;
+
+    while (1) {
+      for( i=0; i<=30; i++ ) {
+        mysymbol.hi  = i*i;
+        mysymbol.low = i;
+      }
+    }
+  }
+  // code end
+
+  Add this file to the uVision dialog 
+  "Options for Target -> Debug -> Manage Component Viewer Description Files"
+  
+  - build the project and start debugging
+  - Watch values in "View - Watch Windows - My First Viewer"
+ -->
+
+<component_viewer schemaVersion="0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="Component_Viewer.xsd">
+  <component name="MyFirstComponent" version="0.0.1"/>    <!-- name and version of the component  -->
+
+  <typedefs>
+    <typedef  name="MyGeneralType" info="This is MyType with 2 members" size="12">
+      <member name="hi"   type="uint32_t"  offset="0"  info="member 'mysymbol.hi'"/>
+      <member name="low"  type="uint32_t"  offset="4"  info="member 'mysymbol.low'"/>
+    </typedef>
+  </typedefs>
+
+  <objects>
+    <object name="MyFirstObject">
+      <read name="MyFirstSymbol" type="MyGeneralType" symbol="mysymbol" const="0"/>
+     
+      <out name="My First Viewer">                                                        <!-- Window name -->
+        <item property="Square of numbers [0..30]">                                       <!-- Property entry -->
+                                                                                          <!-- These items extend the entry above -->
+          <item property="Hi  [dec]"   value="%d[MyFirstSymbol.hi]"  info="Show decimal value of 'mysymbol.hi'"/>
+          <item property="Low [dec]"   value="%d[MyFirstSymbol.low]" info="Show decimal value of 'mysymbol.low'"/>
+          <item property="Hi  [hex]"   value="%x[MyFirstSymbol.hi]"  info="Show HEX value of 'mysymbol.hi'"/>
+          <item property="Low [hex]"   value="%x[MyFirstSymbol.low]" info="Show HEX value of 'mysymbol.low'"/>
+        </item>
+      </out>
+    </object>   
+  </objects>
+ 
+  <events>    
+    <event id="1" level="API"   property="MyFunction"        value="parameter=%x[val1]"     info="Event on start of MyFunction"  />
+    <event id="2" level="API"   property="MyFunctionError"                                  info="Event on error in MyFunction" />
+    <event id="3" level="Error" property="MyFunctionProcess" value="string=%t[val1]"        info="Event on operation in MyFunction"  />
+  </events>
+
+</component_viewer>

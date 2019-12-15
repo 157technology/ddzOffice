@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F411xE</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../microqt;../Users</IncludePath>
+              <IncludePath>../Core/Inc; ../Drivers/STM32F4xx_HAL_Driver/Inc; ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy; ../Drivers/CMSIS/Device/ST/STM32F4xx/Include; ../Drivers/CMSIS/Include; ../microqt; ../Users</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -394,8 +394,33 @@
           <GroupName>Application/User/Core</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>QIODev.cpp</FileName>
               <FileType>8</FileType>
+              <FilePath>..\microqt\QIODev.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>QPinDev.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\microqt\QPinDev.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>oled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Users\oled.c</FilePath>
+            </File>
+            <File>
+              <FileName>memory.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Users\memory.c</FilePath>
+            </File>
+            <File>
+              <FileName>w25qxx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Users\w25qxx.c</FilePath>
+            </File>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>
             </File>
             <File>
@@ -442,31 +467,6 @@
               <FileName>stm32f4xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f4xx_hal_msp.c</FilePath>
-            </File>
-            <File>
-              <FileName>QIODev.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\microqt\QIODev.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>QPinDev.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\microqt\QPinDev.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>oled.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Users\oled.c</FilePath>
-            </File>
-            <File>
-              <FileName>memory.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Users\memory.c</FilePath>
-            </File>
-            <File>
-              <FileName>w25qxx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Users\w25qxx.c</FilePath>
             </File>
           </Files>
         </Group>
