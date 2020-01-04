@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Core/Inc",
+                "${workspaceFolder}/Core/Src",
+                "C:/Keil_v5/ARM/ARMCLANG/include",
+                "E:/Program Files/LLVM/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "USE_HAL_DRIVER",
+                "STM32F411xE"
+            ],
+            "cStandard": "c11",
+            "intelliSenseMode": "${default}",
+            "compilerPath": "\"E:/Program Files/LLVM/bin/clang.exe\"",
+            "cppStandard": "c++14"
+        }
+    ],
+    "version": 4
+}

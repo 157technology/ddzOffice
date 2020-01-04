@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F411xE</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc; ../Drivers/STM32F4xx_HAL_Driver/Inc; ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy; ../Drivers/CMSIS/Device/ST/STM32F4xx/Include; ../Drivers/CMSIS/Include; ../Plot; ../Device; ../Users</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Plot;../Device;../Users;../EmWin</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -416,6 +416,31 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>emWin</GroupName>
+          <Files>
+            <File>
+              <FileName>GUI_Thread.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\EmWin\GUI_Thread.c</FilePath>
+            </File>
+            <File>
+              <FileName>WindowDLG.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\EmWin\WindowDLG.c</FilePath>
+            </File>
+            <File>
+              <FileName>GUIDRV_OLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\EmWin\GUIDRV_OLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>FramewinDLG.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\EmWin\FramewinDLG.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Device</GroupName>
           <Files>
             <File>
@@ -432,6 +457,16 @@
               <FileName>key.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Device\key.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>oled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Device\oled.c</FilePath>
+            </File>
+            <File>
+              <FileName>SHT21.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Device\SHT21.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -621,6 +656,9 @@
         <Group>
           <GroupName>::Compiler</GroupName>
         </Group>
+        <Group>
+          <GroupName>::Graphics</GroupName>
+        </Group>
       </Groups>
     </Target>
   </Targets>
@@ -659,6 +697,24 @@
           <targetInfo name="demo"/>
         </targetInfos>
       </component>
+      <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="CORE" Cvendor="Segger" Cversion="5.50.0" condition="CMSIS Core with RTOS and Display">
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
+        <targetInfos>
+          <targetInfo name="demo"/>
+        </targetInfos>
+      </component>
+      <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="Display" Csub="Interface Template" Cvendor="Segger" Cversion="5.50.0" condition="Graphics Core">
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
+        <targetInfos>
+          <targetInfo name="demo"/>
+        </targetInfos>
+      </component>
+      <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="Tools" Csub="GUI Builder" Cvendor="Segger" Cversion="5.50.0" condition="Graphics Core">
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
+        <targetInfos>
+          <targetInfo name="demo"/>
+        </targetInfos>
+      </component>
     </components>
     <files>
       <file attr="config" category="source" name="CMSIS\RTOS2\RTX\Config\RTX_Config.c" version="5.1.0">
@@ -681,6 +737,30 @@
         <instance index="0">RTE\Compiler\EventRecorderConf.h</instance>
         <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="Event Recorder" Cvariant="DAP" Cvendor="Keil" Cversion="1.4.0" condition="Cortex-M Device"/>
         <package name="ARM_Compiler" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.2"/>
+        <targetInfos>
+          <targetInfo name="demo"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="doc" name="emWin\Tool\GUIBuilder.txt" version="1.0.0">
+        <instance index="0">RTE\Graphics\GUIBuilder.txt</instance>
+        <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="Tools" Csub="GUI Builder" Cvendor="Segger" Cversion="5.50.0" condition="Graphics Core"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
+        <targetInfos>
+          <targetInfo name="demo"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="source" name="emWin\Sample\Config\GUIConf.c" version="5.0.0">
+        <instance index="0">RTE\Graphics\GUIConf.c</instance>
+        <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="CORE" Cvendor="Segger" Cversion="5.50.0" condition="CMSIS Core with RTOS and Display"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
+        <targetInfos>
+          <targetInfo name="demo"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="source" name="emWin\Sample\Config\LCDConf.c" version="5.0.0">
+        <instance index="0">RTE\Graphics\LCDConf.c</instance>
+        <component Cbundle="MDK-Plus" Cclass="Graphics" Cgroup="Display" Csub="Interface Template" Cvendor="Segger" Cversion="5.50.0" condition="Graphics Core"/>
+        <package name="MDK-Middleware" schemaVersion="1.4" url="http://www.keil.com/pack/" vendor="Keil" version="7.10.0"/>
         <targetInfos>
           <targetInfo name="demo"/>
         </targetInfos>

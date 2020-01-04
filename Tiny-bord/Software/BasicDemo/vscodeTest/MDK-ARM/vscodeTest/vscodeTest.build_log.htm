@@ -1,0 +1,160 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.29.0.0
+Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: q q, q, LIC=21EY8-31PFH-FVA1N-YZ0WE-9HMER-U68X7
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.29.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.13.1
+Assembler:       Armasm.exe V6.13.1
+Linker/Locator:  ArmLink.exe V6.13.1
+Library Manager: ArmAr.exe V6.13.1
+Hex Converter:   FromElf.exe V6.13.1
+CPU DLL:         SARMCM3.DLL V5.29.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      Segger\JL2CM3.dll V2.99.36.0
+Dialog DLL:      TCM.DLL V1.36.5.0
+ 
+<h2>Project:</h2>
+E:\DDZ-Office\Tiny-bord\Software\BasicDemo\vscodeTest\MDK-ARM\vscodeTest.uvprojx
+Project File Date:  12/25/2019
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.13.1', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'vscodeTest'
+compiling main.cpp...
+linking...
+Program Size: Code=142812 RO-data=12408 RW-data=552 ZI-data=81352  
+FromELF: creating hex file...
+"vscodeTest\vscodeTest.axf" - 0 Error(s), 0 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.6.0.pack
+                ARM.CMSIS.5.6.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: Flash Version: 2.2.0
+   * Component: RTOS2 Version: 2.1.3
+   * Component: Custom Version: 2.2.0
+   * Component: CORE Version: 5.3.0
+   * Component: Keil RTX5 Variant: Source Version: 5.5.1
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.ARM_Compiler.1.6.2.pack
+                Keil.ARM_Compiler.1.6.2
+                Keil ARM Compiler extensions for ARM Compiler 5 and ARM Compiler 6
+   * Component: Event Recorder Variant: DAP Version: 1.4.0
+   * Component: File Variant: File System Version: 1.2.0
+   * Component: STDOUT Variant: EVR Version: 1.2.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.MDK-Middleware.7.10.0.pack
+                Keil.MDK-Middleware.7.10.0
+                Middleware for Keil MDK-Professional and MDK-Plus
+   * Component: CORE Variant: LFN Version: 6.13.0
+   * Component: NOR Version: 6.13.0
+   * Component: CORE Version: 5.50.0
+   * Component: Interface Template Version: 5.50.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.14.0.pack
+                Keil.STM32F4xx_DFP.2.14.0
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\CMSIS
+  .\RTE\Compiler
+  .\RTE\File_System
+  .\RTE\_vscodeTest
+  C:\Users\87436\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include
+  C:\Users\87436\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Driver\Include
+  C:\Users\87436\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include
+  C:\Users\87436\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\RTX\Include
+  C:\Users\87436\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.2\Include
+  C:\Users\87436\AppData\Local\Arm\Packs\Keil\MDK-Middleware\7.10.0\FileSystem\Include
+  C:\Users\87436\AppData\Local\Arm\Packs\Keil\MDK-Middleware\7.10.0\emWin\Include
+  C:\Users\87436\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ::CMSIS Driver:Flash:2.2.0 (API)
+      Include file:  CMSIS\Driver\Include\Driver_Flash.h
+
+   * Component: ::CMSIS:RTOS2:2.1.3 (API)
+      Include file:  CMSIS\RTOS2\Include\cmsis_os2.h
+
+   * Component: ARM::CMSIS Driver:Flash:Custom:2.2.0
+      Include file:  CMSIS\Driver\Include\Driver_Flash.h
+      Source file:   CMSIS\Driver\DriverTemplates\Driver_Flash.c
+
+   * Component: ARM::CMSIS:CORE:5.3.0
+
+   * Component: ARM::CMSIS:RTOS2:Keil RTX5:Source:5.5.1
+      Include file:  CMSIS\RTOS2\RTX\Include\rtx_os.h
+      Include file:  CMSIS\RTOS2\RTX\Config\RTX_Config.h
+      Source file:   CMSIS\RTOS2\RTX\Template\Thread.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_timer.c
+      Source file:   CMSIS\RTOS2\RTX\Template\MsgQueue.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_mutex.c
+      Source file:   CMSIS\RTOS2\RTX\Template\svc_user.c
+      Source file:   CMSIS\RTOS2\RTX\Source\ARM\irq_cm4f.s
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_lib.c
+      Source file:   CMSIS\RTOS2\RTX\Template\Mutex.c
+      Source file:   CMSIS\RTOS2\RTX\Template\Events.c
+      Source file:   CMSIS\RTOS2\RTX\Config\RTX_Config.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_mempool.c
+      Source file:   CMSIS\RTOS2\RTX\Template\main.c
+      Source file:   CMSIS\RTOS2\RTX\Template\Timer.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_thread.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_semaphore.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_kernel.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_msgqueue.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_memory.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_evflags.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_system.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_evr.c
+      Source file:   CMSIS\RTOS2\RTX\Template\Semaphore.c
+      Source file:   CMSIS\RTOS2\RTX\Source\rtx_delay.c
+      Source file:   CMSIS\RTOS2\RTX\Template\MemPool.c
+      Source file:   CMSIS\RTOS2\Source\os_systick.c
+
+   * Component: Keil.ARM Compiler::Compiler:Event Recorder:DAP:1.4.0
+      Include file:  Include\EventRecorder.h
+      Include file:  Config\EventRecorderConf.h
+      Source file:   Source\EventRecorder.c
+
+   * Component: Keil.ARM Compiler::Compiler:I/O:File:File System:1.2.0
+      Source file:   Source\retarget_io.c
+
+   * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:EVR:1.2.0
+      Source file:   Source\retarget_io.c
+
+   * Component: Keil.MDK-Plus::File System:CORE:LFN:6.13.0
+      Library file:  FileSystem\Lib\ARM\FS_LFN_CM3_L.lib
+      Include file:  FileSystem\Include\rl_fs.h
+      Source file:   FileSystem\Config\FS_Config.c
+
+   * Component: Keil.MDK-Plus::File System:Drive:NOR:6.13.0
+      Include file:  FileSystem\Config\FS_Config_NOR.h
+
+   * Component: Segger.MDK-Plus::Graphics:CORE:5.50.0
+      Source file:   emWin\Sample\Template\RTOS2\GUI_MultiThread.c
+      Source file:   emWin\Sample\Template\RTOS2\GUI_TemplateThread.c
+      Source file:   emWin\Sample\Config\GUIConf.c
+      Source file:   emWin\Sample\Template\RTOS2\GUI_SingleThread.c
+      Include file:  emWin\Include\GUI.h
+      Source file:   emWin\Sample\GUI_X\GUI_X_RTE.c
+      Library file:  emWin\Lib\ARM\GUI_CM4F_L.lib
+
+   * Component: Segger.MDK-Plus::Graphics:Display:Interface Template:5.50.0
+      Source file:   emWin\Sample\Config\LCDConf.c
+Build Time Elapsed:  00:00:02
+</pre>
+</body>
+</html>

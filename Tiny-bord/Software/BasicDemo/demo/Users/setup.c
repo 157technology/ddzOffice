@@ -26,8 +26,12 @@ void $Sub$$main(void)
 	MX_SPI2_Init();
 	MX_TIM2_Init();
 	
+	/*###################################*/
+	/*  */
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_3);
 	//SEGGER_SYSVIEW_Conf();
+	OLED_Init();
+	OLED_CLS();
 	
 	$Super$$main();
 }

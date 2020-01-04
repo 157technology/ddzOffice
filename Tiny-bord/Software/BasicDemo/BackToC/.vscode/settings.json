@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "memory.h": "c",
+        "commom.h": "c",
+        "cmsis_os2.h": "c"
+    },
+    "git.ignoreLimitWarning": true
+}

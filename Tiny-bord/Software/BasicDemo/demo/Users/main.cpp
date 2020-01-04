@@ -60,7 +60,7 @@ void ttest() {}
 template <typename T, typename... U>
 void ttest(T v, U... args)
 {
-	cout << v << endl;
+	//cout << v << endl;
 	ttest(args...);
 }
 Key btn;

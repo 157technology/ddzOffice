@@ -1,0 +1,42 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/",
+                    "${workspaceFolder}/Drivers/CMSIS",
+                    "${workspaceFolder}/Drivers/FWlib/inc",
+                    "${workspaceFolder}/Drivers/CMSIS/startup",
+                    "${workspaceFolder}/User/inc",
+                    "${workspaceFolder}/User",
+                    "${workspaceFolder}/ThirdParty/crclib/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "${workspaceFolder}/",
+                "${workspaceFolder}/",
+                "${workspaceFolder}/Drivers/CMSIS",
+                "${workspaceFolder}/Drivers/FWlib/inc",
+                "${workspaceFolder}/Drivers/CMSIS/startup",
+                "${workspaceFolder}/User/inc",
+                "${workspaceFolder}/User",
+                "${workspaceFolder}/ThirdParty/crclib/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "__CC_ARM",
+                "USE_STDPERIPH_DRIVER",
+                "STM32F10X_HD"
+            ],
+            "compilerPath": "C:\\Keil_v5\\ARM\\ARMCLANG\\bin\\armclang.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

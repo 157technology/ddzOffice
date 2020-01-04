@@ -53,14 +53,14 @@ void Key::isr_handle(void)
 	
 	if ( sl == Key::UNPRESSED and sr == Key::UNPRESSED )
 	{
-__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
+		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
 	}
 	else
 	{
 		if ( sl == Key::PRESSED )
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 1000);
 		else
-			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 500);		
+			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 1500);		
 	}
 		
 	

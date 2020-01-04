@@ -7,7 +7,7 @@ extern "C" {
 
 #define MEMORY_TOTAL_SIZE 	128 // 128kbytes
 
-#define MEMORY_SIZE 		12 // 64kbytes
+#define MEMORY_SIZE 		48 // 64kbytes
 
 #ifdef __cplusplus
 }

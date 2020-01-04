@@ -303,11 +303,9 @@ void OLED_BufToPanel(void)
 			else
 			{
 				state = 0;
-			}
-			
+			}	
 		}
 	}
-
 	//em_printf("Repoint %d times (ALL 1024).\n", count);
 }
 

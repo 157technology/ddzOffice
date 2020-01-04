@@ -10,6 +10,7 @@
 #include "tim.h"
 //############################
 //
+#include "oled.h"
 #include "memory.h"
 #include "serial.h"
 
@@ -33,6 +34,7 @@ extern "C" {
 #endif
 	
 extern void SystemClock_Config(void);
+	extern int Init_GUIThread (void);
 	
 #ifdef __cplusplus
 }

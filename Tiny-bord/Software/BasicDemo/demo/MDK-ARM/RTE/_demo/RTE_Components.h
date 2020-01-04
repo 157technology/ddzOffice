@@ -26,6 +26,8 @@
 /*  Keil.ARM Compiler::Compiler:I/O:STDOUT:EVR:1.2.0 */
 #define RTE_Compiler_IO_STDOUT          /* Compiler I/O: STDOUT */
           #define RTE_Compiler_IO_STDOUT_EVR      /* Compiler I/O: STDOUT EVR */
+/*  Segger.MDK-Plus::Graphics:CORE:5.50.0 */
+#define RTE_Graphics_Core               /* Graphics Core */
 
 
 #endif /* RTE_COMPONENTS_H */
