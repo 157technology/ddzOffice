@@ -45,7 +45,10 @@ backtoc/setup.o: ..\EM_Users\setup.c ..\EM_Users\commom.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\EM_Signal-Slot\signal_slot.h ..\EM_Device\memory.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h ..\EM_Device\memory.h \
-  ..\EM_Device\wifi.h ..\EM_Device\serial.h \
+  ..\EM_Device\wifi.h ..\EM_Device\serial.h ..\MQTT\transport.h \
+  ..\MQTT\MQTTPacket.h ..\MQTT\MQTTConnect.h ..\MQTT\MQTTPublish.h \
+  ..\MQTT\MQTTSubscribe.h ..\MQTT\MQTTUnsubscribe.h ..\MQTT\MQTTFormat.h \
+  ..\MQTT\StackTrace.h ..\MQTT\MQTTPacket.h ..\MQTT\MQTTConnect.h \
   RTE\_BackToC\RTE_Components.h \
-  C:\Users\87436\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include\cmsis_os2.h \
-  C:\Users\87436\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.2\Include\EventRecorder.h
+  C:\Users\lwz\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include\cmsis_os2.h \
+  C:\Users\lwz\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.2\Include\EventRecorder.h

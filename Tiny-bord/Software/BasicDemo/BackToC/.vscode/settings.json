@@ -2,7 +2,10 @@
     "files.associations": {
         "memory.h": "c",
         "commom.h": "c",
-        "cmsis_os2.h": "c"
+        "cmsis_os2.h": "c",
+        "rte_components.h": "c",
+        "transport.h": "c",
+        "wifi.h": "c"
     },
     "git.ignoreLimitWarning": true
 }

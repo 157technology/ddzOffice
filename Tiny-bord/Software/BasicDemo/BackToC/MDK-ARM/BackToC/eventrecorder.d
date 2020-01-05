@@ -1,5 +1,5 @@
 backtoc/eventrecorder.o: \
-  C:\Users\87436\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.2\Source\EventRecorder.c \
+  C:\Users\lwz\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.2\Source\EventRecorder.c \
   RTE\_BackToC\RTE_Components.h \
   ..\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h \
   ..\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f411xe.h \
@@ -39,5 +39,5 @@ backtoc/eventrecorder.o: \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim_ex.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
-  C:\Users\87436\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.2\Include\EventRecorder.h \
+  C:\Users\lwz\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.2\Include\EventRecorder.h \
   RTE\Compiler\EventRecorderConf.h

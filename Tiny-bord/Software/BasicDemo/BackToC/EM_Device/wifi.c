@@ -32,7 +32,7 @@ Wifi *Wifi_Regester(UART_HandleTypeDef *puart, int rbufSize, int tbufSize)
 void slot_link_hasData(void *data)
 {
     char *str = (char *)data;
-
+    em_printf("wifi have data %d.\n", m_wifi->link->rCnt);
     if (m_wifi->cmd)
     {
         em_printf(">>>cmd# %s.\n", str);
@@ -488,10 +488,19 @@ WF TcpSend(socket sock, char *data, int len)
     if (command_at_once(str, "> ", 100) == wfOk)
     {
         //开始发送 len
-        //em_printf("start send: %s.\n", data);
-        Serial_Print(m_wifi->link, "%s", data);
+        em_printf("start send:\n");
+        for ( int i = 0; i < len; i ++ )
+        {
+            em_printf("%c", data[i]);
+        }
+        em_printf("END..\n");
+        //osDelay(1000);
+        //HAL_UART_Transmit(m_wifi->link->puart, data, len, 9999);
+        emHAL_UART_Transmit_DMA(m_wifi->link->puart, (uint8_t*)data, len);
+        //Serial_Print(m_wifi->link, "%s", data);
         //ckech if send ok
 
 
     }
 }
+

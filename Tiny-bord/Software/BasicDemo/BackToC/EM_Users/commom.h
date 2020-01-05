@@ -20,6 +20,9 @@
 #include "serial.h"
 #include "memory.h"
 #include "wifi.h"
+#include "transport.h"
+#include "MQTTPacket.h"
+#include "MQTTConnect.h"
 
 #include "signal_slot.h"
 
@@ -33,6 +36,7 @@
 
 // file sys
 //#include "rl_fs.h"                      // Keil.MDK-Plus::File System:CORE
+
 
 
 /*=======================*/

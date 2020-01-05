@@ -69,29 +69,81 @@ void slotSerial(void *data)
     //     /* show aps */
     // }
 }
-
+#define CLOUD "a1eQDqcFTdO.iot-as-mqtt.cn-shanghai.aliyuncs.com"
+char mqttbuf[200];
+char teststr[] = "mqttbuf";
 void main_thread(void *argument)
 {
+    static int flag = 0;
     //GUI_DispStringAt("Hello World.......", 0, 18);
     creat_signalThread();
     socket tcp;
+    socket tcp1;
+    socket mqtt;
     //WifiSelfCheck();
-    if ( WifiInit() == wfOk )
+    if (WifiInit() == wfOk)
     {
-        tcp = TcpSocket("192.168.137.1", 2222);
-        
+        // tcp = TcpSocket("192.168.137.1", 2222);
+        // if (tcp != -1)
+        //     flag = 1;
+
+        // tcp1 = TcpSocket("192.168.137.1", 3333);
+        // if (tcp1 != -1)
+        //     flag = 1;
+
+        mqtt = transport_open(CLOUD, 1883);
+        //mqtt = transport_open("192.168.137.1", 3333);
+        if (mqtt != -1)
+        {
+            int32_t len;
+            //		int msgid = 1;
+            //		int req_qos = 0;
+
+            MQTTPacket_connectData data = MQTTPacket_connectData_initializer; //ÅäÖÃ²¿·Ö¿É±äÍ·²¿µÄÖµ
+
+            //productkey    a1eQDqcFTdO
+            //device name   0gqfJL6z7j8HvQQbFQQY
+            //device s      BbQA78oIs6DAWQYGfpI22rUY9iqwIF7d
+            //    MQTTString topicString = MQTTString_initializer;
+            int buflen = sizeof(mqttbuf);
+            memset(mqttbuf, 0, buflen);
+            data.clientID.cstring = "test|securemode=3,signmethod=hmacsha1|";   //¿Í»§¶Ë±êÊ¶£¬ÓÃÓÚÇø·ÖÃ¿¸ö¿Í»§¶ËxxxÎª×Ô¶¨Òå£¬ºóÃæÎª¹Ì¶¨¸ñÊ½
+            data.keepAliveInterval = 120;                                       //±£»î¼ÆÊ±Æ÷£¬¶¨ÒåÁË·þÎñÆ÷ÊÕµ½¿Í»§¶ËÏûÏ¢µÄ×î´óÊ±¼ä¼ä¸ô
+            data.cleansession = 1;                                              //¸Ã±êÖ¾ÖÃ1·þÎñÆ÷±ØÐë¶ªÆúÖ®Ç°±£³ÖµÄ¿Í»§¶ËµÄÐÅÏ¢£¬½«¸ÃÁ¬½ÓÊÓÎª¡°²»´æÔÚ¡±
+            data.username.cstring = "0gqfJL6z7j8HvQQbFQQY&a1eQDqcFTdO";         //ÓÃ»§Ãû DeviceName&ProductKey
+            data.password.cstring = "3C14027F650D896ECEF8C5606BEC47F199A8B38C"; //ÃÜÂë£¬¹¤¾ßÉú³É
+            len = MQTTSerialize_connect(mqttbuf, buflen, &data);                /*1 ¹¹ÔìÁ¬½Ó±¨ÎÄ*/
+            mqttbuf[len] = '\0';
+            transport_sendPacketBuffer(mqtt, mqttbuf, len); //·¢ËÍÁ¬½ÓÇëÇó
+            //transport_sendPacketBuffer(mqtt, teststr, 7);
+            {
+                unsigned char sessionPresent, connack_rc;
+                do
+                {
+                    while (MQTTPacket_read(mqttbuf, buflen, transport_getdata) != CONNACK) //¶Ô½ÓÊÕµ½µÄ±¨ÎÄ½øÐÐ½âÎö
+                    {
+                        osDelay(100);
+                    }
+                } while (MQTTDeserialize_connack(&sessionPresent, &connack_rc, mqttbuf, buflen) != 1 || connack_rc != 0);
+            }
+        }
     }
-    
 
     //WifiSmart();
-        
+
     while (1)
     {
         /* code */
         //OLED_Replot();
         //HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
         osDelay(1000); // max 25 fps
-        TcpSend(tcp, "Hello", 5);
+        if (flag)
+        {
+            // TcpSend(tcp, "Hello\n", 6);
+            // osDelay(100);
+            // TcpSend(tcp1, "qwert\n", 6);
+        }
+
         emit(sigBtn, NULL);
     }
 }

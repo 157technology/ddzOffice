@@ -1,6 +1,6 @@
 backtoc/os_systick.o: \
-  C:\Users\87436\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Source\os_systick.c \
-  C:\Users\87436\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include\os_tick.h \
+  C:\Users\lwz\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Source\os_systick.c \
+  C:\Users\lwz\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include\os_tick.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
   RTE\_BackToC\RTE_Components.h \
   ..\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h \

@@ -42,4 +42,4 @@ backtoc/wifi.o: ..\EM_Device\wifi.c ..\EM_Device\wifi.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\EM_Signal-Slot\signal_slot.h ..\EM_Device\memory.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
-  C:\Users\87436\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include\cmsis_os2.h
+  C:\Users\lwz\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include\cmsis_os2.h

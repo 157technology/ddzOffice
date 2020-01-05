@@ -35,4 +35,7 @@ void Serial_Print(Serial *ps, const char *format, ...);
 void ReadyRead(void *data);
 void WifiRead(void *data);
 
+
+void emHAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+
 #endif

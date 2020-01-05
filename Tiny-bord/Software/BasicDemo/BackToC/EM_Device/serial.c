@@ -88,6 +88,8 @@ void Serial_Init(Serial *ps)
 	}
 }
 
+
+
 void Serial_Print(Serial *ps, const char *format, ...)
 {
 	UART_HandleTypeDef *puart = ps->puart;
