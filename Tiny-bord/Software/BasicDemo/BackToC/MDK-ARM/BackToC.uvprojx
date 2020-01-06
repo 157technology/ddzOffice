@@ -696,6 +696,9 @@
         <Group>
           <GroupName>::Compiler</GroupName>
         </Group>
+        <Group>
+          <GroupName>::Data Exchange</GroupName>
+        </Group>
       </Groups>
     </Target>
   </Targets>
@@ -730,6 +733,12 @@
       </component>
       <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="STDOUT" Cvariant="EVR" Cvendor="Keil" Cversion="1.2.0" condition="ARMCC Cortex-M with EVR">
         <package name="ARM_Compiler" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.2"/>
+        <targetInfos>
+          <targetInfo name="BackToC"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Data Exchange" Cgroup="JSON" Csub="cJSON" Cvendor="MDK-Packs" Cversion="1.7.7" condition="ARMCC">
+        <package license="LICENSE.txt" name="cJSON" schemaVersion="1.4" url="https://github.com/MDK-Packs/Pack/raw/master/cJSON/" vendor="MDK-Packs" version="1.0.0"/>
         <targetInfos>
           <targetInfo name="BackToC"/>
         </targetInfos>

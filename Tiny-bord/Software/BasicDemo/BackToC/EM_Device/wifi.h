@@ -40,6 +40,12 @@ typedef struct __wifi
 
     /*tcp/ip*/
     socket pool[5]; //socket pool:<0>unused, <1>used--max connect five
+    socket sock_mqtt;
+
+    /*read*/
+    int mqtt_read;
+    int mqtt_len;
+    char * mqtt_data;
 
 } Wifi;
 

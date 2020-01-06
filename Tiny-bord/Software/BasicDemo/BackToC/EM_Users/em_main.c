@@ -1,5 +1,6 @@
 #include "commom.h"
 
+
 Serial *console;
 Wifi *wifi;
 
@@ -80,6 +81,8 @@ void main_thread(void *argument)
     socket tcp;
     socket tcp1;
     socket mqtt;
+    int32_t len;
+	int buflen = sizeof(mqttbuf);
     //WifiSelfCheck();
     if (WifiInit() == wfOk)
     {
@@ -95,7 +98,8 @@ void main_thread(void *argument)
         //mqtt = transport_open("192.168.137.1", 3333);
         if (mqtt != -1)
         {
-            int32_t len;
+            wifi->sock_mqtt = mqtt;
+            
             //		int msgid = 1;
             //		int req_qos = 0;
 
@@ -105,10 +109,10 @@ void main_thread(void *argument)
             //device name   0gqfJL6z7j8HvQQbFQQY
             //device s      BbQA78oIs6DAWQYGfpI22rUY9iqwIF7d
             //    MQTTString topicString = MQTTString_initializer;
-            int buflen = sizeof(mqttbuf);
+            
             memset(mqttbuf, 0, buflen);
             data.clientID.cstring = "test|securemode=3,signmethod=hmacsha1|";   //¿Í»§¶Ë±êÊ¶£¬ÓÃÓÚÇø·ÖÃ¿¸ö¿Í»§¶ËxxxÎª×Ô¶¨Òå£¬ºóÃæÎª¹Ì¶¨¸ñÊ½
-            data.keepAliveInterval = 120;                                       //±£»î¼ÆÊ±Æ÷£¬¶¨ÒåÁË·þÎñÆ÷ÊÕµ½¿Í»§¶ËÏûÏ¢µÄ×î´óÊ±¼ä¼ä¸ô
+            data.keepAliveInterval = 300;                                       //±£»î¼ÆÊ±Æ÷£¬¶¨ÒåÁË·þÎñÆ÷ÊÕµ½¿Í»§¶ËÏûÏ¢µÄ×î´óÊ±¼ä¼ä¸ô
             data.cleansession = 1;                                              //¸Ã±êÖ¾ÖÃ1·þÎñÆ÷±ØÐë¶ªÆúÖ®Ç°±£³ÖµÄ¿Í»§¶ËµÄÐÅÏ¢£¬½«¸ÃÁ¬½ÓÊÓÎª¡°²»´æÔÚ¡±
             data.username.cstring = "0gqfJL6z7j8HvQQbFQQY&a1eQDqcFTdO";         //ÓÃ»§Ãû DeviceName&ProductKey
             data.password.cstring = "3C14027F650D896ECEF8C5606BEC47F199A8B38C"; //ÃÜÂë£¬¹¤¾ßÉú³É
@@ -122,7 +126,7 @@ void main_thread(void *argument)
                 {
                     while (MQTTPacket_read(mqttbuf, buflen, transport_getdata) != CONNACK) //¶Ô½ÓÊÕµ½µÄ±¨ÎÄ½øÐÐ½âÎö
                     {
-                        osDelay(100);
+                        //osDelay(100);
                     }
                 } while (MQTTDeserialize_connack(&sessionPresent, &connack_rc, mqttbuf, buflen) != 1 || connack_rc != 0);
             }
@@ -136,15 +140,18 @@ void main_thread(void *argument)
         /* code */
         //OLED_Replot();
         //HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
-        osDelay(1000); // max 25 fps
+        osDelay(30000); // max 25 fps
         if (flag)
         {
             // TcpSend(tcp, "Hello\n", 6);
             // osDelay(100);
             // TcpSend(tcp1, "qwert\n", 6);
         }
+        len = MQTTSerialize_pingreq(mqttbuf, buflen);
+        transport_sendPacketBuffer(mqtt, mqttbuf, len);
 
         emit(sigBtn, NULL);
+		
     }
 }
 

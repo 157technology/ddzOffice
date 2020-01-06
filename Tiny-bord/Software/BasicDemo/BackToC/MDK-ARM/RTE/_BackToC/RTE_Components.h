@@ -26,6 +26,8 @@
 /*  Keil.ARM Compiler::Compiler:I/O:STDOUT:EVR:1.2.0 */
 #define RTE_Compiler_IO_STDOUT          /* Compiler I/O: STDOUT */
           #define RTE_Compiler_IO_STDOUT_EVR      /* Compiler I/O: STDOUT EVR */
+/*  MDK-Packs::Data Exchange:JSON:cJSON:1.7.7 */
+#define RTE_DataExchange_JSON_cJSON     /* cJSON */
 
 
 #endif /* RTE_COMPONENTS_H */

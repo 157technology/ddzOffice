@@ -23,6 +23,7 @@ Wifi *Wifi_Regester(UART_HandleTypeDef *puart, int rbufSize, int tbufSize)
     wifi->state = InActive;
     wifi->cmd = 0;
     wifi->smartconfig = 0;
+    wifi->mqtt_read = 0;
     memset(wifi->pool, 0, sizeof(wifi->pool)); //socket unuse
     // link to local
     m_wifi = wifi;
@@ -32,10 +33,10 @@ Wifi *Wifi_Regester(UART_HandleTypeDef *puart, int rbufSize, int tbufSize)
 void slot_link_hasData(void *data)
 {
     char *str = (char *)data;
-    em_printf("wifi have data %d.\n", m_wifi->link->rCnt);
+    //em_printf("wifi have data %d.\n", m_wifi->link->rCnt);
     if (m_wifi->cmd)
     {
-        em_printf(">>>cmd# %s.\n", str);
+        //em_printf(">>>cmd# %s.\n", str);
         if (m_wifi->smartconfig == 1)
         {
             //处理smartconfig返回的信息
@@ -50,6 +51,37 @@ void slot_link_hasData(void *data)
     else
     {
         em_printf(">>>wifi# %s.\n", str);
+        int num = m_wifi->link->rCnt;
+        while (num > 5)
+        {
+            if (strncmp(str, "+IPD", 4) == 0)
+            {
+                int m_sock, m_len; //获取到网络信息, 解析
+                sscanf(str + 5, "%d,%d", &m_sock, &m_len);
+                //em_printf("sock:%d, len:%d", m_sock, m_len);
+                if (m_sock == m_wifi->sock_mqtt)
+                {
+                    //是mqtt的信息
+                    //em_printf("获取到mqtt的数据\n");
+                    while (*str != ':')
+                        str++;
+                    str++;
+                    m_wifi->mqtt_read = 1;
+                    m_wifi->mqtt_data = str;
+                    m_wifi->mqtt_len = m_len;
+                    for (int i = 0; i < m_len; i++)
+                        em_printf("0x%X ", str[i]);
+                    em_printf("\n");
+                }
+                break;
+            }
+            else
+            {
+                str++;
+                num--;
+            }
+            /* code */
+        }
         /* code */
     }
 }
@@ -359,17 +391,16 @@ WF WifiInit()
         return wfError;
     }
 
-    // 
+    //
     // try to join a default ap
     // if not success then start smartconfig
     em_printf("\n# Join wifi\n");
-    if ( WifiJoinAP("EMei_Li", "88888888") != wfOk )
+    if (WifiJoinAP("EMei_Li", "88888888") != wfOk)
     {
-        if ( WifiSmart() != wfOk )
+        if (WifiSmart() != wfOk)
         {
             return wfError;
         }
-
     }
     //end
     return wfOk;
@@ -442,15 +473,15 @@ socket TcpSocket(char *ipaddr, int port)
     char str[64];
     socket sock = -1; //获取一个socket<一共有five> -- sockct pool
 
-    for ( int i = 0; i < 5; i ++ )
+    for (int i = 0; i < 5; i++)
     {
-        if ( m_wifi->pool[i] == 0 )
+        if (m_wifi->pool[i] == 0)
         {
             sock = i;
             break;
         }
     }
-    if ( sock == -1 )
+    if (sock == -1)
     {
         return -1;
     }
@@ -488,19 +519,19 @@ WF TcpSend(socket sock, char *data, int len)
     if (command_at_once(str, "> ", 100) == wfOk)
     {
         //开始发送 len
-        em_printf("start send:\n");
-        for ( int i = 0; i < len; i ++ )
-        {
-            em_printf("%c", data[i]);
-        }
-        em_printf("END..\n");
+        // em_printf("start send:\n");
+        // for (int i = 0; i < len; i++)
+        // {
+        //     em_printf("%c", data[i]);
+        // }
+        // em_printf("END..\n");
         //osDelay(1000);
         //HAL_UART_Transmit(m_wifi->link->puart, data, len, 9999);
-        emHAL_UART_Transmit_DMA(m_wifi->link->puart, (uint8_t*)data, len);
+        emHAL_UART_Transmit_DMA(m_wifi->link->puart, (uint8_t *)data, len);
         //Serial_Print(m_wifi->link, "%s", data);
+
         //ckech if send ok
-
-
+        {
+        }
     }
 }
-

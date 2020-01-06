@@ -17,6 +17,8 @@
 
 #include "main.h"
 #include "wifi.h"
+#include "serial.h"
+#include "commom.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -35,12 +37,26 @@ int transport_sendPacketBuffer(int sock, unsigned char *buf, int buflen)
 	return buflen;
 }
 
+extern Wifi *wifi;
 int transport_getdata(unsigned char *buf, int count)
 {
 	//int rc = recv(mysock, buf, count, 0);
 	//printf("received %d bytes count %d\n", rc, (int)count);
+	while ( wifi->mqtt_read == 0 )
+	{
+		//em_printf(">%d", wifi->mqtt_read);
+		osDelay(5);
+	}
+	memcpy(buf, wifi->mqtt_data, count);
+	wifi->mqtt_data++;
+	wifi->mqtt_len--;
+	if ( wifi->mqtt_len <= 0 )
+	{
+		wifi->mqtt_read = 0;
+	}
+	//wifi->mqtt_read = 0;
 	//return rc;
-	return 0;
+	return count;
 }
 
 int transport_getdatanb(void *sck, unsigned char *buf, int count)

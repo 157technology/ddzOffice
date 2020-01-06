@@ -37,7 +37,7 @@
 // file sys
 //#include "rl_fs.h"                      // Keil.MDK-Plus::File System:CORE
 
-
+#include "cJSON.h"                      // MDK-Packs::Data Exchange:JSON:cJSON
 
 /*=======================*/
 #ifdef __cplusplus
