@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Keil_v5/ARM/ARMCLANG/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "USE_HAL_DRIVER",
+                "STM32F411xE"
+            ],
+            "intelliSenseMode": "${default}",
+            "compilerPath": "\"C:/Keil_v5/ARM/ARMCLANG/bin/armclang.exe\"",
+            "cStandard": "c11"
+        }
+    ],
+    "version": 4
+}

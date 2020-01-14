@@ -1,6 +1,5 @@
 #include "commom.h"
 
-
 Serial *console;
 Wifi *wifi;
 
@@ -75,6 +74,7 @@ char mqttbuf[200];
 char teststr[] = "mqttbuf";
 void main_thread(void *argument)
 {
+	int m_cnt = 0;
     static int flag = 0;
     //GUI_DispStringAt("Hello World.......", 0, 18);
     creat_signalThread();
@@ -82,7 +82,10 @@ void main_thread(void *argument)
     socket tcp1;
     socket mqtt;
     int32_t len;
-	int buflen = sizeof(mqttbuf);
+    int buflen = sizeof(mqttbuf);
+    MQTTString topicString = MQTTString_initializer;
+    int req_qos = 1;
+    unsigned short msgid = 1;
     //WifiSelfCheck();
     if (WifiInit() == wfOk)
     {
@@ -99,7 +102,7 @@ void main_thread(void *argument)
         if (mqtt != -1)
         {
             wifi->sock_mqtt = mqtt;
-            
+
             //		int msgid = 1;
             //		int req_qos = 0;
 
@@ -109,7 +112,7 @@ void main_thread(void *argument)
             //device name   0gqfJL6z7j8HvQQbFQQY
             //device s      BbQA78oIs6DAWQYGfpI22rUY9iqwIF7d
             //    MQTTString topicString = MQTTString_initializer;
-            
+
             memset(mqttbuf, 0, buflen);
             data.clientID.cstring = "test|securemode=3,signmethod=hmacsha1|";   //¿Í»§¶Ë±êÊ¶£¬ÓÃÓÚÇø·ÖÃ¿¸ö¿Í»§¶ËxxxÎª×Ô¶¨Òå£¬ºóÃæÎª¹Ì¶¨¸ñÊ½
             data.keepAliveInterval = 300;                                       //±£»î¼ÆÊ±Æ÷£¬¶¨ÒåÁË·þÎñÆ÷ÊÕµ½¿Í»§¶ËÏûÏ¢µÄ×î´óÊ±¼ä¼ä¸ô
@@ -130,28 +133,109 @@ void main_thread(void *argument)
                     }
                 } while (MQTTDeserialize_connack(&sessionPresent, &connack_rc, mqttbuf, buflen) != 1 || connack_rc != 0);
             }
+            wifi->mqtt_read = 0;
+            //mqtt初始化成功
+            osDelay(500);
+            topicString.cstring = "/a1eQDqcFTdO/0gqfJL6z7j8HvQQbFQQY/user/test";
+            len = MQTTSerialize_subscribe(mqttbuf, buflen, 0, msgid, 1, &topicString, &req_qos);
+            transport_sendPacketBuffer(mqtt, mqttbuf, len);
+            em_printf("Wait ACK...\n");
+            while (MQTTPacket_read(mqttbuf, buflen, transport_getdata) != SUBACK) /* wait for suback */
+            {
+                ;
+            }
+            em_printf("ACK OK\n");
+            {
+                unsigned short submsgid;
+                int subcount;
+                int granted_qos;
+                MQTTDeserialize_suback(&submsgid, 1, &subcount, &granted_qos, mqttbuf, buflen);
+                if (granted_qos != 0)
+                {
+                    em_printf("granted qos != 0, %d\n", granted_qos);
+                    //goto exit;
+                }
+            }
         }
     }
 
     //WifiSmart();
-
+    wifi->mqtt_read = 0;
+    int timecount = 0;
+    int time_1s = 0;
     while (1)
     {
         /* code */
         //OLED_Replot();
         //HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
-        osDelay(30000); // max 25 fps
-        if (flag)
+        osDelay(5); // max 25 fps
+
+        if (timecount++ == 16000)
         {
-            // TcpSend(tcp, "Hello\n", 6);
-            // osDelay(100);
-            // TcpSend(tcp1, "qwert\n", 6);
+            len = MQTTSerialize_pingreq(mqttbuf, buflen);
+            transport_sendPacketBuffer(mqtt, mqttbuf, len);
+            timecount = 0;
         }
-        len = MQTTSerialize_pingreq(mqttbuf, buflen);
-        transport_sendPacketBuffer(mqtt, mqttbuf, len);
+
+        if (MQTTPacket_read(mqttbuf, buflen, transport_getdata_once) == PUBLISH)
+        {
+            unsigned char dup;
+            int qos;
+            unsigned char retained;
+            unsigned short msgid;
+            int payloadlen_in;
+            unsigned char *payload_in;
+            int rc;
+            MQTTString receivedTopic;
+            MQTTDeserialize_publish(&dup, &qos, &retained, &msgid, &receivedTopic,
+                                    &payload_in, &payloadlen_in, mqttbuf, buflen);
+
+            //em_printf("receive topic: %s %d\n", receivedTopic.lenstring.data, receivedTopic.lenstring.len);
+
+            //em_printf("message arrived %.*s\n", payloadlen_in, payload_in);
+
+            len = MQTTSerialize_puback(mqttbuf, buflen, msgid);
+            transport_sendPacketBuffer(mqtt, mqttbuf, len);
+            wifi->mqtt_read = 0;
+        }
+
+        //1s
+        if (time_1s++ == 200)
+        {
+			time_1s = 0;
+            cJSON *pJsonRoot = NULL;
+            pJsonRoot = cJSON_CreateObject();
+            if (pJsonRoot == NULL)
+            {
+                em_printf("Json Failed.\n");
+                continue;
+            }
+            cJSON_AddStringToObject(pJsonRoot, "id", "rty");                           //
+            cJSON_AddStringToObject(pJsonRoot, "method", "thing.event.property.post"); //
+            cJSON *pJsonChild = cJSON_CreateObject();                                  //
+            if (NULL == pJsonChild)
+            {
+                cJSON_Delete(pJsonChild);
+                continue;
+            }
+            cJSON_AddNumberToObject(pJsonChild, "CurrentTemperature", m_cnt++);
+            cJSON_AddItemToObject(pJsonRoot, "params", pJsonChild); //
+
+            char *lpJsonStr = cJSON_Print(pJsonRoot);
+            cJSON_Delete(pJsonRoot); //
+            if (lpJsonStr == NULL)
+            {
+                em_printf("lpJsonStr Failed.\n");
+                continue;
+            }
+
+            topicString.cstring = "/sys/a1eQDqcFTdO/0gqfJL6z7j8HvQQbFQQY/thing/event/property/post";
+            len = MQTTSerialize_publish(mqttbuf, buflen, 0, 2, 0, 0, topicString, (unsigned char*)lpJsonStr, strlen(lpJsonStr));
+            transport_sendPacketBuffer(mqtt, mqttbuf, len);
+            free(lpJsonStr);
+        }
 
         emit(sigBtn, NULL);
-		
     }
 }
 
