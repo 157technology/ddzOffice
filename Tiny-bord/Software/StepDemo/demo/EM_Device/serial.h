@@ -10,6 +10,7 @@
 #define __SERIAL_H__
 
 #include "usart.h"
+#include "../Core/Inc/main.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -20,6 +21,10 @@
 
 #define WIFI_UART huart6
 #define WIFI_ISR USART6_IRQHandler
+
+
+
+
 
 typedef struct __serial
 {
@@ -35,6 +40,8 @@ typedef struct __serial
 	/**/
 	
 } Serial;
+
+extern Serial *console;
 
 void em_printf(const char *format, ...);
 

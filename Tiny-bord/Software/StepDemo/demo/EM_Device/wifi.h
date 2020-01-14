@@ -49,6 +49,8 @@ typedef struct __wifi
 
 } Wifi;
 
+extern Wifi *pwifi;
+
 Wifi *Wifi_Regester(UART_HandleTypeDef *puart, int rbufSize, int tbufSize);
 
 WF WifiSmart();

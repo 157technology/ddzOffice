@@ -1,5 +1,4 @@
 #include "serial.h"
-
 /* global */
 Serial *console;
 
@@ -67,17 +66,16 @@ Serial *Serial_Regester(UART_HandleTypeDef *puart, int rbufSize, int tbufSize)
 
 	SET_BIT(puart->Instance->CR1, USART_CR1_IDLEIE);
 	SET_BIT(puart->Instance->CR3, USART_CR3_DMAR); // enable DMA Receive
+	ps->signal = (pfun)MALLOC(sizeof(pfun));
 
 	if (puart == &huart1)
 	{
-		ps->signal = ReadyRead;
 		m_com1 = ps;
 		HAL_NVIC_SetPriority(USART1_IRQn, 1, 0);
 		HAL_NVIC_EnableIRQ(USART1_IRQn);
 	}
 	else if (puart == &huart6)
 	{
-		ps->signal = WifiRead;
 		m_com6 = ps;
 		HAL_NVIC_SetPriority(USART6_IRQn, 1, 0);
 		HAL_NVIC_EnableIRQ(USART6_IRQn);
@@ -112,7 +110,7 @@ inline static void isr_handle(Serial *ps, int ndtr)
 	ps->rCnt = ps->rbufSize - ndtr;
 	ps->rbuf[ps->rCnt] = '\0';
 	//emit signal
-
+	//em_printf("%s\r\n", ps->rbuf);
 	//emit_readyRead(rbuf);
 	emit(ps->signal, (void *)ps->rbuf);
 

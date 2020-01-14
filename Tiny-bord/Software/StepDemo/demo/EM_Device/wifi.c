@@ -4,7 +4,7 @@
 #include "usart.h"
 #include "cmsis_os2.h"
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
-static Wifi *m_wifi;
+Wifi *pwifi;
 /*###########################################*/
 void slot_link_hasData(void *data);
 /*###########################################*/
@@ -17,8 +17,8 @@ Wifi *Wifi_Regester(UART_HandleTypeDef *puart, int rbufSize, int tbufSize)
 
     // 初始化通信串口 | 设置槽函数
     wifi->link = Serial_Regester(puart, rbufSize, tbufSize);
-    Serial_Init(wifi->link);
-    connect(WifiRead, slot_link_hasData);
+
+    connect(wifi->link->signal, slot_link_hasData, DirectConnect);
     // 初始化wifi的状态
     wifi->state = InActive;
     wifi->cmd = 0;
@@ -26,32 +26,33 @@ Wifi *Wifi_Regester(UART_HandleTypeDef *puart, int rbufSize, int tbufSize)
     wifi->mqtt_read = 0;
     memset(wifi->pool, 0, sizeof(wifi->pool)); //socket unuse
     // link to local
-    m_wifi = wifi;
+    pwifi = wifi;
     return wifi;
 }
 
 void slot_link_hasData(void *data)
 {
     char *str = (char *)data;
-    //em_printf("wifi have data %d.\n", m_wifi->link->rCnt);
-    if (m_wifi->cmd)
+    em_printf("wifi have data %d.\n", pwifi->link->rCnt);
+    em_printf("%s", str);
+    if (pwifi->cmd)
     {
         //em_printf(">>>cmd# %s.\n", str);
-        if (m_wifi->smartconfig == 1)
+        if (pwifi->smartconfig == 1)
         {
             //处理smartconfig返回的信息
             //em_printf(">>>cmd smart# %s.\n", str);
             if (strcmp(str, "smartconfig connected wifi\r\n") == 0)
             {
                 //配网成功
-                m_wifi->smartconfig = 0;
+                pwifi->smartconfig = 0;
             }
         }
     }
     else
     {
         //em_printf(">>>wifi# %s.\n", str);
-        int num = m_wifi->link->rCnt;
+        int num = pwifi->link->rCnt;
         while (num > 5)
         {
             if (strncmp(str, "+IPD", 4) == 0)
@@ -59,16 +60,16 @@ void slot_link_hasData(void *data)
                 int m_sock, m_len; //获取到网络信息, 解析
                 sscanf(str + 5, "%d,%d", &m_sock, &m_len);
                 //em_printf("sock:%d, len:%d", m_sock, m_len);
-                if (m_sock == m_wifi->sock_mqtt)
+                if (m_sock == pwifi->sock_mqtt)
                 {
                     //是mqtt的信息
                     //em_printf("获取到mqtt的数据\n");
                     while (*str != ':')
                         str++;
                     str++;
-                    m_wifi->mqtt_read = 1;
-                    m_wifi->mqtt_data = str;
-                    m_wifi->mqtt_len = m_len;
+                    pwifi->mqtt_read = 1;
+                    pwifi->mqtt_data = str;
+                    pwifi->mqtt_len = m_len;
                     // for (int i = 0; i < m_len; i++)
                     //     em_printf("0x%X ", str[i]);
                     // em_printf("\n");
@@ -90,7 +91,7 @@ static void cb_ipstatus(void *data)
 {
     char *str = (char *)data;
 
-    sscanf(str, "STATUS:%d", &m_wifi->ipstatus);
+    sscanf(str, "STATUS:%d", &pwifi->ipstatus);
 }
 static void cb_apinfo(void *data)
 {
@@ -101,7 +102,7 @@ static void cb_apinfo(void *data)
             *str = ' ';
         str++;
     }
-    sscanf((char *)data, "+CWJAP: %s", m_wifi->AP);
+    sscanf((char *)data, "+CWJAP: %s", pwifi->AP);
 }
 static void cb_ipinfo(void *data)
 {
@@ -112,7 +113,7 @@ static void cb_ipinfo(void *data)
             *str = ' ';
         str++;
     }
-    sscanf((char *)data, "+CIFSR:STAIP %s +CIFSR:STAMAC %s", m_wifi->IP, m_wifi->MAC);
+    sscanf((char *)data, "+CIFSR:STAIP %s +CIFSR:STAMAC %s", pwifi->IP, pwifi->MAC);
 }
 
 static void cb_ping(void *data)
@@ -126,7 +127,7 @@ static void cb_ping(void *data)
             *str = ' ';
         str++;
     }
-    sscanf((char *)data, "+%d", &m_wifi->ping);
+    sscanf((char *)data, "+%d", &pwifi->ping);
 }
 
 static void cb_joinap(void *data)
@@ -146,43 +147,43 @@ static void cb_joinap(void *data)
 static WF command_at_once(char *cmd, char *check, int timeout)
 {
     //set state
-    m_wifi->cmd = 1;
-    m_wifi->link->rCnt = 0;
+    pwifi->cmd = 1;
+    pwifi->link->rCnt = 0;
 
     // send cmd
-    Serial_Print(m_wifi->link, "%s\r\n", cmd);
+    Serial_Print(pwifi->link, "%s\r\n", cmd);
 
     for (int i = 0; i < timeout / 20; i++)
     {
         // 查询接收
-        if (m_wifi->link->rCnt != 0)
+        if (pwifi->link->rCnt != 0)
         {
-            char *str = m_wifi->link->rbuf;
+            char *str = pwifi->link->rbuf;
 
             // check <str, check>
             if (strcmp(str + strlen(str) - strlen(check), check) == 0)
             {
-                m_wifi->cmd = 0;
+                pwifi->cmd = 0;
                 return wfOk;
             }
             if (strlen(str) > strlen("ERROR\r\n") && strcmp(str + strlen(str) - strlen("ERROR\r\n"), "ERROR\r\n") == 0)
             {
-                m_wifi->cmd = 0;
+                pwifi->cmd = 0;
                 return wfError;
             }
             if (strlen(str) > strlen("FAIL\r\n") && strcmp(str + strlen(str) - strlen("FAIL\r\n"), "FAIL\r\n") == 0)
             {
-                m_wifi->cmd = 0;
+                pwifi->cmd = 0;
                 return wfError;
             }
             if (strlen(str) > strlen("ALREADY CONNECT\r\n") && strcmp(str + strlen(str) - strlen("ALREADY CONNECT\r\n"), "ALREADY CONNECT\r\n") == 0)
             {
-                m_wifi->cmd = 0;
+                pwifi->cmd = 0;
                 return wfError;
             }
             // Error
             //clear
-            m_wifi->link->rCnt = 0;
+            pwifi->link->rCnt = 0;
         }
 
         // delay
@@ -194,40 +195,40 @@ static WF command_at_once(char *cmd, char *check, int timeout)
 static WF command_at_func(char *cmd, char *check, pfun cb, int timeout)
 {
     //set state
-    m_wifi->cmd = 1;
-    m_wifi->link->rCnt = 0;
+    pwifi->cmd = 1;
+    pwifi->link->rCnt = 0;
 
     // send cmd
-    Serial_Print(m_wifi->link, "%s\r\n", cmd);
+    Serial_Print(pwifi->link, "%s\r\n", cmd);
 
     for (int i = 0; i < timeout / 20; i++)
     {
         // 查询接收
-        if (m_wifi->link->rCnt != 0)
+        if (pwifi->link->rCnt != 0)
         {
-            char *str = m_wifi->link->rbuf;
+            char *str = pwifi->link->rbuf;
 
             //回调函数
             cb((void *)str);
             // check <str, check>
             if (strcmp(str + strlen(str) - strlen(check), check) == 0)
             {
-                m_wifi->cmd = 0;
+                pwifi->cmd = 0;
                 return wfOk;
             }
             // Error
             if (strlen(str) > strlen("ERROR\r\n") && strcmp(str + strlen(str) - strlen("ERROR\r\n"), "ERROR\r\n") == 0)
             {
-                m_wifi->cmd = 0;
+                pwifi->cmd = 0;
                 return wfError;
             }
             if (strlen(str) > strlen("FAIL\r\n") && strcmp(str + strlen(str) - strlen("FAIL\r\n"), "FAIL\r\n") == 0)
             {
-                m_wifi->cmd = 0;
+                pwifi->cmd = 0;
                 return wfError;
             }
             //clear
-            m_wifi->link->rCnt = 0;
+            pwifi->link->rCnt = 0;
         }
 
         // delay
@@ -253,28 +254,28 @@ WF WIFI_AT_RST()
         //return wfError;
     }
     //wait to restart
-    m_wifi->cmd = 1;
-    m_wifi->link->rCnt = 0; // set flag
+    pwifi->cmd = 1;
+    pwifi->link->rCnt = 0; // set flag
                             // set two seconds to wait to start
                             // then    -> ready
     for (int i = 0; i < 100; i++)
     {
-        if (m_wifi->link->rCnt != 0)
+        if (pwifi->link->rCnt != 0)
         {
-            char *str = m_wifi->link->rbuf;
+            char *str = pwifi->link->rbuf;
 
             if (strlen(str) > strlen("ready\r\n") && strcmp(str + strlen(str) - strlen("ready\r\n"), "ready\r\n") == 0)
             {
-                m_wifi->cmd = 0;
+                pwifi->cmd = 0;
                 return wfOk;
             }
 
-            m_wifi->link->rCnt = 0;
+            pwifi->link->rCnt = 0;
         }
         osDelay(20);
     }
 
-    m_wifi->cmd = 0;
+    pwifi->cmd = 0;
     return wfTimeOut;
 }
 WF WIFI_AT_ATE()
@@ -343,9 +344,9 @@ WF WifiSmart()
     if (command_at_once("AT+CWSTARTSMART", "OK\r\n", 100) == wfOk)
     {
         em_printf("in start smart config.\n");
-        m_wifi->cmd = 1;
-        m_wifi->smartconfig = 1;
-        while (m_wifi->smartconfig)
+        pwifi->cmd = 1;
+        pwifi->smartconfig = 1;
+        while (pwifi->smartconfig)
         {
             osDelay(5000);
             em_printf(".");
@@ -410,14 +411,14 @@ void WifiSelfCheck()
 {
     if (WIFI_AT_CMD() == wfOk) //AT test
     {
-        m_wifi->state = NoWifi;
+        pwifi->state = NoWifi;
         //should reset<-v->
         WIFI_AT_ATE();
         //WIFI_AT_TTT();
         //ap
         if (WIFI_AT_IPSTATUS() == wfOk)
         {
-            if (m_wifi->ipstatus == 5)
+            if (pwifi->ipstatus == 5)
             {
                 //NO AP
             }
@@ -426,27 +427,27 @@ void WifiSelfCheck()
                 //AP
                 if (WIFI_AT_APINFO() == wfOk)
                 {
-                    em_printf("root>>> AP: %s\n", m_wifi->AP);
+                    em_printf("root>>> AP: %s\n", pwifi->AP);
                 }
 
                 //IP
                 if (WIFI_AT_IPINFO() == wfOk)
                 {
-                    em_printf("root>>>  IP: %s\n", m_wifi->IP);
-                    em_printf("root>>> MAC: %s\n", m_wifi->MAC);
+                    em_printf("root>>>  IP: %s\n", pwifi->IP);
+                    em_printf("root>>> MAC: %s\n", pwifi->MAC);
                 }
                 //PING
 
                 if (WIFI_AT_PING() == wfOk)
                 {
-                    em_printf("root>>>Ping: %d\n", m_wifi->ping);
+                    em_printf("root>>>Ping: %d\n", pwifi->ping);
                 }
                 else
                 {
                     em_printf("no internet.\n");
                 }
 
-                if (m_wifi->ipstatus == 3)
+                if (pwifi->ipstatus == 3)
                 {
                     //连接情况
                 }
@@ -475,7 +476,7 @@ socket TcpSocket(char *ipaddr, int port)
 
     for (int i = 0; i < 5; i++)
     {
-        if (m_wifi->pool[i] == 0)
+        if (pwifi->pool[i] == 0)
         {
             sock = i;
             break;
@@ -490,7 +491,7 @@ socket TcpSocket(char *ipaddr, int port)
     if (command_at_once(str, "OK\r\n", 500) == wfOk)
     {
         //占用这个socket,并返回
-        m_wifi->pool[sock] = 1;
+        pwifi->pool[sock] = 1;
         return sock;
     }
     return -1;
@@ -527,7 +528,7 @@ WF TcpSend(socket sock, char *data, int len)
         // em_printf("END..\n");
         //osDelay(1000);
         //HAL_UART_Transmit(m_wifi->link->puart, data, len, 9999);
-        emHAL_UART_Transmit_DMA(m_wifi->link->puart, (uint8_t *)data, len);
+        emHAL_UART_Transmit_DMA(pwifi->link->puart, (uint8_t *)data, len);
         //Serial_Print(m_wifi->link, "%s", data);
 
         //ckech if send ok

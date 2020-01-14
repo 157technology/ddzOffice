@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "commom.h": "c",
+        "wifi.h": "c",
+        "cmsis_os2.h": "c"
+    }
+}

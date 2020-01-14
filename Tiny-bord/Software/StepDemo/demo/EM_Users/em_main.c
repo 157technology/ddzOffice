@@ -22,11 +22,18 @@ void bN(void*argument)
     HAL_GPIO_TogglePin(LED4_GPIO_Port, LED4_Pin);
 }
 
+void SerialSlot(void * str)
+{
+    em_printf("Slot: %s\r\n", (char*)str);
+    Serial_Print(pwifi->link, "%s\r\n", (char*)str);
+}
+
 void mainThread(void * argument);
 
 int main(void)
 {
     connect(testSignal,testSlot, DirectConnect);
+    connect(console->signal, SerialSlot, DirectConnect);
     connect(testSignal, tN, QueuedConnect);
     connect(testSignal, bN, BlockingQueuedConnect);
 	EventRecorderInitialize(EventRecordAll, 1);

@@ -328,7 +328,7 @@
             <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
-            <v6Lang>2</v6Lang>
+            <v6Lang>6</v6Lang>
             <v6LangP>7</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
@@ -402,6 +402,16 @@
               <FileName>memory.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\EM_Device\memory.c</FilePath>
+            </File>
+            <File>
+              <FileName>serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\EM_Device\serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\EM_Device\wifi.c</FilePath>
             </File>
           </Files>
         </Group>
