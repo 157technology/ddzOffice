@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-14 10:42:46
- * @LastEditTime : 2020-01-14 16:53:18
+ * @LastEditTime : 2020-01-15 14:43:27
  * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \demo\EM_Users\em_main.c
@@ -47,12 +47,29 @@ int main(void)
 
 void mainThread(void * argument)
 {
+    //char ch[50];
+    int cnt = 0;
     creat_signalThread();
+
+    WifiInit();
+
     while (1)
     {
         HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
         osDelay(200);
         emit(testSignal, NULL);
+
+        if ( cnt ++ == 50 )
+        {
+            cnt = 0;
+			//ch[0] = '\0';
+            //pwifi->pqueue->readAll(ch, 2000);
+            //em_printf(">>> All: %s", ch);
+            // if ( WIFI_AT_CMD() == wfOk )
+            // {
+            //     em_printf("AT test OK.\r\n");
+            // }
+        }
     }
     
 }

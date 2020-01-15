@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-01-15 08:51:50
+ * @LastEditTime : 2020-01-15 12:18:48
+ * @LastEditors  : Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \demo\EM_Device\wifi.h
+ */
 #ifndef __WIFI_H__
 #define __WIFI_H__
 
@@ -19,6 +27,24 @@ typedef enum __wf
 } WF;
 
 typedef int socket;
+
+typedef struct __wfqueuedata
+{
+    char *buf;
+    char *cursor;
+    char *read;
+    int len;
+    int lock;
+} WF_QueueData;
+
+typedef struct __wfqueue
+{
+    void (*clear)(void);
+    void (*append)(char *data, int len);
+    void (*read)(char *aim, int len, int timeout);
+    void (*readAll)(char *aim, int * len, int timeout);
+
+} WF_Queue;
 
 typedef struct __wifi
 {
@@ -42,10 +68,12 @@ typedef struct __wifi
     socket pool[5]; //socket pool:<0>unused, <1>used--max connect five
     socket sock_mqtt;
 
+    WF_Queue * pqueue;
     /*read*/
+
     int mqtt_read;
     int mqtt_len;
-    char * mqtt_data;
+    char *mqtt_data;
 
 } Wifi;
 
@@ -60,5 +88,10 @@ void WifiSelfCheck();
 
 socket TcpSocket(char *ipaddr, int port);
 WF TcpSend(socket sock, char *data, int len);
+
+
+
+/**/
+WF WIFI_AT_CMD();
 
 #endif // !__WIFI_H__

@@ -13,8 +13,7 @@
                 "UNICODE",
                 "_UNICODE",
                 "USE_HAL_DRIVER",
-                "STM32F411xE",
-                "CMSIS_device_header"
+                "STM32F411xE"
             ],
             "cStandard": "c11",
             "intelliSenseMode": "${default}",
