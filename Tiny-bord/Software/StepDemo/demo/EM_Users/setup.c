@@ -34,8 +34,8 @@ void $Sub$$main(void)
     //EventRecorderInitialize(EventRecordAll, 1);
     MallocInit(); //初始化动态内存
 
-    console = Serial_Regester(&huart1, 512, 512);
-    pwifi = Wifi_Regester(&huart6, 1024, 512);
+    console = Serial_Regester(&huart1, 1024, 1024);
+    pwifi = Wifi_Regester(&huart6, 1024, 1024);
     em_printf("Hello World\r\n");
     // OLED_Init();
     // OLED_Fill(0x00);

@@ -152,23 +152,49 @@ int mqtt_subscription(char *topic)
     return 1;
 }
 
-char httpbuf[] = "get\r\n";
+
 void http_updatetime()
 {
-    char buf[512];
+    char buf[550];
     int len = 0;
+    char httpbuf[] = "get\r\n";
     int sock = TcpSocket("bjtime.cn", 80);//"bjtime.cn"
     
+    char weekday[5];
+    int date;
+    char month[5];
+    int year;
+    int hour;
+    int minite;
+    int second;
+
+
     if ( sock == -1 )
     {
         return;
     }
     pwifi->pqueue->clear();
     TcpSend(sock, httpbuf, strlen(httpbuf));
-    pwifi->pqueue->readAll(buf, &len, 1000);
+    em_printf(">wait to get.\r\n");
+    pwifi->pqueue->readAll(buf, &len, 3000);
+    em_printf("len: %d\r\n", len);
+
     if ( len != 0 )
     {
         em_printf(">Receive Data : %.*s.\r\n", len, buf);
+        char * pstr = buf;
+        //while ( strncmp("Date:", pstr, 5) == 0 )
+        {
+            pstr ++;
+            em_printf(">Think %.*s.\r\n", 4, pstr);
+            osDelay(20);
+        }
+        pstr += 6;
+        em_printf("\r\n-------------\r\n");
+        em_printf("\r\n>Think %.*s.\r\n", 20, pstr);
+        sscanf(pstr, "%s %d %s %d %d:%d:%d", weekday, &date, month, &year, &hour, &minite, &second);
+
+        em_printf(">%d-%d-%d\r\n", hour, minite, second);
     }
 
     

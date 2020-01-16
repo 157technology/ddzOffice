@@ -43,7 +43,7 @@ static void WF_Queue_Append(char *data, int len)
         osDelay(1);
     }
     m_queue_data.lock = 1;
-    if ( len > 512 )    len = 512;
+    //if ( len > 512 )    len = 512;
     memcpy(m_queue_data.cursor, data, len);
     m_queue_data.cursor += len;
     m_queue_data.len += len;
