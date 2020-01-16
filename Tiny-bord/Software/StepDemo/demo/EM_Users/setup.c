@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-14 10:42:46
- * @LastEditTime : 2020-01-14 16:08:44
+ * @LastEditTime : 2020-01-16 16:41:06
  * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \demo\EM_Users\setup.c
@@ -35,7 +35,7 @@ void $Sub$$main(void)
     MallocInit(); //初始化动态内存
 
     console = Serial_Regester(&huart1, 512, 512);
-    pwifi = Wifi_Regester(&huart6, 512, 512);
+    pwifi = Wifi_Regester(&huart6, 1024, 512);
     em_printf("Hello World\r\n");
     // OLED_Init();
     // OLED_Fill(0x00);

@@ -43,7 +43,7 @@ static void WF_Queue_Append(char *data, int len)
         osDelay(1);
     }
     m_queue_data.lock = 1;
-
+    if ( len > 512 )    len = 512;
     memcpy(m_queue_data.cursor, data, len);
     m_queue_data.cursor += len;
     m_queue_data.len += len;
@@ -118,6 +118,113 @@ WF_Queue m_wf_queue = {
     WF_Queue_Append,
     WF_Queue_Read,
     WF_Queue_ReadAll};
+
+////////////////////////////////////////
+static void WF_MQTT_Queue_Clear(void);
+static void WF_MQTT_Queue_Append(char *data, int len);
+static WF WF_MQTT_Queue_Read(char *aim, int len, int timeout);
+static WF WF_MQTT_Queue_ReadAll(char *aim, int *len, int timeout);
+
+WF_QueueData m_MQTT_queue_data;
+
+static void WF_MQTT_Queue_Clear(void)
+{
+    while (m_MQTT_queue_data.lock == 1)
+    {
+        osDelay(1);
+    }
+    m_MQTT_queue_data.lock = 1;
+
+    m_MQTT_queue_data.cursor = m_MQTT_queue_data.buf;
+    m_MQTT_queue_data.read = m_MQTT_queue_data.buf;
+
+    m_MQTT_queue_data.len = 0;
+
+    m_MQTT_queue_data.lock = 0;
+}
+
+static void WF_MQTT_Queue_Append(char *data, int len)
+{
+    while (m_MQTT_queue_data.lock == 1)
+    {
+        osDelay(1);
+    }
+    m_MQTT_queue_data.lock = 1;
+
+    memcpy(m_MQTT_queue_data.cursor, data, len);
+    m_MQTT_queue_data.cursor += len;
+    m_MQTT_queue_data.len += len;
+
+    m_MQTT_queue_data.lock = 0;
+}
+
+static WF WF_MQTT_Queue_Read(char *aim, int len, int timeout)
+{
+    int count = 0;
+    while (m_MQTT_queue_data.lock == 1)
+    {
+        osDelay(1);
+    }
+    m_MQTT_queue_data.lock = 1;
+
+    while (len > m_MQTT_queue_data.len)
+    {
+        m_MQTT_queue_data.lock = 0;
+        osDelay(1);
+        if (++count >= timeout)
+        {
+            //time out
+            m_MQTT_queue_data.lock = 0;
+            return wfTimeOut;
+        }
+    }
+
+    memcpy(aim, m_MQTT_queue_data.read, len);
+
+    m_MQTT_queue_data.read += len;
+    m_MQTT_queue_data.len -= len;
+
+    m_MQTT_queue_data.lock = 0;
+    return wfOk;
+}
+
+static WF WF_MQTT_Queue_ReadAll(char *aim, int *len, int timeout)
+{
+    int count = 0;
+    while (m_MQTT_queue_data.lock == 1)
+    {
+        osDelay(1);
+    }
+    m_MQTT_queue_data.lock = 1;
+
+    while (m_MQTT_queue_data.len == 0)
+    {
+        m_MQTT_queue_data.lock = 0;
+        osDelay(1);
+        if (++count >= timeout)
+        {
+            //time out
+            m_MQTT_queue_data.lock = 0;
+            return wfTimeOut;
+        }
+    }
+
+    *len = m_MQTT_queue_data.len;
+    memcpy(aim, m_MQTT_queue_data.read, m_MQTT_queue_data.len);
+
+    m_MQTT_queue_data.cursor = m_MQTT_queue_data.buf;
+    m_MQTT_queue_data.read = m_MQTT_queue_data.buf;
+    m_MQTT_queue_data.len = 0;
+
+    m_MQTT_queue_data.lock = 0;
+    return wfOk;
+}
+
+WF_Queue m_wf_MQTT_queue = {
+    WF_MQTT_Queue_Clear,
+    WF_MQTT_Queue_Append,
+    WF_MQTT_Queue_Read,
+    WF_MQTT_Queue_ReadAll};
 /*vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 
 Wifi *Wifi_Regester(UART_HandleTypeDef *puart, int rbufSize, int tbufSize)
@@ -141,7 +248,14 @@ Wifi *Wifi_Regester(UART_HandleTypeDef *puart, int rbufSize, int tbufSize)
     m_queue_data.len = 0;
     m_queue_data.lock = 0;
 
+    m_MQTT_queue_data.buf = (char *)MALLOC(sizeof(char) * rbufSize);
+    m_MQTT_queue_data.cursor = m_MQTT_queue_data.buf;
+    m_MQTT_queue_data.read = m_MQTT_queue_data.buf;
+    m_MQTT_queue_data.len = 0;
+    m_MQTT_queue_data.lock = 0;
+
     wifi->pqueue = &m_wf_queue;
+    wifi->mqttqueue = &m_wf_MQTT_queue;
     // link to local
     pwifi = wifi;
     return wifi;
@@ -151,57 +265,29 @@ void slot_link_hasData(void *data)
 {
     char *str = (char *)data;
     pwifi->pqueue->append(str, pwifi->link->rCnt);
-    //em_printf("wifi have data %d.\r\n", pwifi->link->rCnt);
-    //em_printf("%s", str);
-    if (pwifi->cmd)
+    em_printf("\r\nwifi have data %d.\r\n", pwifi->link->rCnt);
+    em_printf("%s\r\n", str);
+    if (strncmp(str, "\r\n+IPD", 6) == 0)
     {
-        //em_printf(">>>cmd# %s.\n", str);
-        if (pwifi->smartconfig == 1)
+        int m_sock, m_len; //获取到网络信息, 解析
+        sscanf(str + 7, "%d,%d", &m_sock, &m_len);
+        //em_printf("sock:%d, len:%d", m_sock, m_len);
+
+        if (m_sock == pwifi->sock_mqtt)
         {
-            //处理smartconfig返回的信息
-            //em_printf(">>>cmd smart# %s.\n", str);
-            if (strcmp(str, "smartconfig connected wifi\r\n") == 0)
-            {
-                //配网成功
-                pwifi->smartconfig = 0;
-            }
-        }
-    }
-    else
-    {
-        //em_printf(">>>wifi# %s.\n", str);
-        int num = pwifi->link->rCnt;
-        while (num > 5)
-        {
-            if (strncmp(str, "+IPD", 4) == 0)
-            {
-                int m_sock, m_len; //获取到网络信息, 解析
-                sscanf(str + 5, "%d,%d", &m_sock, &m_len);
-                //em_printf("sock:%d, len:%d", m_sock, m_len);
-                if (m_sock == pwifi->sock_mqtt)
-                {
-                    //是mqtt的信息
-                    //em_printf("获取到mqtt的数据\n");
-                    while (*str != ':')
-                        str++;
-                    str++;
-                    pwifi->mqtt_read = 1;
-                    pwifi->mqtt_data = str;
-                    pwifi->mqtt_len = m_len;
-                    // for (int i = 0; i < m_len; i++)
-                    //     em_printf("0x%X ", str[i]);
-                    // em_printf("\n");
-                }
-                break;
-            }
-            else
-            {
+            //是mqtt的信息
+            //em_printf("获取到mqtt的数据\n");
+            while (*str != ':')
                 str++;
-                num--;
-            }
-            /* code */
+            str++;
+            pwifi->mqtt_read = 1;
+
+            pwifi->mqttqueue->append(str, m_len);
+
+            // for (int i = 0; i < m_len; i++)
+            //     em_printf("%c-", str[i]);
+            // em_printf("\n");
         }
-        /* code */
     }
 }
 
@@ -438,9 +524,15 @@ WF WIFI_AT_SET_SMART(int mode)
 }
 WF WIFI_AT_TCP(int sock, char *ip, int port)
 {
-    char str[64];
+    char str[128];
     sprintf(str, "AT+CIPSTART=%d,\"TCP\",\"%s\",%d", sock, ip, port);
     return command_at_once(str, "OK\r\n", "ERROR\r\n", 500);
+}
+WF WIFI_AT_TCP_SEND(int sock, int len)
+{
+    char str[64];
+    sprintf(str, "AT+CIPSEND=%d,%d", sock, len);
+    return command_at_once(str, "> ", "ERROR\r\n", 100);
 }
 // WF WIFI_AT_IPSTATUS()
 // {
@@ -651,7 +743,7 @@ socket getsocket()
 /*##############################################*/
 socket TcpSocket(char *ipaddr, int port)
 {
-    char str[64];
+    char str[128];
     socket sock = getsocket(); //获取一个socket<一共有five> -- sockct pool
 
     if (sock == -1)
@@ -679,28 +771,18 @@ socket TcpSocket(char *ipaddr, int port)
 //     return -1;
 // }
 
-// //data需要转化为字符串 +'\0'
-// //max(len) -- 2048
-// WF TcpSend(socket sock, char *data, int len)
-// {
-//     char str[64];
-//     sprintf(str, "AT+CIPSEND=%d,%d", sock, len);
-//     if (command_at_once(str, "> ", 100) == wfOk)
-//     {
-//         //开始发送 len
-//         // em_printf("start send:\n");
-//         // for (int i = 0; i < len; i++)
-//         // {
-//         //     em_printf("%c", data[i]);
-//         // }
-//         // em_printf("END..\n");
-//         //osDelay(1000);
-//         //HAL_UART_Transmit(m_wifi->link->puart, data, len, 9999);
-//         emHAL_UART_Transmit_DMA(pwifi->link->puart, (uint8_t *)data, len);
-//         //Serial_Print(m_wifi->link, "%s", data);
+//data需要转化为字符串 +'\0'
+//max(len) -- 2048
+WF TcpSend(socket sock, char *data, int len)
+{
+    // check socket
 
-//         //ckech if send ok
-//         {
-//         }
-//     }
-// }
+    if (WIFI_AT_TCP_SEND(sock, len) != wfOk)
+    {
+        return wfError;
+    }
+
+    NetSend(data, len);
+
+    return get_response("SEND OK\r\n", "ERROR\r\n", 300);
+}

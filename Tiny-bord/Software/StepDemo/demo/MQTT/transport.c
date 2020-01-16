@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-01-14 10:42:46
+ * @LastEditTime : 2020-01-16 12:18:54
+ * @LastEditors  : Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \demo\MQTT\transport.c
+ */
 /*******************************************************************************
  * Copyright (c) 2014 IBM Corp.
  *
@@ -37,47 +45,19 @@ int transport_sendPacketBuffer(int sock, unsigned char *buf, int buflen)
 	return buflen;
 }
 
-extern Wifi *wifi;
 int transport_getdata(unsigned char *buf, int count)
 {
-	//int rc = recv(mysock, buf, count, 0);
-	//printf("received %d bytes count %d\n", rc, (int)count);
-	while ( wifi->mqtt_read == 0 )
+
+	if ( pwifi->mqttqueue->read(buf, count, 120000) != wfOk )
 	{
-		//em_printf(">%d", wifi->mqtt_read);
-		osDelay(5);
+		return 0;
 	}
-	memcpy(buf, wifi->mqtt_data, count);
-	//em_printf("%d->0x%x\n", wifi->mqtt_len, *wifi->mqtt_data);
-	wifi->mqtt_data++;
-	wifi->mqtt_len--;
-	if ( wifi->mqtt_len <= 0 )
-	{
-		wifi->mqtt_read = 0;
-	}
-	//wifi->mqtt_read = 0;
-	//return rc;
+
 	return count;
 }
 int transport_getdata_once(unsigned char *buf, int count)
 {
-	//int rc = recv(mysock, buf, count, 0);
-	//printf("received %d bytes count %d\n", rc, (int)count);
-	while ( wifi->mqtt_read == 0 )
-	{
-		//em_printf(">%d", wifi->mqtt_read);
-		//osDelay(5);
-		memset(buf, 0, count);
-		return count;
-	}
-	memcpy(buf, wifi->mqtt_data, count);
-	//em_printf("%d->0x%x\n", wifi->mqtt_len, *wifi->mqtt_data);
-	wifi->mqtt_data++;
-	wifi->mqtt_len--;
-	if ( wifi->mqtt_len <= 0 )
-	{
-		wifi->mqtt_read = 0;
-	}
+	pwifi->mqttqueue->read(buf, count, 100);
 	//wifi->mqtt_read = 0;
 	//return rc;
 	return count;

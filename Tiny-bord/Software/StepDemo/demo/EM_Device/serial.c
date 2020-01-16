@@ -33,8 +33,6 @@ void emHAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t
 	uart && dma
 */
 //device
-void ReadyRead(void *data){};
-void WifiRead(void *data) {}
 static Serial *m_com1;
 static Serial *m_com6;
 Serial *Serial_Regester(UART_HandleTypeDef *puart, int rbufSize, int tbufSize)

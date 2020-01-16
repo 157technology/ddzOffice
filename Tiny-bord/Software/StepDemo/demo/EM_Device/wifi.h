@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-15 08:51:50
- * @LastEditTime : 2020-01-15 12:18:48
+ * @LastEditTime : 2020-01-16 12:18:03
  * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \demo\EM_Device\wifi.h
@@ -41,8 +41,8 @@ typedef struct __wfqueue
 {
     void (*clear)(void);
     void (*append)(char *data, int len);
-    void (*read)(char *aim, int len, int timeout);
-    void (*readAll)(char *aim, int * len, int timeout);
+    WF (*read)(char *aim, int len, int timeout);
+    WF (*readAll)(char *aim, int *len, int timeout);
 
 } WF_Queue;
 
@@ -64,16 +64,19 @@ typedef struct __wifi
 
     char BroadCast[16]; //broadcast addtess
 
+    WF_Queue *pqueue;
+
     /*tcp/ip*/
     socket pool[5]; //socket pool:<0>unused, <1>used--max connect five
     socket sock_mqtt;
 
-    WF_Queue * pqueue;
     /*read*/
 
     int mqtt_read;
     int mqtt_len;
     char *mqtt_data;
+    // mqtt queue
+    WF_Queue *mqttqueue;
 
 } Wifi;
 
@@ -89,9 +92,7 @@ void WifiSelfCheck();
 socket TcpSocket(char *ipaddr, int port);
 WF TcpSend(socket sock, char *data, int len);
 
-
-
 /**/
-WF WIFI_AT_CMD();
+#define NetSend(data, len) emHAL_UART_Transmit_DMA(pwifi->link->puart, (uint8_t *)(data), (len))
 
 #endif // !__WIFI_H__
