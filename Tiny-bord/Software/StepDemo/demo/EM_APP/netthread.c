@@ -13,6 +13,8 @@
 #include "MQTTPacket.h"
 #include "MQTTConnect.h"
 
+#include "rtc.h"
+
 /*初始化mqtt*/
 #define ALICLOUD "a1eQDqcFTdO.iot-as-mqtt.cn-shanghai.aliyuncs.com"
 int mqtt_init();
@@ -44,9 +46,9 @@ void NetThread(void *argument)
         // if (TcpSend(tcp1, databuf, strlen(databuf)) != wfOk)
         //     em_printf(">Send ERROR.\r\n");
 
-        mqtt_receive();
-
-        //mqtt_heartbeat();
+        //mqtt_receive();
+        osDelay(120000);
+        mqtt_heartbeat();
     }
 }
 
@@ -122,7 +124,6 @@ int mqtt_receive()
         MQTTDeserialize_publish(&dup, &qos, &retained, &msgid, &receivedTopic,
                                 &payload_in, &payloadlen_in, buf, buflen);
 
-        
         int len = MQTTSerialize_puback(buf, buflen, msgid);
         transport_sendPacketBuffer(pwifi->sock_mqtt, buf, len);
 
@@ -152,14 +153,96 @@ int mqtt_subscription(char *topic)
     return 1;
 }
 
-
+int m_str2weekday(char *str)
+{
+    if (strncmp(str, "Mon", 3) == 0)
+    {
+        return 1;
+    }
+    if (strncmp(str, "Tus", 3) == 0)
+    {
+        return 2;
+    }
+    if (strncmp(str, "Wen", 3) == 0)
+    {
+        return 3;
+    }
+    if (strncmp(str, "Thu", 3) == 0)
+    {
+        return 4;
+    }
+    if (strncmp(str, "Fri", 3) == 0)
+    {
+        return 5;
+    }
+    if (strncmp(str, "Sat", 3) == 0)
+    {
+        return 6;
+    }
+    if (strncmp(str, "Sun", 3) == 0)
+    {
+        return 7;
+    }
+    return 0;
+}
+int m_str2month(char *str)
+{
+    if (strncmp(str, "Jan", 3) == 0)
+    {
+        return 1;
+    }
+    if (strncmp(str, "Feb", 3) == 0)
+    {
+        return 2;
+    }
+    if (strncmp(str, "Mar", 3) == 0)
+    {
+        return 3;
+    }
+    if (strncmp(str, "Apr", 3) == 0)
+    {
+        return 4;
+    }
+    if (strncmp(str, "May", 3) == 0)
+    {
+        return 5;
+    }
+    if (strncmp(str, "Jun", 3) == 0)
+    {
+        return 6;
+    }
+    if (strncmp(str, "Jul", 3) == 0)
+    {
+        return 7;
+    }
+    if (strncmp(str, "Aug", 3) == 0)
+    {
+        return 8;
+    }
+    if (strncmp(str, "Sep", 3) == 0)
+    {
+        return 9;
+    }
+    if (strncmp(str, "Oct", 3) == 0)
+    {
+        return 0x10;
+    }
+    if (strncmp(str, "Nov", 3) == 0)
+    {
+        return 0x11;
+    }
+    if (strncmp(str, "Dev", 3) == 0)
+    {
+        return 0x12;
+    }
+}
 void http_updatetime()
 {
     char buf[550];
     int len = 0;
     char httpbuf[] = "get\r\n";
-    int sock = TcpSocket("bjtime.cn", 80);//"bjtime.cn"
-    
+    int sock = TcpSocket("bjtime.cn", 80); //"bjtime.cn"
+
     char weekday[5];
     int date;
     char month[5];
@@ -168,8 +251,9 @@ void http_updatetime()
     int minite;
     int second;
 
-
-    if ( sock == -1 )
+    RTC_DateTypeDef date_t;
+    RTC_TimeTypeDef time_t;
+    if (sock == -1)
     {
         return;
     }
@@ -179,23 +263,52 @@ void http_updatetime()
     pwifi->pqueue->readAll(buf, &len, 3000);
     em_printf("len: %d\r\n", len);
 
-    if ( len != 0 )
+    if (len != 0)
     {
-        em_printf(">Receive Data : %.*s.\r\n", len, buf);
-        char * pstr = buf;
-        while ( strncmp("Date:", pstr, 5) != 0 )
+        //em_printf(">Receive Data : %.*s.\r\n", len, buf);
+        char *pstr = buf;
+        while (strncmp("Date:", pstr, 5) != 0)
         {
-            em_printf(">Think %.*s.\r\n", 4, pstr);
-            pstr ++;
-            osDelay(20);
+            //em_printf(">Think %.*s.\r\n", 4, pstr);
+            pstr++;
+            //osDelay(20);
         }
         pstr += 6;
-        em_printf("\r\n-------------\r\n");
-        em_printf("\r\n>Think %.*s.\r\n", 20, pstr);
+        // em_printf("\r\n-------------\r\n");
+        // em_printf("\r\n>Think %.*s.\r\n", 20, pstr);
+        HAL_RTC_GetTime(&hrtc, &time_t, RTC_FORMAT_BIN);
+        HAL_RTC_GetDate(&hrtc, &date_t, RTC_FORMAT_BIN);
+
         sscanf(pstr, "%s %d %s %d %d:%d:%d", weekday, &date, month, &year, &hour, &minite, &second);
+        hour += 8;
+        second += 3;
+        if (second > 60)
+            second -= 60;
+        em_printf(">%s %d %s %d %02d:%02d:%02d\r\n", weekday, date, month, year, hour, minite, second);
 
-        em_printf(">%d-%d-%d\r\n", hour, minite, second);
+        date_t.WeekDay = m_str2weekday(weekday);
+        date_t.Date = date;
+        date_t.Year = year - 2000;
+        date_t.Month = m_str2month(month);
+
+        time_t.Hours = hour; //hour + 8 + 1;
+        time_t.Minutes = minite;
+        time_t.Seconds = second;
+
+        HAL_RTC_SetTime(&hrtc, &time_t, RTC_FORMAT_BIN);
+        HAL_RTC_SetDate(&hrtc, &date_t, RTC_FORMAT_BIN);
+
+        // em_printf("\r\n test-> rtc 2s later\r\n");
+        // osDelay(15000);
+
+        // while (1)
+        // {
+        //     HAL_RTC_GetTime(&hrtc, &time_t, RTC_FORMAT_BIN);
+        //     HAL_RTC_GetDate(&hrtc, &date_t, RTC_FORMAT_BIN);
+
+        //     em_printf("%02d/%02d/%02d   %02d\r\n", 2000 + date_t.Year, date_t.Month, date_t.Date, date_t.WeekDay);
+        //     em_printf("%02d:%02d:%02d\r\n", time_t.Hours, time_t.Minutes, time_t.Seconds);
+        //     osDelay(1000);
+        // }
     }
-
-    
 }
