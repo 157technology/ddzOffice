@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-16 09:42:24
- * @LastEditTime : 2020-01-16 17:22:41
+ * @LastEditTime : 2020-01-17 08:59:42
  * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \demo\EM_APP\netthread.c
@@ -183,10 +183,10 @@ void http_updatetime()
     {
         em_printf(">Receive Data : %.*s.\r\n", len, buf);
         char * pstr = buf;
-        //while ( strncmp("Date:", pstr, 5) == 0 )
+        while ( strncmp("Date:", pstr, 5) != 0 )
         {
-            pstr ++;
             em_printf(">Think %.*s.\r\n", 4, pstr);
+            pstr ++;
             osDelay(20);
         }
         pstr += 6;

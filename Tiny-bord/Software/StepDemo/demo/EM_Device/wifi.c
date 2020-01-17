@@ -383,7 +383,38 @@ static WF get_response(char *checkok, char *checkerror, int timeout)
     {
         len = 0;
         pwifi->pqueue->readAll(str, &len, 20);
+        if (contain(str, len, checkok) == 0)
+        {
+            return wfOk;
+        }
+        if (contain(str, len, checkerror) == 0)
+        {
+            return wfError;
+        }
+    }
+    return wfTimeOut;
+}
 
+static WF get_Net_response(char *checkok, char *checkerror, int timeout)
+{
+    char str[550];
+    int len;
+    //set state
+    pwifi->pqueue->clear();
+    for (int i = 0; i < timeout / 20; i++)
+    {
+        len = 0;
+        pwifi->pqueue->readAll(str, &len, 20);
+        if ( len > strlen(checkok) )
+        {
+            em_printf(">maybe stick package.\r\n");
+            if (contain(str, len, checkok) == 0)
+            {
+                pwifi->pqueue->append(str+strlen(checkok), len-strlen(checkok));
+                return wfOk;
+            }
+
+        }
         if (contain(str, len, checkok) == 0)
         {
             return wfOk;
@@ -784,5 +815,5 @@ WF TcpSend(socket sock, char *data, int len)
 
     NetSend(data, len);
 
-    return get_response("SEND OK\r\n", "ERROR\r\n", 300);
+    return get_Net_response("\r\nSEND OK\r\n", "ERROR\r\n", 300);
 }
