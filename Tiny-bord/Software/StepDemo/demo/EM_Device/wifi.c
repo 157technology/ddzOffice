@@ -265,8 +265,8 @@ void slot_link_hasData(void *data)
 {
     char *str = (char *)data;
     pwifi->pqueue->append(str, pwifi->link->rCnt);
-    em_printf("\r\nwifi have data %d.\r\n", pwifi->link->rCnt);
-    em_printf("%s\r\n", str);
+    // em_printf("\r\nwifi have data %d.\r\n", pwifi->link->rCnt);
+    em_printf("ISR-->::%s\r\n------------------\r\n", str);
     if (strncmp(str, "\r\n+IPD", 6) == 0)
     {
         int m_sock, m_len; //获取到网络信息, 解析
@@ -401,19 +401,47 @@ static WF get_Net_response(char *checkok, char *checkerror, int timeout)
     int len;
     //set state
     pwifi->pqueue->clear();
+    em_printf(">in net response.\r\n");
     for (int i = 0; i < timeout / 20; i++)
     {
         len = 0;
         pwifi->pqueue->readAll(str, &len, 20);
-        if ( len > strlen(checkok) )
+        if (len > strlen(checkok))
         {
-            em_printf(">maybe stick package.\r\n");
+            // em_printf(">maybe stick package.\r\n");
+            // em_printf(">str :: %s.\r\n", str);
             if (contain(str, len, checkok) == 0)
             {
-                pwifi->pqueue->append(str+strlen(checkok), len-strlen(checkok));
+                pwifi->pqueue->append(str + strlen(checkok), len - strlen(checkok));
+
+                // 判断是否是mqtt的数据
+                char *pstr = str + strlen(checkok) + 2;
+                // em_printf(">%s.\r\n", pstr);
+                if (strncmp(pstr, "+IPD", 4) == 0)
+                {
+                    int m_sock, m_len; //获取到网络信息, 解析
+                    sscanf(pstr + 5, "%d,%d", &m_sock, &m_len);
+                    // em_printf("mqtt>\r\n");
+                    // em_printf("sock:%d, len:%d", m_sock, m_len);
+
+                    if (m_sock == pwifi->sock_mqtt)
+                    {
+                        //是mqtt的信息
+                        //em_printf("获取到mqtt的数据\n");
+                        while (*pstr != ':')
+                            pstr++;
+                        pstr++;
+                        pwifi->mqtt_read = 1;
+
+                        pwifi->mqttqueue->append(pstr, m_len);
+
+                        // for (int i = 0; i < m_len; i++)
+                        //     em_printf("%c-", str[i]);
+                        // em_printf("\n");
+                    }
+                }
                 return wfOk;
             }
-
         }
         if (contain(str, len, checkok) == 0)
         {
@@ -435,8 +463,9 @@ inline static WF command_at_once(char *cmd, char *checkok, char *checkerror, int
     pwifi->pqueue->clear();
 
     // send cmd
+    em_printf("once> atoncef.\r\n");
     Serial_Print(pwifi->link, "%s\r\n", cmd);
-
+    em_printf("once> atonces.\r\n");
     for (int i = 0; i < timeout / 20; i++)
     {
         len = 0;
@@ -444,13 +473,16 @@ inline static WF command_at_once(char *cmd, char *checkok, char *checkerror, int
 
         if (contain(str, len, checkok) == 0)
         {
+            em_printf("once> ok.\r\n");
             return wfOk;
         }
         if (contain(str, len, checkerror) == 0)
         {
             return wfError;
+            em_printf("once> error.\r\n");
         }
     }
+    em_printf("once> timeout.\r\n");
     return wfTimeOut;
 }
 
@@ -561,9 +593,10 @@ WF WIFI_AT_TCP(int sock, char *ip, int port)
 }
 WF WIFI_AT_TCP_SEND(int sock, int len)
 {
-    char str[64];
+    char str[32];
+    em_printf("AT> TCP SEND.\r\n");
     sprintf(str, "AT+CIPSEND=%d,%d", sock, len);
-    return command_at_once(str, "> ", "ERROR\r\n", 100);
+    return command_at_once(str, ">", "ERROR\r\n", 100);
 }
 // WF WIFI_AT_IPSTATUS()
 // {
@@ -807,12 +840,13 @@ socket TcpSocket(char *ipaddr, int port)
 WF TcpSend(socket sock, char *data, int len)
 {
     // check socket
-
+    em_printf("tcp> begin.\r\n");
     if (WIFI_AT_TCP_SEND(sock, len) != wfOk)
     {
+        em_printf("tcp> error.\r\n");
         return wfError;
     }
-
+    em_printf("tcp> send.\r\n");
     NetSend(data, len);
 
     return get_Net_response("\r\nSEND OK\r\n", "ERROR\r\n", 300);

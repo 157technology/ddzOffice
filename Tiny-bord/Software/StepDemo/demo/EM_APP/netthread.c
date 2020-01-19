@@ -34,7 +34,9 @@ void NetThread(void *argument)
         osDelay(1000);
     }
     http_updatetime();
-    osDelay(3000);
+    pwifi->pqueue->clear();
+    pwifi->mqttqueue->clear();
+    // osDelay(3000);
     if (mqtt_init() != 1)
     {
         em_printf("MQTT INIT FAILED.\r\n");
@@ -47,8 +49,11 @@ void NetThread(void *argument)
         //     em_printf(">Send ERROR.\r\n");
 
         //mqtt_receive();
-        osDelay(120000);
+        osDelay(10000);
+        HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
+        //em_printf(">>>ping.\r\n");
         mqtt_heartbeat();
+        pwifi->mqttqueue->clear();
     }
 }
 
@@ -100,8 +105,21 @@ void mqtt_heartbeat()
 {
     char buf[32];
     int buflen = 32;
+    pwifi->mqttqueue->clear();
     int len = MQTTSerialize_pingreq(buf, buflen);
     transport_sendPacketBuffer(pwifi->sock_mqtt, buf, len);
+
+
+    int type = MQTTPacket_read(buf, buflen, transport_getdata);
+    if ( type == PINGRESP )
+    {
+        em_printf("ping ok\r\n");
+    }
+    else
+    {
+        em_printf("ping error\r\n");
+    }
+    
 }
 
 int mqtt_receive()
@@ -258,6 +276,7 @@ void http_updatetime()
         return;
     }
     pwifi->pqueue->clear();
+    em_printf("tcp->send\r\n");
     TcpSend(sock, httpbuf, strlen(httpbuf));
     em_printf(">wait to get.\r\n");
     pwifi->pqueue->readAll(buf, &len, 3000);
